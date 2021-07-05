@@ -13,7 +13,7 @@
     </nav>
 
     <div class="logo">
-      <img src="../assets/logo-lavis.svg" alt="LAVIS Logo">
+      <img src="@/assets/logo-lavis.svg" alt="LAVIS Logo">
     </div>
 
   </header>
