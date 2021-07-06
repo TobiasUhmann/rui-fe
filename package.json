@@ -3,14 +3,16 @@
   "version": "0.2.0",
   "private": true,
   "scripts": {
-    "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "test:unit": "vue-cli-service test:unit",
+    "lint": "vue-cli-service lint",
+    "serve": "vue-cli-service serve",
+    "start": "http-server dist/",
     "test:e2e": "vue-cli-service test:e2e",
-    "lint": "vue-cli-service lint"
+    "test:unit": "vue-cli-service test:unit"
   },
   "dependencies": {
     "core-js": "^3.6.5",
+    "http-server": "^0.12.3",
     "vue": "^3.0.0",
     "vue-router": "^4.0.0-0"
   },
