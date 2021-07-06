@@ -18,7 +18,7 @@ export default defineComponent({
   },
 
   mounted() {
-    fetch('https://rui-be-1-create-backend-jnqvtr.herokuapp.com/')
+    fetch('https://rui-be.herokuapp.com/')
         .then(response => response.json())
         .then(data => this.taxonomy = data)
   }
