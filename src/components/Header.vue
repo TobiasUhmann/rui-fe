@@ -35,26 +35,19 @@ export default defineComponent({
 
 <style scoped>
 
-/* Header flex layout */
+/* Header Flex Layout */
 
 header {
   display: flex;
+  justify-content: space-between;
   align-items: center;
 }
 
-.title {
+.title, .logo {
   width: 200px;
 }
 
-nav {
-  flex-grow: 1;
-}
-
-.logo {
-  width: 200px;
-}
-
-/* Header padding and border */
+/* Header Padding and Border */
 
 header {
   padding: 16px;
@@ -78,7 +71,7 @@ h2 {
   border-left: 2px solid darkgrey;
 }
 
-/* Nav links */
+/* Nav Links */
 
 a {
   margin: 8px;
@@ -86,7 +79,7 @@ a {
   text-decoration: none;
 }
 
-/* LAVIS logo */
+/* LAVIS Logo */
 
 img {
   width: 64px;

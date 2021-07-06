@@ -1,7 +1,10 @@
 <template>
-  <div>
+  <div class="app">
     <Header/>
-    <router-view/>
+    <main>
+      <router-view/>
+    </main>
+    <Footer/>
   </div>
 </template>
 
@@ -10,9 +13,10 @@
 <script>
 
 import Header from '@/components/Header';
+import Footer from "@/components/Footer";
 
 export default {
-  components: {Header}
+  components: {Footer, Header}
 }
 
 </script>
@@ -25,8 +29,21 @@ export default {
   margin: 0;
 }
 
-div {
+.app {
   font-family: Helvetica, Arial, sans-serif;
+}
+
+/* App Layout */
+
+.app {
+  display: flex;
+  flex-direction: column;
+
+  height: 100vh;
+}
+
+.app main {
+  flex-grow: 1;
 }
 
 </style>
