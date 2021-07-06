@@ -7,9 +7,9 @@
     </div>
 
     <nav>
-      <router-link to="/aaa">Dashboard</router-link>
-      <router-link to="/bbb">Explore</router-link>
-      <router-link to="/ccc">Taxonomy</router-link>
+      <router-link to="/dashboard">Dashboard</router-link>
+      <router-link to="/explore">Explore</router-link>
+      <router-link to="/taxonomy">Taxonomy</router-link>
     </nav>
 
     <div class="logo">
