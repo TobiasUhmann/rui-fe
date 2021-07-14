@@ -20,7 +20,10 @@ export default defineComponent({
   mounted() {
     fetch('https://rui-be-3-create-databas-oemcgs.herokuapp.com/db')
         // .then(response => response.json())
-        .then(data => this.taxonomy = data)
+        .then(data => {
+          console.log(data)
+          this.taxonomy = data
+        })
   }
 })
 
