@@ -1,4 +1,5 @@
 <template>
+  <Tree/>
   {{ taxonomy }}
 </template>
 
@@ -6,10 +7,13 @@
 
 <script lang="ts">
 
-import {defineComponent} from 'vue';
+import {defineComponent} from 'vue'
+import Tree from '@/components/Tree.vue'
 
 export default defineComponent({
   name: `Taxonomy`,
+
+  components: {Tree},
 
   data() {
     return {
