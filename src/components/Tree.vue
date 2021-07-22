@@ -1,37 +1,11 @@
 <template>
-  <h2>Tree View</h2>
-  <p>
-    A tree view represents a hierarchical view of information, where each item
-    can have a number of sub items.
-  </p>
-  <p>
-    Click on the arrow(s) to open or close the tree branches.
-  </p>
-
-  <ul id="myUL">
-    <li>
-      <span class="caret">Beverages</span>
-      <ul class="nested">
-        <li>Water</li>
-        <li>Coffee</li>
-        <li>
-          <span class="caret">Tea</span>
-          <ul class="nested">
-            <li>Black Tea</li>
-            <li>White Tea</li>
-            <li>
-              <span class="caret">Green Tea</span>
-              <ul class="nested">
-                <li>Sencha</li>
-                <li>Gyokuro</li>
-                <li>Matcha</li>
-                <li>Pi Lo Chun</li>
-              </ul>
-            </li>
-          </ul>
-        </li>
-      </ul>
-    </li>
+  <ul id="demo">
+    <TreeItem
+        class="item"
+        :item="treeData"
+        @make-folder="makeFolder"
+        @add-item="addItem"
+    ></TreeItem>
   </ul>
 </template>
 
@@ -40,9 +14,54 @@
 <script lang="ts">
 
 import {defineComponent} from 'vue';
+import TreeItem from '@/components/TreeItem.vue';
+
+const treeData = {
+  name: 'My Tree',
+  children: [
+    {name: 'hello'},
+    {name: 'wat'},
+    {
+      name: 'child folder',
+      children: [
+        {
+          name: 'child folder',
+          children: [{name: 'hello'}, {name: 'wat'}]
+        },
+        {name: 'hello'},
+        {name: 'wat'},
+        {
+          name: 'child folder',
+          children: [{name: 'hello'}, {name: 'wat'}]
+        }
+      ]
+    }
+  ]
+}
 
 export default defineComponent({
-  name: `Tree`
+  name: 'Tree',
+
+  components: {TreeItem},
+
+  data: function () {
+    return {
+      treeData: treeData
+    }
+  },
+
+  methods: {
+    makeFolder: function (item) {
+      item.children = []
+      this.addItem(item)
+    },
+
+    addItem: function (item) {
+      item.children.push({
+        name: 'new stuff'
+      })
+    }
+  }
 })
 
 </script>
@@ -50,5 +69,11 @@ export default defineComponent({
 <!-- CSS -->
 
 <style>
+
+ul {
+  padding-left: 1em;
+  line-height: 1.5em;
+  list-style-type: dot;
+}
 
 </style>

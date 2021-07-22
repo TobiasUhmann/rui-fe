@@ -1,6 +1,5 @@
 <template>
   <Tree/>
-  {{ taxonomy }}
 </template>
 
 <!-- TypeScript -->
@@ -8,7 +7,7 @@
 <script lang="ts">
 
 import {defineComponent} from 'vue'
-import Tree from '@/components/Tree.vue'
+import Tree from '@/components/Tree.vue';
 
 export default defineComponent({
   name: `Taxonomy`,
@@ -25,6 +24,7 @@ export default defineComponent({
     fetch('https://rui-be.herokuapp.com/')
         .then(response => response.json())
         .then(data => this.taxonomy = data)
+        .then(data => console.log(data))
   }
 })
 
