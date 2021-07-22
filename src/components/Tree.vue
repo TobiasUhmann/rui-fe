@@ -1,10 +1,9 @@
 <template>
   <ul id="demo">
-    <TreeItem
-        class="item"
-        :item="treeData"
-        @make-folder="makeFolder"
-        @add-item="addItem"
+    <TreeItem class="item"
+              :item="treeData"
+              @make-folder="makeFolder"
+              @add-item="addItem"
     ></TreeItem>
   </ul>
 </template>
@@ -13,42 +12,41 @@
 
 <script lang="ts">
 
-import {defineComponent} from 'vue';
-import TreeItem from '@/components/TreeItem.vue';
+import {defineComponent} from 'vue'
+import TreeItem from '@/components/TreeItem.vue'
+import Symptom from '@/models/symptom'
 
-const treeData = {
-  name: 'My Tree',
-  children: [
-    {name: 'hello'},
-    {name: 'wat'},
-    {
-      name: 'child folder',
-      children: [
-        {
-          name: 'child folder',
-          children: [{name: 'hello'}, {name: 'wat'}]
-        },
-        {name: 'hello'},
-        {name: 'wat'},
-        {
-          name: 'child folder',
-          children: [{name: 'hello'}, {name: 'wat'}]
-        }
-      ]
-    }
-  ]
-}
+// const treeData = {
+//   name: 'My Tree',
+//   children: [
+//     {name: 'hello'},
+//     {name: 'wat'},
+//     {
+//       name: 'child folder',
+//       children: [
+//         {
+//           name: 'child folder',
+//           children: [{name: 'hello'}, {name: 'wat'}]
+//         },
+//         {name: 'hello'},
+//         {name: 'wat'},
+//         {
+//           name: 'child folder',
+//           children: [{name: 'hello'}, {name: 'wat'}]
+//         }
+//       ]
+//     }
+//   ]
+// }
 
 export default defineComponent({
   name: 'Tree',
 
-  components: {TreeItem},
-
-  data: function () {
-    return {
-      treeData: treeData
-    }
+  props: {
+    treeData: Symptom
   },
+
+  components: {TreeItem},
 
   methods: {
     makeFolder: function (item) {
