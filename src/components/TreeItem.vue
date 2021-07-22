@@ -20,11 +20,11 @@
 
 <script lang="ts">
 
-import {defineComponent, PropType} from 'vue';
-import Symptom from "@/models/symptom";
+import {defineComponent, PropType} from 'vue'
+import Symptom from "@/models/symptom"
 
 export default defineComponent({
-  name: `TreeItem`,
+  name: 'TreeItem',
 
   props: {
     item: {
