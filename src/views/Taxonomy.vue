@@ -1,5 +1,6 @@
 <template>
-  <Tree :tree-data="treeData"/>
+  <Tree v-for="rootSymptom in rootSymptoms" :key="rootSymptom.id"
+        :tree-data="rootSymptom"/>
 </template>
 
 <!-- TypeScript -->
@@ -10,28 +11,20 @@ import {defineComponent} from 'vue'
 import Tree from '@/components/Tree.vue'
 
 export default defineComponent({
-  name: `Taxonomy`,
+  name: 'Taxonomy',
 
   components: {Tree},
 
   data() {
     return {
-      taxonomy: {},
-      treeData: []
+      rootSymptoms: []
     }
   },
 
   mounted() {
     fetch('https://rui-be.herokuapp.com/')
         .then(response => response.json())
-        .then(data => this.taxonomy = data)
-        .then(d => {
-          console.log(d)
-          const data = d as any
-          if (data.taxonomy.length > 0) {
-            this.treeData = data.taxonomy[0]
-          }
-        })
+        .then(data => this.rootSymptoms = data.taxonomy)
   }
 })
 

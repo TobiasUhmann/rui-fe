@@ -3,8 +3,7 @@
     <TreeItem class="item"
               :item="treeData"
               @make-folder="makeFolder"
-              @add-item="addItem"
-    ></TreeItem>
+              @add-item="addItem"></TreeItem>
   </ul>
 </template>
 
@@ -15,29 +14,6 @@
 import {defineComponent} from 'vue'
 import TreeItem from '@/components/TreeItem.vue'
 import Symptom from '@/models/symptom'
-
-// const treeData = {
-//   name: 'My Tree',
-//   children: [
-//     {name: 'hello'},
-//     {name: 'wat'},
-//     {
-//       name: 'child folder',
-//       children: [
-//         {
-//           name: 'child folder',
-//           children: [{name: 'hello'}, {name: 'wat'}]
-//         },
-//         {name: 'hello'},
-//         {name: 'wat'},
-//         {
-//           name: 'child folder',
-//           children: [{name: 'hello'}, {name: 'wat'}]
-//         }
-//       ]
-//     }
-//   ]
-// }
 
 export default defineComponent({
   name: 'Tree',
@@ -71,7 +47,6 @@ export default defineComponent({
 ul {
   padding-left: 1em;
   line-height: 1.5em;
-  list-style-type: dot;
 }
 
 </style>

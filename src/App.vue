@@ -46,4 +46,10 @@ export default {
   flex-grow: 1;
 }
 
+/* */
+
+main {
+  padding: 12px;
+}
+
 </style>
