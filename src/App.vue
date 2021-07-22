@@ -12,8 +12,8 @@
 
 <script>
 
-import Header from '@/components/Header';
-import Footer from "@/components/Footer";
+import Header from '@/components/Header.vue'
+import Footer from '@/components/Footer.vue'
 
 export default {
   components: {Footer, Header}
@@ -44,6 +44,12 @@ export default {
 
 .app main {
   flex-grow: 1;
+}
+
+/* */
+
+main {
+  padding: 12px;
 }
 
 </style>
