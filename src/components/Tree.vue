@@ -11,7 +11,7 @@
 
 <script lang="ts">
 
-import {defineComponent} from 'vue'
+import {defineComponent, PropType} from 'vue'
 import TreeItem from '@/components/TreeItem.vue'
 import Symptom from '@/models/symptom'
 
@@ -19,20 +19,21 @@ export default defineComponent({
   name: 'Tree',
 
   props: {
-    treeData: Symptom
+    treeData: Object as PropType<Symptom>
   },
 
   components: {TreeItem},
 
   methods: {
-    makeFolder: function (item) {
-      item.children = []
+    makeFolder: function (item: Symptom): void {
       this.addItem(item)
     },
 
-    addItem: function (item) {
+    addItem: function (item: Symptom): void {
       item.children.push({
-        name: 'new stuff'
+        id: 0,
+        name: 'New Cat',
+        children: []
       })
     }
   }

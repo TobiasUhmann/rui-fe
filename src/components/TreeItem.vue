@@ -20,13 +20,17 @@
 
 <script lang="ts">
 
-import {defineComponent} from 'vue';
+import {defineComponent, PropType} from 'vue';
+import Symptom from "@/models/symptom";
 
 export default defineComponent({
   name: `TreeItem`,
 
   props: {
-    item: Object
+    item: {
+      type: Object as PropType<Symptom>,
+      required: true
+    }
   },
 
   data: function () {
@@ -36,19 +40,19 @@ export default defineComponent({
   },
 
   computed: {
-    isFolder: function () {
-      return this.item.children && this.item.children.length
+    isFolder: function (): boolean {
+      return this.item.children.length > 0
     }
   },
 
   methods: {
-    toggle: function () {
+    toggle: function (): void {
       if (this.isFolder) {
         this.isOpen = !this.isOpen
       }
     },
 
-    makeFolder: function () {
+    makeFolder: function (): void {
       if (!this.isFolder) {
         this.$emit('make-folder', this.item)
         this.isOpen = true
