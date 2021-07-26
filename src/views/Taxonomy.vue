@@ -8,6 +8,9 @@
 <script lang="ts">
 
 import {defineComponent} from 'vue'
+
+import Symptom from '@/models/symptom'
+import SymptomService from '@/services/SymptomService'
 import Tree from '@/components/Tree.vue'
 
 export default defineComponent({
@@ -17,14 +20,13 @@ export default defineComponent({
 
   data() {
     return {
-      rootSymptoms: []
+      rootSymptoms: [] as Symptom[]
     }
   },
 
   mounted() {
-    fetch('https://rui-be.herokuapp.com/')
-        .then(response => response.json())
-        .then(data => this.rootSymptoms = data.taxonomy)
+    SymptomService.getSymptoms()
+        .then((symptoms: Symptom[]) => this.rootSymptoms = symptoms)
   }
 })
 
