@@ -1,10 +1,8 @@
 <template>
-  <ul id="demo">
-    <TreeItem class="item"
-              :item="treeData"
-              @make-folder="makeFolder"
-              @add-item="addItem"></TreeItem>
-  </ul>
+  <TreeItem class="item"
+            :item="treeData"
+            @make-folder="makeFolder"
+            @add-item="addItem"/>
 </template>
 
 <!-- TypeScript -->
@@ -12,6 +10,7 @@
 <script lang="ts">
 
 import {defineComponent, PropType} from 'vue'
+
 import TreeItem from '@/components/TreeItem.vue'
 import Symptom from '@/models/symptom'
 

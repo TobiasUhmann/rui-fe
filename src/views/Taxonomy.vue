@@ -1,6 +1,11 @@
 <template>
-  <Tree v-for="rootSymptom in rootSymptoms" :key="rootSymptom.id"
-        :tree-data="rootSymptom"/>
+  <ul>
+    <li v-for="rootSymptom in rootSymptoms" :key="rootSymptom.id">
+      <Tree :tree-data="rootSymptom"/>
+    </li>
+  </ul>
+
+
 </template>
 
 <!-- TypeScript -->
