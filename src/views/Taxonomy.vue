@@ -5,7 +5,7 @@
               @create-symptom="createSymptom($event.name, $event.parent)"/>
 
     <li>
-      <input @change="createSymptom($event.target.value, null)"
+      <input @change="createRootSymptom($event)"
              placeholder="New symptom">
     </li>
   </ul>
@@ -52,8 +52,18 @@ export default defineComponent({
       }
 
       SymptomService.addSymptom(symptom)
-          .then(() => this.getSymptoms())
+          .then(() => {
+            this.getSymptoms()
+          })
           .catch(error => console.error(error))
+    },
+
+    createRootSymptom(event: Event): void {
+      const input = event.target as HTMLInputElement
+
+      this.createSymptom(input.value, null)
+
+      input.value = ''
     }
   }
 })

@@ -54,6 +54,8 @@ export default defineComponent({
       const input = event.target as HTMLInputElement
 
       this.$emit('create-symptom', {name: input.value, parent: this.symptom.id})
+
+      input.value = ''
     }
   }
 })
