@@ -2,8 +2,18 @@
   <li :class="[extended ? 'extended' : 'collapsed']">
 
     <!-- (Clickable) symptom name -->
-    <span @click="toggle">
+    <span class="symptom-name" @click="onToggle">
       {{ symptom.name }}
+    </span>
+
+    <!-- Edit -->
+    <span class="edit" @click="onStartEdit">
+      (edit)
+    </span>
+
+    <!-- Delete -->
+    <span class="delete" @click="onDelete">
+      (delete)
     </span>
 
     <!-- Child symptoms & Input new child symptom-->
@@ -13,7 +23,7 @@
                 @create-symptom="$emit('create-symptom', $event)"/>
 
       <li>
-        <input @change="emitCreateSymptom($event)"
+        <input @change="onCreate($event)"
                placeholder="New symptom">
       </li>
     </ul>
@@ -41,21 +51,38 @@ export default defineComponent({
 
   data: function () {
     return {
-      extended: false
+      extended: false,
+      editing: false
     }
   },
 
   methods: {
-    toggle: function (): void {
+    onToggle(): void {
       this.extended = !this.extended
     },
 
-    emitCreateSymptom(event: Event): void {
+    onCreate(event: Event): void {
       const input = event.target as HTMLInputElement
 
       this.$emit('create-symptom', {name: input.value, parent: this.symptom.id})
 
       input.value = ''
+    },
+
+    onStartEdit(): void {
+      this.editing = true
+    },
+
+    onSaveEdit(event: Event): void {
+      const input = event.target as HTMLInputElement
+
+      this.$emit('edit-symptom', {id: this.symptom.id, name: input.value})
+
+      this.editing = false
+    },
+
+    onDelete(): void {
+      this.$emit('delete-symptom', this.symptom.id)
     }
   }
 })
@@ -66,7 +93,7 @@ export default defineComponent({
 
 <style scoped>
 
-li {
+.symptom-name {
   cursor: pointer;
 }
 
@@ -82,6 +109,17 @@ li.collapsed::marker {
 
 li.extended::marker {
   content: '-  ';
+}
+
+/* Edit, delete */
+
+.edit, .delete {
+  color: lightgrey;
+  cursor: pointer;
+}
+
+.edit:hover, .delete:hover {
+  color: grey;
 }
 
 </style>
