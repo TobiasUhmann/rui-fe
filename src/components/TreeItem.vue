@@ -1,19 +1,24 @@
 <template>
-  <div>
-    <div :class="{bold: isFolder}" @click="toggle" @dblclick="makeFolder">
+  <li :class="[extended ? 'extended' : 'collapsed']">
+
+    <!-- (Clickable) symptom name -->
+    <span @click="toggle">
       {{ item.name }}
-      <span v-if="isFolder">[{{ isOpen ? '-' : '+' }}]</span>
-    </div>
-    <ul v-show="isOpen" v-if="isFolder">
-      <li v-for="(child, index) in item.children" :key="index">
-        <TreeItem class="item"
-                  :item="child"
-                  @make-folder="$emit('make-folder', $event)"
-                  @add-item="$emit('add-item', $event)"/>
+    </span>
+
+    <!-- Child symptoms & Input new child symptom-->
+    <ul v-if="extended">
+      <TreeItem v-for="(child, index) in item.children" :key="index"
+                :item="child"
+                @add-item="$emit('add-item', $event)"/>
+
+      <li>
+        <input @change="$emit('add-item', item)"
+               placeholder="New symptom">
       </li>
-      <li class="add" @click="$emit('add-item', item)">+</li>
     </ul>
-  </div>
+
+  </li>
 </template>
 
 <!-- TypeScript -->
@@ -36,28 +41,13 @@ export default defineComponent({
 
   data: function () {
     return {
-      isOpen: false
-    }
-  },
-
-  computed: {
-    isFolder: function (): boolean {
-      return this.item.children.length > 0
+      extended: false
     }
   },
 
   methods: {
     toggle: function (): void {
-      if (this.isFolder) {
-        this.isOpen = !this.isOpen
-      }
-    },
-
-    makeFolder: function (): void {
-      if (!this.isFolder) {
-        this.$emit('make-folder', this.item)
-        this.isOpen = true
-      }
+      this.extended = !this.extended
     }
   }
 })
@@ -68,12 +58,22 @@ export default defineComponent({
 
 <style scoped>
 
-.item {
+li {
   cursor: pointer;
 }
 
-.bold {
-  font-weight: bold;
+/* List bullets */
+
+ul {
+  list-style-type: initial;
+}
+
+li.collapsed::marker {
+  content: '+  ';
+}
+
+li.extended::marker {
+  content: '-  ';
 }
 
 </style>

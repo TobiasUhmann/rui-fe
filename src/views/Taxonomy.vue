@@ -1,8 +1,7 @@
 <template>
   <ul>
-    <li v-for="rootSymptom in rootSymptoms" :key="rootSymptom.id">
-      <Tree :tree-data="rootSymptom"/>
-    </li>
+    <TreeItem v-for="rootSymptom in rootSymptoms" :key="rootSymptom.id"
+              :item="rootSymptom"/>
 
     <li>
       <input @change="onAddRootSymptom($event)">
@@ -18,12 +17,12 @@ import {defineComponent} from 'vue'
 
 import Symptom from '@/models/symptom'
 import SymptomService from '@/services/SymptomService'
-import Tree from '@/components/Tree.vue'
+import TreeItem from '@/components/TreeItem.vue'
 
 export default defineComponent({
   name: 'Taxonomy',
 
-  components: {Tree},
+  components: {TreeItem},
 
   data() {
     return {
@@ -56,6 +55,10 @@ export default defineComponent({
 
 <!-- CSS -->
 
-<style scoped>
+<style>
+
+li {
+  line-height: 1.5em;
+}
 
 </style>
