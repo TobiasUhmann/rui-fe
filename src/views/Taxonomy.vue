@@ -4,7 +4,8 @@
               :item="rootSymptom"/>
 
     <li>
-      <input @change="onAddRootSymptom($event)">
+      <input @change="createSymptom($event, null)"
+             placeholder="New symptom">
     </li>
   </ul>
 </template>
@@ -31,22 +32,29 @@ export default defineComponent({
   },
 
   mounted() {
-    SymptomService.getSymptoms()
-        .then((symptoms: Symptom[]) => this.rootSymptoms = symptoms)
+    this.getSymptoms()
   },
 
   methods: {
-    onAddRootSymptom(event: Event): void {
+    getSymptoms(): void {
+      SymptomService.getSymptoms()
+          .then((symptoms: Symptom[]) => this.rootSymptoms = symptoms)
+          .catch(error => console.error(error))
+    },
+
+    createSymptom(event: Event, parent: number | null): void {
       const input = event.target as HTMLInputElement
 
       const symptom = {
-        id: 0,
+        id: null,
         name: input.value,
+        parent: parent,
         children: []
       }
 
       SymptomService.addSymptom(symptom)
-          .then(result => console.log(result))
+          .then(() => this.getSymptoms())
+          .catch(error => console.error(error))
     }
   }
 })

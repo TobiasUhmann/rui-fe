@@ -1,5 +1,6 @@
 export default interface Symptom {
-    id: number,
+    id: number | null,
     name: string,
+    parent: number | null,
     children: Symptom[]
 }
