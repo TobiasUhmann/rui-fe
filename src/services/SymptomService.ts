@@ -6,7 +6,10 @@ export default {
 
     getSymptoms(): Promise<Symptom[]> {
         return fetch('http://localhost:5000/api/1.0.0/symptoms')
-            .then(response => response.json())
+            .then(response => {
+                console.log(response);
+                return response.json()
+            })
             .then(data => data.taxonomy)
             .catch(error => console.error(error))
     },
@@ -23,7 +26,10 @@ export default {
         }
 
         return fetch('http://localhost:5000/api/1.0.0/symptom', fetchOptions)
-            .then(response => response.json())
+            .then(response => {
+                console.log(response);
+                return response.json()
+            })
             .catch(error => console.error(error))
     }
 }

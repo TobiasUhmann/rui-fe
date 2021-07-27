@@ -1,10 +1,11 @@
 <template>
   <ul>
     <TreeItem v-for="rootSymptom in rootSymptoms" :key="rootSymptom.id"
-              :item="rootSymptom"/>
+              :symptom="rootSymptom"
+              @create-symptom="createSymptom($event.name, $event.parent)"/>
 
     <li>
-      <input @change="createSymptom($event, null)"
+      <input @change="createSymptom($event.target.value, null)"
              placeholder="New symptom">
     </li>
   </ul>
@@ -42,12 +43,10 @@ export default defineComponent({
           .catch(error => console.error(error))
     },
 
-    createSymptom(event: Event, parent: number | null): void {
-      const input = event.target as HTMLInputElement
-
+    createSymptom(name: string, parent: number | null): void {
       const symptom = {
         id: null,
-        name: input.value,
+        name: name,
         parent: parent,
         children: []
       }
@@ -64,6 +63,10 @@ export default defineComponent({
 <!-- CSS -->
 
 <style>
+
+ul {
+  padding-left: 1em;
+}
 
 li {
   line-height: 1.5em;

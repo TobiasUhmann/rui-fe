@@ -3,17 +3,17 @@
 
     <!-- (Clickable) symptom name -->
     <span @click="toggle">
-      {{ item.name }}
+      {{ symptom.name }}
     </span>
 
     <!-- Child symptoms & Input new child symptom-->
     <ul v-if="extended">
-      <TreeItem v-for="(child, index) in item.children" :key="index"
-                :item="child"
-                @add-item="$emit('add-item', $event)"/>
+      <TreeItem v-for="(child, index) in symptom.children" :key="index"
+                :symptom="child"
+                @create-symptom="$emit('create-symptom', $event)"/>
 
       <li>
-        <input @change="$emit('add-item', item)"
+        <input @change="emitCreateSymptom($event)"
                placeholder="New symptom">
       </li>
     </ul>
@@ -33,7 +33,7 @@ export default defineComponent({
   name: 'TreeItem',
 
   props: {
-    item: {
+    symptom: {
       type: Object as PropType<Symptom>,
       required: true
     }
@@ -48,6 +48,12 @@ export default defineComponent({
   methods: {
     toggle: function (): void {
       this.extended = !this.extended
+    },
+
+    emitCreateSymptom(event: Event): void {
+      const input = event.target as HTMLInputElement
+
+      this.$emit('create-symptom', {name: input.value, parent: this.symptom.id})
     }
   }
 })
