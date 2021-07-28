@@ -1,14 +1,19 @@
 <template>
-  <ul>
-    <TreeItem v-for="rootSymptom in rootSymptoms" :key="rootSymptom.id"
-              :symptom="rootSymptom"
-              @update="onUpdate"/>
+  <div>
+    <TaxonomyUpload/>
 
-    <li>
-      <input @change="onCreate($event)"
-             placeholder="New symptom">
-    </li>
-  </ul>
+    <h1>Taxonomy</h1>
+    <ul>
+      <TreeItem v-for="rootSymptom in rootSymptoms" :key="rootSymptom.id"
+                :symptom="rootSymptom"
+                @update="onUpdate"/>
+
+      <li>
+        <input @change="onCreate($event)"
+               placeholder="New symptom">
+      </li>
+    </ul>
+  </div>
 </template>
 
 <!-- TypeScript -->
@@ -19,12 +24,13 @@ import {defineComponent} from 'vue'
 
 import Symptom from '@/models/symptom'
 import SymptomService from '@/services/SymptomService'
+import TaxonomyUpload from '@/components/TaxonomyUpload.vue'
 import TreeItem from '@/components/TreeItem.vue'
 
 export default defineComponent({
   name: 'Taxonomy',
 
-  components: {TreeItem},
+  components: {TaxonomyUpload, TreeItem},
 
   data() {
     return {
