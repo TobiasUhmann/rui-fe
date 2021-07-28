@@ -5,7 +5,7 @@ export default {
     symptoms: [] as Symptom[],
 
     getSymptoms(): Promise<Symptom[]> {
-        return fetch('http://localhost:5000/api/1.0.0/symptoms')
+        return fetch(`${process.env.VUE_APP_API_URL}/symptoms`)
             .then(response => {
                 console.debug(response)
                 return response.json()
@@ -25,7 +25,7 @@ export default {
             body: JSON.stringify(symptom)
         }
 
-        return fetch('http://localhost:5000/api/1.0.0/symptom', fetchOptions)
+        return fetch(`${process.env.VUE_APP_API_URL}/symptom`, fetchOptions)
             .then(response => {
                 console.debug(response)
                 return response.json()
@@ -44,7 +44,7 @@ export default {
             body: JSON.stringify(symptom)
         }
 
-        return fetch(`http://localhost:5000/api/1.0.0/symptom`, fetchOptions)
+        return fetch(`${process.env.VUE_APP_API_URL}/symptom`, fetchOptions)
             .then(response => {
                 console.debug(response)
                 return response.json()
@@ -57,7 +57,7 @@ export default {
             method: 'DELETE'
         }
 
-        return fetch(`http://localhost:5000/api/1.0.0/symptom/${id}`, fetchOptions)
+        return fetch(`${process.env.VUE_APP_API_URL}/symptom/${id}`, fetchOptions)
             .then(response => {
                 console.debug(response)
                 return response.json()
