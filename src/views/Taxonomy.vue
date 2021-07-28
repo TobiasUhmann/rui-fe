@@ -2,9 +2,7 @@
   <ul>
     <TreeItem v-for="rootSymptom in rootSymptoms" :key="rootSymptom.id"
               :symptom="rootSymptom"
-              @create-symptom="createSymptom($event.name, $event.parent)"
-              @edit-symptom="editSymptom($event.id, $event.name)"
-              @delete-symptom="deleteSymptom($event)"/>
+              @update="onUpdate"/>
 
     <li>
       <input @change="onCreate($event)"
@@ -66,6 +64,10 @@ export default defineComponent({
       this.createSymptom(input.value, null)
 
       input.value = ''
+    },
+
+    onUpdate(): void {
+      this.getSymptoms()
     }
   }
 })

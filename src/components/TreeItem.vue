@@ -1,8 +1,13 @@
 <template>
   <li :class="[extended ? 'extended' : 'collapsed']">
 
-    <!-- (Clickable) symptom name -->
-    <span class="symptom-name" @click="onToggle">
+    <!-- Editable, clickable symptom name -->
+    <input v-if="editing"
+           @change="onSaveEdit($event)"
+           :value="symptom.name"/>
+    <span v-else
+          class="symptom-name"
+          @click="onToggle">
       {{ symptom.name }}
     </span>
 
@@ -20,7 +25,7 @@
     <ul v-if="extended">
       <TreeItem v-for="(child, index) in symptom.children" :key="index"
                 :symptom="child"
-                @create-symptom="$emit('create-symptom', $event)"/>
+                @update="$emit('update', $event)"/>
 
       <li>
         <input @change="onCreate($event)"
@@ -38,6 +43,7 @@
 import {defineComponent, PropType} from 'vue'
 
 import Symptom from '@/models/symptom'
+import SymptomService from '@/services/SymptomService'
 
 export default defineComponent({
   name: 'TreeItem',
@@ -49,7 +55,7 @@ export default defineComponent({
     }
   },
 
-  data: function () {
+  data() {
     return {
       extended: false,
       editing: false
@@ -64,7 +70,15 @@ export default defineComponent({
     onCreate(event: Event): void {
       const input = event.target as HTMLInputElement
 
-      this.$emit('create-symptom', {name: input.value, parent: this.symptom.id})
+      const symptom: Symptom = {
+        id: 0,
+        name: input.value,
+        parent: this.symptom.id,
+        children: []
+      }
+
+      SymptomService.postSymptom(symptom)
+          .then(() => this.$emit('update'))
 
       input.value = ''
     },
@@ -76,13 +90,21 @@ export default defineComponent({
     onSaveEdit(event: Event): void {
       const input = event.target as HTMLInputElement
 
-      this.$emit('edit-symptom', {id: this.symptom.id, name: input.value})
+      const patchedSymptom: Symptom = {
+        ...this.symptom,
+
+        name: input.value
+      }
+
+      SymptomService.patchSymptom(patchedSymptom)
+          .then(() => this.$emit('update'))
 
       this.editing = false
     },
 
     onDelete(): void {
-      this.$emit('delete-symptom', this.symptom.id)
+      SymptomService.deleteSymptom(this.symptom.id as number)
+          .then(() => this.$emit('update'))
     }
   }
 })
