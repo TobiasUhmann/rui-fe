@@ -2,10 +2,12 @@
   <ul>
     <TreeItem v-for="rootSymptom in rootSymptoms" :key="rootSymptom.id"
               :symptom="rootSymptom"
-              @create-symptom="createSymptom($event.name, $event.parent)"/>
+              @create-symptom="createSymptom($event.name, $event.parent)"
+              @edit-symptom="editSymptom($event.id, $event.name)"
+              @delete-symptom="deleteSymptom($event)"/>
 
     <li>
-      <input @change="createRootSymptom($event)"
+      <input @change="onCreate($event)"
              placeholder="New symptom">
     </li>
   </ul>
@@ -51,14 +53,14 @@ export default defineComponent({
         children: []
       }
 
-      SymptomService.addSymptom(symptom)
+      SymptomService.postSymptom(symptom)
           .then(() => {
             this.getSymptoms()
           })
           .catch(error => console.error(error))
     },
 
-    createRootSymptom(event: Event): void {
+    onCreate(event: Event): void {
       const input = event.target as HTMLInputElement
 
       this.createSymptom(input.value, null)
