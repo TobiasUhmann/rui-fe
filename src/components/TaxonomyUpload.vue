@@ -1,17 +1,17 @@
 <template>
   <div>
     <h1>Taxonomy Upload</h1>
-    <form>
+    <form @submit.prevent="onSubmit">
       <label for="nodesTxtUpload">Nodes TXT</label>
-      <input id="nodesTxtUpload" type="file">
+      <input id="nodesTxtUpload" type="file" name="nodesTxt">
 
       <label for="edgesTxtUpload">Edges TXT</label>
-      <input id="edgesTxtUpload" type="file">
+      <input id="edgesTxtUpload" type="file" name="edgesTxt">
 
       <label for="metaYmlUpload">Meta YML</label>
-      <input id="metaYmlUpload" type="file">
+      <input id="metaYmlUpload" type="file" name="metaYml">
 
-      <button>Upload</button>
+      <input type="submit" value="Upload"/>
     </form>
   </div>
 </template>
@@ -22,8 +22,19 @@
 
 import {defineComponent} from 'vue'
 
+import SymptomService from '@/services/SymptomService'
+
 export default defineComponent({
-  name: 'TaxonomyUpload'
+  name: 'TaxonomyUpload',
+
+  methods: {
+    onSubmit(event: Event) {
+      const form = event.target as HTMLFormElement
+      const formData = new FormData(form)
+
+      SymptomService.uploadTaxonomy(formData)
+    }
+  }
 })
 
 </script>
@@ -42,8 +53,7 @@ form {
   grid-gap: 16px;
 }
 
-input,
-button {
+input {
   grid-column: 2;
 }
 

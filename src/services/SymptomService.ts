@@ -2,8 +2,6 @@ import Symptom from '@/models/symptom'
 
 export default {
 
-    symptoms: [] as Symptom[],
-
     getSymptoms(): Promise<Symptom[]> {
         return fetch(`${process.env.VUE_APP_API_URL}/symptoms`)
             .then(response => {
@@ -58,6 +56,20 @@ export default {
         }
 
         return fetch(`${process.env.VUE_APP_API_URL}/symptom/${id}`, fetchOptions)
+            .then(response => {
+                console.debug(response)
+                return response.json()
+            })
+            .catch(error => console.error(error))
+    },
+
+    uploadTaxonomy(formData: FormData): Promise<void | Response> {
+        const fetchOptions = {
+            method: 'POST',
+            body: formData
+        }
+
+        return fetch(`${process.env.VUE_APP_API_URL}/taxonomy`, fetchOptions)
             .then(response => {
                 console.debug(response)
                 return response.json()
