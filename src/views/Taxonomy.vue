@@ -80,7 +80,17 @@ export default defineComponent({
 
 </script>
 
-<!-- CSS -->
+<!-- Scoped CSS -->
+
+<style scoped>
+
+h1 {
+  margin: 0.5em auto;
+}
+
+</style>
+
+<!-- Deep CSS -->
 
 <style>
 
