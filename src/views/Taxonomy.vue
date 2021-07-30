@@ -22,7 +22,7 @@
 
 import {defineComponent} from 'vue'
 
-import Symptom from '@/models/symptom'
+import DeepSymptom from '@/models/DeepSymptom'
 import SymptomService from '@/services/SymptomService'
 import TaxonomyUpload from '@/components/TaxonomyUpload.vue'
 import TreeItem from '@/components/TreeItem.vue'
@@ -34,7 +34,7 @@ export default defineComponent({
 
   data() {
     return {
-      rootSymptoms: [] as Symptom[]
+      rootSymptoms: [] as DeepSymptom[]
     }
   },
 
@@ -43,9 +43,9 @@ export default defineComponent({
   },
 
   methods: {
-    getSymptoms(): void {
-      SymptomService.getSymptoms()
-          .then((symptoms: Symptom[]) => this.rootSymptoms = symptoms)
+    getTaxonomy(): void {
+      SymptomService.getTaxonomy()
+          .then((symptoms: DeepSymptom[]) => this.rootSymptoms = symptoms)
           .catch(error => console.error(error))
     },
 

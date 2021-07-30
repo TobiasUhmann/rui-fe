@@ -32,7 +32,7 @@ export default defineComponent({
       const form = event.target as HTMLFormElement
       const formData = new FormData(form)
 
-      SymptomService.uploadTaxonomy(formData)
+      SymptomService.putTaxonomy(formData)
     }
   }
 })

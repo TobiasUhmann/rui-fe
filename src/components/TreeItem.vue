@@ -42,7 +42,7 @@
 
 import {defineComponent, PropType} from 'vue'
 
-import Symptom from '@/models/symptom'
+import DeepSymptom from '@/models/DeepSymptom'
 import SymptomService from '@/services/SymptomService'
 
 export default defineComponent({
@@ -50,7 +50,7 @@ export default defineComponent({
 
   props: {
     symptom: {
-      type: Object as PropType<Symptom>,
+      type: Object as PropType<DeepSymptom>,
       required: true
     }
   },
@@ -70,7 +70,7 @@ export default defineComponent({
     onCreate(event: Event): void {
       const input = event.target as HTMLInputElement
 
-      const symptom: Symptom = {
+      const symptom: DeepSymptom = {
         id: 0,
         name: input.value,
         parent: this.symptom.id,
@@ -90,13 +90,13 @@ export default defineComponent({
     onSaveEdit(event: Event): void {
       const input = event.target as HTMLInputElement
 
-      const patchedSymptom: Symptom = {
+      const patchedSymptom: DeepSymptom = {
         ...this.symptom,
 
         name: input.value
       }
 
-      SymptomService.patchSymptom(patchedSymptom)
+      SymptomService.putSymptom(patchedSymptom)
           .then(() => this.$emit('update'))
 
       this.editing = false
