@@ -4,11 +4,11 @@
     <!-- Editable, clickable symptom name -->
     <input v-if="editing"
            @change="onSaveEdit($event)"
-           :value="symptom.name"/>
+           :value="symptom.names.join(' | ')"/>
     <span v-else
           class="symptom-name"
           @click="onToggle">
-      {{ symptom.name }}
+      {{ symptom.names.join(' | ') }}
     </span>
 
     <!-- Edit -->
@@ -29,7 +29,7 @@
 
       <li>
         <input @change="onCreate($event)"
-               placeholder="New symptom">
+               placeholder="New sub symptom">
       </li>
     </ul>
 
@@ -43,6 +43,7 @@
 import {defineComponent, PropType} from 'vue'
 
 import DeepSymptom from '@/models/DeepSymptom'
+import Symptom from '@/models/Symptom'
 import SymptomService from '@/services/SymptomService'
 
 export default defineComponent({
@@ -70,11 +71,10 @@ export default defineComponent({
     onCreate(event: Event): void {
       const input = event.target as HTMLInputElement
 
-      const symptom: DeepSymptom = {
+      const symptom: Symptom = {
         id: 0,
-        name: input.value,
-        parent: this.symptom.id,
-        children: []
+        names: input.value.split(' | '),
+        parent: this.symptom.id
       }
 
       SymptomService.postSymptom(symptom)
@@ -90,10 +90,10 @@ export default defineComponent({
     onSaveEdit(event: Event): void {
       const input = event.target as HTMLInputElement
 
-      const patchedSymptom: DeepSymptom = {
+      const patchedSymptom: Symptom = {
         ...this.symptom,
 
-        name: input.value
+        names: input.value.split(' | ')
       }
 
       SymptomService.putSymptom(patchedSymptom)

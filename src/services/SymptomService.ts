@@ -3,7 +3,7 @@ import Symptom from '@/models/Symptom'
 
 export default {
 
-    getTaxonomy(): Promise<DeepSymptom[]> {
+    updateTaxonomy(): Promise<DeepSymptom[]> {
         return fetch(`${process.env.VUE_APP_API_URL}/taxonomy`)
             .then(response => {
                 console.debug(response)

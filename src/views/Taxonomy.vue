@@ -4,13 +4,13 @@
 
     <h1>Taxonomy</h1>
     <ul>
-      <TreeItem v-for="rootSymptom in rootSymptoms" :key="rootSymptom.id"
+      <TreeItem v-for="rootSymptom in taxonomy" :key="rootSymptom.id"
                 :symptom="rootSymptom"
                 @update="onUpdate"/>
 
       <li>
         <input @change="onCreate($event)"
-               placeholder="New symptom">
+               placeholder="New root symptom">
       </li>
     </ul>
   </div>
@@ -34,32 +34,31 @@ export default defineComponent({
 
   data() {
     return {
-      rootSymptoms: [] as DeepSymptom[]
+      taxonomy: [] as DeepSymptom[]
     }
   },
 
   mounted() {
-    this.getSymptoms()
+    this.updateTaxonomy()
   },
 
   methods: {
-    getTaxonomy(): void {
-      SymptomService.getTaxonomy()
-          .then((symptoms: DeepSymptom[]) => this.rootSymptoms = symptoms)
+    updateTaxonomy(): void {
+      SymptomService.updateTaxonomy()
+          .then((taxonomy: DeepSymptom[]) => this.taxonomy = taxonomy)
           .catch(error => console.error(error))
     },
 
-    createSymptom(name: string, parent: number | null): void {
+    createSymptom(names: string[], parent: number | null): void {
       const symptom = {
         id: null,
-        name: name,
-        parent: parent,
-        children: []
+        names: names,
+        parent: parent
       }
 
       SymptomService.postSymptom(symptom)
           .then(() => {
-            this.getSymptoms()
+            this.updateTaxonomy()
           })
           .catch(error => console.error(error))
     },
@@ -67,13 +66,13 @@ export default defineComponent({
     onCreate(event: Event): void {
       const input = event.target as HTMLInputElement
 
-      this.createSymptom(input.value, null)
+      this.createSymptom(input.value.split(' | '), null)
 
       input.value = ''
     },
 
     onUpdate(): void {
-      this.getSymptoms()
+      this.updateTaxonomy()
     }
   }
 })
