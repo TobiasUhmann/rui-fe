@@ -31,7 +31,7 @@ export default defineComponent({
 
 </script>
 
-<!-- CSS -->
+<!-- Scoped CSS -->
 
 <style scoped>
 

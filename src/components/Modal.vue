@@ -1,5 +1,5 @@
 <template>
-  EXPLORE
+  My Modal
 </template>
 
 <!-- TypeScript -->
@@ -9,7 +9,7 @@
 import {defineComponent} from 'vue'
 
 export default defineComponent({
-  name: 'Explore'
+  name: 'Modal'
 })
 
 </script>
