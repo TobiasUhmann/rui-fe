@@ -44,7 +44,7 @@ export default defineComponent({
 
   methods: {
     updateTaxonomy(): void {
-      SymptomService.updateTaxonomy()
+      SymptomService.getTaxonomy()
           .then((taxonomy: DeepSymptom[]) => this.taxonomy = taxonomy)
           .catch(error => console.error(error))
     },

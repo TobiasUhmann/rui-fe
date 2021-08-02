@@ -3,7 +3,7 @@ import Symptom from '@/models/Symptom'
 
 export default {
 
-    updateTaxonomy(): Promise<DeepSymptom[]> {
+    getTaxonomy(): Promise<DeepSymptom[]> {
         return fetch(`${process.env.VUE_APP_API_URL}/taxonomy`)
             .then(response => {
                 console.debug(response)
@@ -13,7 +13,7 @@ export default {
             .catch(error => console.error(error))
     },
 
-    putTaxonomy(formData: FormData): Promise<void | Response> {
+    putTaxonomy(formData: FormData): Promise<void> {
         const fetchOptions = {
             method: 'PUT',
             body: formData
@@ -22,12 +22,11 @@ export default {
         return fetch(`${process.env.VUE_APP_API_URL}/taxonomy`, fetchOptions)
             .then(response => {
                 console.debug(response)
-                return response.json()
             })
             .catch(error => console.error(error))
     },
 
-    postSymptom(symptom: Symptom): Promise<DeepSymptom> {
+    postSymptom(symptom: Symptom): Promise<void> {
         const fetchOptions = {
             method: 'POST',
 
@@ -41,12 +40,11 @@ export default {
         return fetch(`${process.env.VUE_APP_API_URL}/symptom`, fetchOptions)
             .then(response => {
                 console.debug(response)
-                return response.json()
             })
             .catch(error => console.error(error))
     },
 
-    putSymptom(symptom: Symptom): Promise<void | Response> {
+    putSymptom(symptom: Symptom): Promise<void> {
         const fetchOptions = {
             method: 'PUT',
 
@@ -60,12 +58,11 @@ export default {
         return fetch(`${process.env.VUE_APP_API_URL}/symptom`, fetchOptions)
             .then(response => {
                 console.debug(response)
-                return response.json()
             })
             .catch(error => console.error(error))
     },
 
-    deleteSymptom(symptom_id: number): Promise<void | Response> {
+    deleteSymptom(symptom_id: number): Promise<void> {
         const fetchOptions = {
             method: 'DELETE'
         }
@@ -73,7 +70,6 @@ export default {
         return fetch(`${process.env.VUE_APP_API_URL}/symptom/${symptom_id}`, fetchOptions)
             .then(response => {
                 console.debug(response)
-                return response.json()
             })
             .catch(error => console.error(error))
     }
