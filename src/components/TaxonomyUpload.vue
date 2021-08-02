@@ -38,16 +38,12 @@ export default defineComponent({
 
   data() {
     return {
-      formData: null as FormData | null,
       showUploadWarning: false
     }
   },
 
   methods: {
-    onSubmit(event: Event) {
-      const form = event.target as HTMLFormElement
-      this.formData = new FormData(form)
-
+    onSubmit() {
       this.showUploadWarning = true
     },
 
@@ -56,14 +52,14 @@ export default defineComponent({
     },
 
     onConfirmUpload(): void {
-      const formData = this.formData as FormData
+      const form = this.$refs.form as HTMLFormElement
 
+      const formData = new FormData(form)
       SymptomService.putTaxonomy(formData)
           .then(() => this.$emit('uploaded'))
 
       this.showUploadWarning = false
 
-      const form = this.$refs.form as HTMLFormElement
       form.reset()
     }
   }
