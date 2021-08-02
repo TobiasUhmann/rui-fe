@@ -1,7 +1,11 @@
 <template>
+  <TaxonomyUploadWarning :class="[showUploadWarning ? 'd-block' : 'd-none']"
+                         @cancel="onCancelUpload"
+                         @overwrite="onConfirmUpload"/>
+
   <div>
     <h1>Taxonomy Upload</h1>
-    <form @submit.prevent="onSubmit">
+    <form ref="form" @submit.prevent="onSubmit">
       <label for="nodesTxtUpload">Nodes TXT</label>
       <input id="nodesTxtUpload" type="file" name="nodesTxt">
 
@@ -23,16 +27,44 @@
 import {defineComponent} from 'vue'
 
 import SymptomService from '@/services/SymptomService'
+import TaxonomyUploadWarning from '@/components/TaxonomyUploadWarning.vue'
 
 export default defineComponent({
   name: 'TaxonomyUpload',
 
+  components: {TaxonomyUploadWarning},
+
+  emits: ['uploaded'],
+
+  data() {
+    return {
+      formData: null as FormData | null,
+      showUploadWarning: false
+    }
+  },
+
   methods: {
     onSubmit(event: Event) {
       const form = event.target as HTMLFormElement
-      const formData = new FormData(form)
+      this.formData = new FormData(form)
+
+      this.showUploadWarning = true
+    },
+
+    onCancelUpload(): void {
+      this.showUploadWarning = false
+    },
+
+    onConfirmUpload(): void {
+      const formData = this.formData as FormData
 
       SymptomService.putTaxonomy(formData)
+          .then(() => this.$emit('uploaded'))
+
+      this.showUploadWarning = false
+
+      const form = this.$refs.form as HTMLFormElement
+      form.reset()
     }
   }
 })
@@ -55,6 +87,16 @@ form {
 
 input {
   grid-column: 2;
+}
+
+/* Modal */
+
+.d-none {
+  display: none;
+}
+
+.d-block {
+  display: block;
 }
 
 </style>

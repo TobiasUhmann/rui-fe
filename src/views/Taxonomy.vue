@@ -1,6 +1,6 @@
 <template>
   <div>
-    <TaxonomyUpload/>
+    <TaxonomyUpload @uploaded="updateTaxonomy"/>
 
     <h1>Taxonomy</h1>
     <ul>
@@ -82,6 +82,8 @@ export default defineComponent({
 <!-- Scoped CSS -->
 
 <style scoped>
+
+/* Other */
 
 h1 {
   margin: 0.5em auto;
