@@ -4,13 +4,13 @@
 
     <h1>Taxonomy</h1>
     <ul>
-      <TreeItem v-for="rootSymptom in taxonomy" :key="rootSymptom.id"
-                :symptom="rootSymptom"
+      <TreeItem v-for="rootEntity in taxonomy" :key="rootEntity.id"
+                entity="rootEntity"
                 @update="onUpdate"/>
 
       <li>
         <input @change="onCreate($event)"
-               placeholder="New root symptom">
+               placeholder="New root entity">
       </li>
     </ul>
   </div>
@@ -22,8 +22,9 @@
 
 import {defineComponent} from 'vue'
 
-import DeepSymptom from '@/models/DeepSymptom'
-import SymptomService from '@/services/SymptomService'
+import DeepEntity from '@/models/DeepEntity'
+import Entity from '@/models/Entity'
+import TaxonomyService from '@/services/TaxonomyService'
 import TaxonomyUpload from '@/components/TaxonomyUpload.vue'
 import TreeItem from '@/components/TreeItem.vue'
 
@@ -34,7 +35,7 @@ export default defineComponent({
 
   data() {
     return {
-      taxonomy: [] as DeepSymptom[]
+      taxonomy: [] as DeepEntity[]
     }
   },
 
@@ -44,19 +45,19 @@ export default defineComponent({
 
   methods: {
     updateTaxonomy(): void {
-      SymptomService.getTaxonomy()
-          .then((taxonomy: DeepSymptom[]) => this.taxonomy = taxonomy)
+      TaxonomyService.getTaxonomy()
+          .then((taxonomy: DeepEntity[]) => this.taxonomy = taxonomy)
           .catch(error => console.error(error))
     },
 
-    createSymptom(names: string[], parent: number | null): void {
-      const symptom = {
+    createEntity(names: string[], parent: number | null): void {
+      const entity: Entity = {
         id: null,
         names: names,
         parent: parent
       }
 
-      SymptomService.postSymptom(symptom)
+      TaxonomyService.postEntity(entity)
           .then(() => {
             this.updateTaxonomy()
           })
@@ -66,7 +67,7 @@ export default defineComponent({
     onCreate(event: Event): void {
       const input = event.target as HTMLInputElement
 
-      this.createSymptom(input.value.split(' | '), null)
+      this.createEntity(input.value.split(' | '), null)
 
       input.value = ''
     },

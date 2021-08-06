@@ -1,9 +1,9 @@
-import DeepSymptom from '@/models/DeepSymptom'
-import Symptom from '@/models/Symptom'
+import DeepEntity from '@/models/DeepEntity'
+import Entity from '@/models/Entity'
 
 export default {
 
-    getTaxonomy(): Promise<DeepSymptom[]> {
+    getTaxonomy(): Promise<DeepEntity[]> {
         return fetch(`${process.env.VUE_APP_API_URL}/taxonomy`)
             .then(response => {
                 console.debug(response)
@@ -26,7 +26,7 @@ export default {
             .catch(error => console.error(error))
     },
 
-    postSymptom(symptom: Symptom): Promise<void> {
+    postEntity(entity: Entity): Promise<void> {
         const fetchOptions = {
             method: 'POST',
 
@@ -34,17 +34,17 @@ export default {
                 'Content-Type': 'application/json'
             },
 
-            body: JSON.stringify(symptom)
+            body: JSON.stringify(entity)
         }
 
-        return fetch(`${process.env.VUE_APP_API_URL}/symptom`, fetchOptions)
+        return fetch(`${process.env.VUE_APP_API_URL}/entity`, fetchOptions)
             .then(response => {
                 console.debug(response)
             })
             .catch(error => console.error(error))
     },
 
-    putSymptom(symptom: Symptom): Promise<void> {
+    putEntity(entity: Entity): Promise<void> {
         const fetchOptions = {
             method: 'PUT',
 
@@ -52,22 +52,22 @@ export default {
                 'Content-Type': 'application/json'
             },
 
-            body: JSON.stringify(symptom)
+            body: JSON.stringify(entity)
         }
 
-        return fetch(`${process.env.VUE_APP_API_URL}/symptom`, fetchOptions)
+        return fetch(`${process.env.VUE_APP_API_URL}/entity`, fetchOptions)
             .then(response => {
                 console.debug(response)
             })
             .catch(error => console.error(error))
     },
 
-    deleteSymptom(symptom_id: number): Promise<void> {
+    deleteEntity(entity_id: number): Promise<void> {
         const fetchOptions = {
             method: 'DELETE'
         }
 
-        return fetch(`${process.env.VUE_APP_API_URL}/symptom/${symptom_id}`, fetchOptions)
+        return fetch(`${process.env.VUE_APP_API_URL}/entity/${entity_id}`, fetchOptions)
             .then(response => {
                 console.debug(response)
             })

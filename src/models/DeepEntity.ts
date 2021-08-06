@@ -1,6 +1,6 @@
-export default interface DeepSymptom {
+export default interface DeepEntity {
     id: number | null,
     names: string[],
     parent: number | null,
-    children: DeepSymptom[]
+    children: DeepEntity[]
 }

@@ -26,7 +26,7 @@
 
 import {defineComponent} from 'vue'
 
-import SymptomService from '@/services/SymptomService'
+import TaxonomyService from '@/services/TaxonomyService'
 import TaxonomyUploadWarning from '@/components/TaxonomyUploadWarning.vue'
 
 export default defineComponent({
@@ -55,7 +55,7 @@ export default defineComponent({
       const form = this.$refs.form as HTMLFormElement
 
       const formData = new FormData(form)
-      SymptomService.putTaxonomy(formData)
+      TaxonomyService.putTaxonomy(formData)
           .then(() => this.$emit('uploaded'))
 
       this.showUploadWarning = false
