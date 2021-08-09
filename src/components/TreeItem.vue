@@ -24,7 +24,7 @@
     <!-- Child entities & Input new child entity-->
     <ul v-if="extended">
       <TreeItem v-for="(child, index) in entity.children" :key="index"
-                entity="child"
+                :entity="child"
                 @update="$emit('update', $event)"/>
 
       <li>

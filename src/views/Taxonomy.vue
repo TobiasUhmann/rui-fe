@@ -5,7 +5,7 @@
     <h1>Taxonomy</h1>
     <ul>
       <TreeItem v-for="rootEntity in taxonomy" :key="rootEntity.id"
-                entity="rootEntity"
+                :entity="rootEntity"
                 @update="onUpdate"/>
 
       <li>
