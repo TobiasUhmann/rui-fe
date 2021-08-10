@@ -1,14 +1,19 @@
 <template>
-  <ul>
-    <TreeItem v-for="rootSymptom in rootSymptoms" :key="rootSymptom.id"
-              :symptom="rootSymptom"
-              @update="onUpdate"/>
+  <div>
+    <TaxonomyUpload @uploaded="updateTaxonomy"/>
 
-    <li>
-      <input @change="onCreate($event)"
-             placeholder="New symptom">
-    </li>
-  </ul>
+    <h1>Taxonomy</h1>
+    <ul>
+      <TreeItem v-for="rootEntity in taxonomy" :key="rootEntity.id"
+                :entity="rootEntity"
+                @update="onUpdate"/>
+
+      <li>
+        <input @change="onCreate($event)"
+               placeholder="New root entity">
+      </li>
+    </ul>
+  </div>
 </template>
 
 <!-- TypeScript -->
@@ -17,43 +22,44 @@
 
 import {defineComponent} from 'vue'
 
-import Symptom from '@/models/symptom'
-import SymptomService from '@/services/SymptomService'
+import DeepEntity from '@/models/DeepEntity'
+import Entity from '@/models/Entity'
+import TaxonomyService from '@/services/TaxonomyService'
+import TaxonomyUpload from '@/components/TaxonomyUpload.vue'
 import TreeItem from '@/components/TreeItem.vue'
 
 export default defineComponent({
   name: 'Taxonomy',
 
-  components: {TreeItem},
+  components: {TaxonomyUpload, TreeItem},
 
   data() {
     return {
-      rootSymptoms: [] as Symptom[]
+      taxonomy: [] as DeepEntity[]
     }
   },
 
   mounted() {
-    this.getSymptoms()
+    this.updateTaxonomy()
   },
 
   methods: {
-    getSymptoms(): void {
-      SymptomService.getSymptoms()
-          .then((symptoms: Symptom[]) => this.rootSymptoms = symptoms)
+    updateTaxonomy(): void {
+      TaxonomyService.getTaxonomy()
+          .then((taxonomy: DeepEntity[]) => this.taxonomy = taxonomy)
           .catch(error => console.error(error))
     },
 
-    createSymptom(name: string, parent: number | null): void {
-      const symptom = {
+    createEntity(names: string[], parent: number | null): void {
+      const entity: Entity = {
         id: null,
-        name: name,
-        parent: parent,
-        children: []
+        names: names,
+        parent: parent
       }
 
-      SymptomService.postSymptom(symptom)
+      TaxonomyService.postEntity(entity)
           .then(() => {
-            this.getSymptoms()
+            this.updateTaxonomy()
           })
           .catch(error => console.error(error))
     },
@@ -61,20 +67,32 @@ export default defineComponent({
     onCreate(event: Event): void {
       const input = event.target as HTMLInputElement
 
-      this.createSymptom(input.value, null)
+      this.createEntity(input.value.split(' | '), null)
 
       input.value = ''
     },
 
     onUpdate(): void {
-      this.getSymptoms()
+      this.updateTaxonomy()
     }
   }
 })
 
 </script>
 
-<!-- CSS -->
+<!-- Scoped CSS -->
+
+<style scoped>
+
+/* Other */
+
+h1 {
+  margin: 0.5em auto;
+}
+
+</style>
+
+<!-- Nested CSS -->
 
 <style>
 

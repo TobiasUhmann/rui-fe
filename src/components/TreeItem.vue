@@ -1,14 +1,14 @@
 <template>
   <li :class="[extended ? 'extended' : 'collapsed']">
 
-    <!-- Editable, clickable symptom name -->
+    <!-- Editable, clickable entity name -->
     <input v-if="editing"
            @change="onSaveEdit($event)"
-           :value="symptom.name"/>
+           :value="entity.names.join(' | ')"/>
     <span v-else
-          class="symptom-name"
+          class="entity-name"
           @click="onToggle">
-      {{ symptom.name }}
+      {{ entity.names.join(' | ') }}
     </span>
 
     <!-- Edit -->
@@ -21,15 +21,15 @@
       (delete)
     </span>
 
-    <!-- Child symptoms & Input new child symptom-->
+    <!-- Child entities & Input new child entity-->
     <ul v-if="extended">
-      <TreeItem v-for="(child, index) in symptom.children" :key="index"
-                :symptom="child"
+      <TreeItem v-for="(child, index) in entity.children" :key="index"
+                :entity="child"
                 @update="$emit('update', $event)"/>
 
       <li>
         <input @change="onCreate($event)"
-               placeholder="New symptom">
+               placeholder="New sub entity">
       </li>
     </ul>
 
@@ -42,15 +42,16 @@
 
 import {defineComponent, PropType} from 'vue'
 
-import Symptom from '@/models/symptom'
-import SymptomService from '@/services/SymptomService'
+import DeepEntity from '@/models/DeepEntity'
+import Entity from '@/models/Entity'
+import TaxonomyService from '@/services/TaxonomyService'
 
 export default defineComponent({
   name: 'TreeItem',
 
   props: {
-    symptom: {
-      type: Object as PropType<Symptom>,
+    entity: {
+      type: Object as PropType<DeepEntity>,
       required: true
     }
   },
@@ -70,14 +71,13 @@ export default defineComponent({
     onCreate(event: Event): void {
       const input = event.target as HTMLInputElement
 
-      const symptom: Symptom = {
+      const entity: Entity = {
         id: 0,
-        name: input.value,
-        parent: this.symptom.id,
-        children: []
+        names: input.value.split(' | '),
+        parent: this.entity.id
       }
 
-      SymptomService.postSymptom(symptom)
+      TaxonomyService.postEntity(entity)
           .then(() => this.$emit('update'))
 
       input.value = ''
@@ -90,20 +90,20 @@ export default defineComponent({
     onSaveEdit(event: Event): void {
       const input = event.target as HTMLInputElement
 
-      const patchedSymptom: Symptom = {
-        ...this.symptom,
+      const patchedEntity: Entity = {
+        ...this.entity,
 
-        name: input.value
+        names: input.value.split(' | ')
       }
 
-      SymptomService.patchSymptom(patchedSymptom)
+      TaxonomyService.putEntity(patchedEntity)
           .then(() => this.$emit('update'))
 
       this.editing = false
     },
 
     onDelete(): void {
-      SymptomService.deleteSymptom(this.symptom.id as number)
+      TaxonomyService.deleteEntity(this.entity.id as number)
           .then(() => this.$emit('update'))
     }
   }
@@ -111,11 +111,11 @@ export default defineComponent({
 
 </script>
 
-<!-- CSS -->
+<!-- Scoped CSS -->
 
 <style scoped>
 
-.symptom-name {
+.entity-name {
   cursor: pointer;
 }
 
