@@ -15,6 +15,9 @@
       <label for="metaYmlUpload">Meta YML</label>
       <input id="metaYmlUpload" type="file" name="metaYml">
 
+      <label for="matchTxtUpload">Match TXT</label>
+      <input id="matchTxtUpload" type="file" name="matchTxt">
+
       <input type="submit" value="Upload"/>
     </form>
   </div>
