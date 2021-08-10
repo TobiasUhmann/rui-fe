@@ -1,10 +1,10 @@
 <template>
-  <TaxonomyUploadWarning :class="[showUploadWarning ? 'd-block' : 'd-none']"
-                         @cancel="onCancelUpload"
-                         @overwrite="onConfirmUpload"/>
+  <UploadWarning :class="[showUploadWarning ? 'd-block' : 'd-none']"
+                 @cancel="onCancelUpload"
+                 @overwrite="onConfirmUpload"/>
 
   <div>
-    <h1>Taxonomy Upload</h1>
+    <h1>Upload</h1>
     <form ref="form" @submit.prevent="onSubmit">
       <label for="nodesTxtUpload">Nodes TXT</label>
       <input id="nodesTxtUpload" type="file" name="nodesTxt">
@@ -26,13 +26,13 @@
 
 import {defineComponent} from 'vue'
 
-import TaxonomyUploadWarning from '@/components/TaxonomyUploadWarning.vue'
+import UploadWarning from '@/components/UploadWarning.vue'
 import UploadService from '@/services/UploadService'
 
 export default defineComponent({
-  name: 'TaxonomyUpload',
+  name: 'Upload',
 
-  components: {TaxonomyUploadWarning},
+  components: {UploadWarning},
 
   emits: ['uploaded'],
 

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <TaxonomyUpload @uploaded="updateRootEntities"/>
+    <Upload @uploaded="updateRootEntities"/>
 
     <h1>Taxonomy</h1>
     <ul>
@@ -25,13 +25,13 @@ import {defineComponent} from 'vue'
 import DeepEntity from '@/models/DeepEntity'
 import Entity from '@/models/Entity'
 import EntityService from '@/services/EntityService'
-import TaxonomyUpload from '@/components/TaxonomyUpload.vue'
+import Upload from '@/components/Upload.vue'
 import TreeItem from '@/components/TreeItem.vue'
 
 export default defineComponent({
   name: 'Taxonomy',
 
-  components: {TaxonomyUpload, TreeItem},
+  components: {Upload, TreeItem},
 
   data() {
     return {
