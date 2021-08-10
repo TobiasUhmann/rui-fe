@@ -1,11 +1,11 @@
 <template>
   <div>
-    <TaxonomyUpload @uploaded="updateTaxonomy"/>
+    <TaxonomyUpload @uploaded="updateRootEntities"/>
 
     <h1>Taxonomy</h1>
     <ul>
-      <TreeItem v-for="rootEntity in taxonomy" :key="rootEntity.id"
-                :entity="rootEntity"
+      <TreeItem v-for="entity in entities" :key="entity.id"
+                :entity="entity"
                 @update="onUpdate"/>
 
       <li>
@@ -24,7 +24,7 @@ import {defineComponent} from 'vue'
 
 import DeepEntity from '@/models/DeepEntity'
 import Entity from '@/models/Entity'
-import TaxonomyService from '@/services/TaxonomyService'
+import EntityService from '@/services/EntityService'
 import TaxonomyUpload from '@/components/TaxonomyUpload.vue'
 import TreeItem from '@/components/TreeItem.vue'
 
@@ -35,18 +35,18 @@ export default defineComponent({
 
   data() {
     return {
-      taxonomy: [] as DeepEntity[]
+      entities: [] as DeepEntity[]
     }
   },
 
   mounted() {
-    this.updateTaxonomy()
+    this.updateRootEntities()
   },
 
   methods: {
-    updateTaxonomy(): void {
-      TaxonomyService.getTaxonomy()
-          .then((taxonomy: DeepEntity[]) => this.taxonomy = taxonomy)
+    updateRootEntities(): void {
+      EntityService.getEntities()
+          .then((entities: DeepEntity[]) => this.entities = entities)
           .catch(error => console.error(error))
     },
 
@@ -57,9 +57,9 @@ export default defineComponent({
         parent: parent
       }
 
-      TaxonomyService.postEntity(entity)
+      EntityService.postEntity(entity)
           .then(() => {
-            this.updateTaxonomy()
+            this.updateRootEntities()
           })
           .catch(error => console.error(error))
     },
@@ -73,7 +73,7 @@ export default defineComponent({
     },
 
     onUpdate(): void {
-      this.updateTaxonomy()
+      this.updateRootEntities()
     }
   }
 })

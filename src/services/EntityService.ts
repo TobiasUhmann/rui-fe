@@ -3,23 +3,23 @@ import Entity from '@/models/Entity'
 
 export default {
 
-    getTaxonomy(): Promise<DeepEntity[]> {
-        return fetch(`${process.env.VUE_APP_API_URL}/taxonomy`)
+    getEntities(): Promise<DeepEntity[]> {
+        return fetch(`${process.env.VUE_APP_API_URL}/entities`)
             .then(response => {
                 console.debug(response)
                 return response.json()
             })
-            .then(data => data.taxonomy)
+            .then(data => data.entities)
             .catch(error => console.error(error))
     },
 
-    putTaxonomy(formData: FormData): Promise<void> {
+    putData(formData: FormData): Promise<void> {
         const fetchOptions = {
             method: 'PUT',
             body: formData
         }
 
-        return fetch(`${process.env.VUE_APP_API_URL}/taxonomy`, fetchOptions)
+        return fetch(`${process.env.VUE_APP_API_URL}/upload`, fetchOptions)
             .then(response => {
                 console.debug(response)
             })

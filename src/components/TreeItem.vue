@@ -44,7 +44,7 @@ import {defineComponent, PropType} from 'vue'
 
 import DeepEntity from '@/models/DeepEntity'
 import Entity from '@/models/Entity'
-import TaxonomyService from '@/services/TaxonomyService'
+import EntityService from '@/services/EntityService'
 
 export default defineComponent({
   name: 'TreeItem',
@@ -77,7 +77,7 @@ export default defineComponent({
         parent: this.entity.id
       }
 
-      TaxonomyService.postEntity(entity)
+      EntityService.postEntity(entity)
           .then(() => this.$emit('update'))
 
       input.value = ''
@@ -96,14 +96,14 @@ export default defineComponent({
         names: input.value.split(' | ')
       }
 
-      TaxonomyService.putEntity(patchedEntity)
+      EntityService.putEntity(patchedEntity)
           .then(() => this.$emit('update'))
 
       this.editing = false
     },
 
     onDelete(): void {
-      TaxonomyService.deleteEntity(this.entity.id as number)
+      EntityService.deleteEntity(this.entity.id as number)
           .then(() => this.$emit('update'))
     }
   }
