@@ -26,8 +26,8 @@
 
 import {defineComponent} from 'vue'
 
-import EntityService from '@/services/EntityService'
 import TaxonomyUploadWarning from '@/components/TaxonomyUploadWarning.vue'
+import UploadService from '@/services/UploadService'
 
 export default defineComponent({
   name: 'TaxonomyUpload',
@@ -55,7 +55,7 @@ export default defineComponent({
       const form = this.$refs.form as HTMLFormElement
 
       const formData = new FormData(form)
-      EntityService.putData(formData)
+      UploadService.putUpload(formData)
           .then(() => this.$emit('uploaded'))
 
       this.showUploadWarning = false
