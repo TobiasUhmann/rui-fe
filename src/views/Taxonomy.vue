@@ -1,5 +1,7 @@
 <template>
 
+  <!-- Upload -->
+
   <main v-if="entities.length === 0" class="upload-grid">
     <h1 class="grid-header">Upload</h1>
 
@@ -8,17 +10,21 @@
     </section>
   </main>
 
+  <!-- Taxonomy & Matches -->
+
   <main v-else class="taxonomy-grid">
     <h1 class="grid-header">Taxonomy</h1>
     <h1 class="grid-header">Matches</h1>
+
+    <!-- Taxonomy -->
 
     <section class="grid-section">
       <ul>
         <TreeItem v-for="entity in entities" :key="entity.id"
                   :entity="entity"
-                  :selected-entity-id="selectedEntityId"
+                  :selected-entity-id="selectedEntity?.id"
                   @update="onUpdate"
-                  @select="onSelectTreeItem($event)"/>
+                  @select="storeSelectedEntityAndGetMatches($event)"/>
 
         <li>
           <input @change="onCreate($event)"
@@ -27,7 +33,17 @@
       </ul>
     </section>
 
-    <section class="grid-section">No entity selected</section>
+    <!-- Matches -->
+
+    <section class="grid-section">
+      <div v-for="(matches, name) of matches" :key="name">
+        <h2>{{ name }}</h2>
+
+        <p v-for="(match, index) of matches" :key="index">
+          {{ match }}
+        </p>
+      </div>
+    </section>
   </main>
 
 </template>
@@ -41,6 +57,8 @@ import {defineComponent} from 'vue'
 import DeepEntity from '@/models/DeepEntity'
 import Entity from '@/models/Entity'
 import EntityService from '@/services/EntityService'
+import Match from '@/models/Match'
+import MatchesService from '@/services/MatchesService'
 import TreeItem from '@/components/TreeItem.vue'
 import Upload from '@/components/Upload.vue'
 
@@ -52,7 +70,8 @@ export default defineComponent({
   data() {
     return {
       entities: [] as DeepEntity[],
-      selectedEntityId: null as null | number
+      selectedEntity: null as null | Entity,
+      matches: {} as { [key: string]: Array<Match> }
     }
   },
 
@@ -64,7 +83,6 @@ export default defineComponent({
     updateRootEntities(): void {
       EntityService.getEntities()
           .then((entities: DeepEntity[]) => this.entities = entities)
-          .catch(error => console.error(error))
     },
 
     createEntity(names: string[], parent: number | null): void {
@@ -78,7 +96,6 @@ export default defineComponent({
           .then(() => {
             this.updateRootEntities()
           })
-          .catch(error => console.error(error))
     },
 
     updateEntity(event: Event): void {
@@ -93,8 +110,21 @@ export default defineComponent({
       this.updateRootEntities()
     },
 
-    onSelectTreeItem(selectedEntityId: number): void {
-      this.selectedEntityId = selectedEntityId
+    storeSelectedEntityAndGetMatches(entity: Entity): void {
+      this.selectedEntity = entity
+
+      this.matches = {}
+
+      console.log(entity)
+
+      for (let name of entity.names) {
+        MatchesService.getMatches(name)
+            .then(matches => {
+              const newMatches = this.matches
+              newMatches[name] = matches
+              this.matches = newMatches
+            })
+      }
     }
   }
 })

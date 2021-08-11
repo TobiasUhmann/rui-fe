@@ -70,7 +70,8 @@ export default defineComponent({
   methods: {
     toggleAndEmitSelect(): void {
       this.extended = !this.extended
-      this.$emit('select', this.entity.id)
+
+      this.$emit('select', this.entity)
     },
 
     updateEntity(event: Event): void {
