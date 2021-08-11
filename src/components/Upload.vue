@@ -4,7 +4,6 @@
                  @overwrite="onConfirmUpload"/>
 
   <div>
-    <h1>Upload</h1>
     <form ref="form" @submit.prevent="onSubmit">
       <label for="nodesTxtUpload">Nodes TXT</label>
       <input id="nodesTxtUpload" type="file" name="nodesTxt">

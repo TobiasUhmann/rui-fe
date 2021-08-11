@@ -1,19 +1,33 @@
 <template>
-  <div>
-    <Upload @uploaded="updateRootEntities"/>
 
-    <h1>Taxonomy</h1>
-    <ul>
-      <TreeItem v-for="entity in entities" :key="entity.id"
-                :entity="entity"
-                @update="onUpdate"/>
+  <main v-if="entities.length === 0" class="upload-grid">
+    <h1 class="grid-header">Upload</h1>
 
-      <li>
-        <input @change="onCreate($event)"
-               placeholder="New root entity">
-      </li>
-    </ul>
-  </div>
+    <section class="grid-section">
+      <Upload @uploaded="updateRootEntities"/>
+    </section>
+  </main>
+
+  <main v-else class="taxonomy-grid">
+    <h1 class="grid-header">Taxonomy</h1>
+    <h1 class="grid-header">Matches</h1>
+
+    <section class="grid-section">
+      <ul>
+        <TreeItem v-for="entity in entities" :key="entity.id"
+                  :entity="entity"
+                  @update="onUpdate"/>
+
+        <li>
+          <input @change="onCreate($event)"
+                 placeholder="New root entity">
+        </li>
+      </ul>
+    </section>
+
+    <section class="grid-section">No entity selected</section>
+  </main>
+
 </template>
 
 <!-- TypeScript -->
@@ -84,10 +98,32 @@ export default defineComponent({
 
 <style scoped>
 
-/* Other */
+.taxonomy-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-column-gap: 32px;
 
-h1 {
-  margin: 0.5em auto;
+  max-width: 1000px;
+  margin: auto;
+}
+
+.upload-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+
+  max-width: 500px;
+  margin: auto;
+}
+
+.grid-header {
+  padding: 16px;
+  color: grey;
+  border-bottom: 1px solid grey;
+  text-align: center;
+}
+
+.grid-section {
+  padding: 16px;
 }
 
 </style>
