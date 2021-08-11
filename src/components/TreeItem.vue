@@ -3,21 +3,22 @@
 
     <!-- Editable, clickable entity name -->
     <input v-if="editing"
-           @change="onSaveEdit($event)"
+           @change="updateEntityAndStopEditing($event)"
            :value="entity.names.join(' | ')"/>
     <span v-else
           class="entity-name"
-          @click="onToggle">
+          :class="{selected: entity.id === selectedEntityId}"
+          @click="toggleAndEmitSelect">
       {{ entity.names.join(' | ') }}
     </span>
 
     <!-- Edit -->
-    <span class="edit" @click="onStartEdit">
+    <span class="edit" @click="editing = true">
       (edit)
     </span>
 
     <!-- Delete -->
-    <span class="delete" @click="onDelete">
+    <span class="delete" @click="deleteEntity">
       (delete)
     </span>
 
@@ -25,10 +26,12 @@
     <ul v-if="extended">
       <TreeItem v-for="(child, index) in entity.children" :key="index"
                 :entity="child"
-                @update="$emit('update', $event)"/>
+                :selected-entity-id="selectedEntityId"
+                @update="$emit('update', $event)"
+                @select="$emit('select', $event)"/>
 
       <li>
-        <input @change="onCreate($event)"
+        <input @change="updateEntity($event)"
                placeholder="New sub entity">
       </li>
     </ul>
@@ -53,7 +56,8 @@ export default defineComponent({
     entity: {
       type: Object as PropType<DeepEntity>,
       required: true
-    }
+    },
+    selectedEntityId: Number
   },
 
   data() {
@@ -64,11 +68,12 @@ export default defineComponent({
   },
 
   methods: {
-    onToggle(): void {
+    toggleAndEmitSelect(): void {
       this.extended = !this.extended
+      this.$emit('select', this.entity.id)
     },
 
-    onCreate(event: Event): void {
+    updateEntity(event: Event): void {
       const input = event.target as HTMLInputElement
 
       const entity: Entity = {
@@ -79,15 +84,9 @@ export default defineComponent({
 
       EntityService.postEntity(entity)
           .then(() => this.$emit('update'))
-
-      input.value = ''
     },
 
-    onStartEdit(): void {
-      this.editing = true
-    },
-
-    onSaveEdit(event: Event): void {
+    updateEntityAndStopEditing(event: Event): void {
       const input = event.target as HTMLInputElement
 
       const patchedEntity: Entity = {
@@ -102,7 +101,7 @@ export default defineComponent({
       this.editing = false
     },
 
-    onDelete(): void {
+    deleteEntity(): void {
       EntityService.deleteEntity(this.entity.id as number)
           .then(() => this.$emit('update'))
     }
@@ -142,6 +141,12 @@ li.extended::marker {
 
 .edit:hover, .delete:hover {
   color: grey;
+}
+
+/* Selected */
+
+.selected {
+  font-weight: bold;
 }
 
 </style>

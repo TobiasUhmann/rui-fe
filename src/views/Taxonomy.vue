@@ -16,7 +16,9 @@
       <ul>
         <TreeItem v-for="entity in entities" :key="entity.id"
                   :entity="entity"
-                  @update="onUpdate"/>
+                  :selected-entity-id="selectedEntityId"
+                  @update="onUpdate"
+                  @select="onSelectTreeItem($event)"/>
 
         <li>
           <input @change="onCreate($event)"
@@ -39,8 +41,8 @@ import {defineComponent} from 'vue'
 import DeepEntity from '@/models/DeepEntity'
 import Entity from '@/models/Entity'
 import EntityService from '@/services/EntityService'
-import Upload from '@/components/Upload.vue'
 import TreeItem from '@/components/TreeItem.vue'
+import Upload from '@/components/Upload.vue'
 
 export default defineComponent({
   name: 'Taxonomy',
@@ -49,7 +51,8 @@ export default defineComponent({
 
   data() {
     return {
-      entities: [] as DeepEntity[]
+      entities: [] as DeepEntity[],
+      selectedEntityId: null as null | number
     }
   },
 
@@ -78,7 +81,7 @@ export default defineComponent({
           .catch(error => console.error(error))
     },
 
-    onCreate(event: Event): void {
+    updateEntity(event: Event): void {
       const input = event.target as HTMLInputElement
 
       this.createEntity(input.value.split(' | '), null)
@@ -88,6 +91,10 @@ export default defineComponent({
 
     onUpdate(): void {
       this.updateRootEntities()
+    },
+
+    onSelectTreeItem(selectedEntityId: number): void {
+      this.selectedEntityId = selectedEntityId
     }
   }
 })
