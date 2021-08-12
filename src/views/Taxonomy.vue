@@ -37,10 +37,17 @@
 
     <section class="grid-section">
       <div v-for="(matches, name) of matches" :key="name">
-        <h2>{{ name }}</h2>
+        <h2 class="name-header">{{ name }}</h2>
 
-        <p v-for="(match, index) of matches" :key="index">
-          {{ match }}
+        <template v-if="matches.length > 0">
+          <p v-for="(match, index) of matches" :key="index"
+             class="mention">
+            {{ match.phrase_text }}
+          </p>
+        </template>
+
+        <p v-else class="no-matches">
+          No matches for this name
         </p>
       </div>
     </section>
@@ -161,6 +168,19 @@ export default defineComponent({
 
 .grid-section {
   padding: 16px;
+}
+
+.name-header {
+  margin: 12px 0;
+  font-size: 1.2em;
+}
+
+.mention {
+  margin: 12px 0;
+}
+
+.no-matches {
+  color: grey;
 }
 
 </style>
