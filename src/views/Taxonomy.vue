@@ -1,19 +1,63 @@
 <template>
-  <div>
-    <TaxonomyUpload @uploaded="updateTaxonomy"/>
 
-    <h1>Taxonomy</h1>
-    <ul>
-      <TreeItem v-for="rootEntity in taxonomy" :key="rootEntity.id"
-                :entity="rootEntity"
-                @update="onUpdate"/>
+  <!-- Upload -->
 
-      <li>
-        <input @change="onCreate($event)"
-               placeholder="New root entity">
-      </li>
-    </ul>
-  </div>
+  <main v-if="entities.length === 0" class="upload-grid">
+    <h1 class="grid-header">Upload</h1>
+
+    <section class="grid-section">
+      <Upload @uploaded="updateRootEntities"/>
+    </section>
+  </main>
+
+  <!-- Taxonomy & Matches -->
+
+  <main v-else class="taxonomy-grid">
+    <h1 class="grid-header">Taxonomy</h1>
+    <h1 class="grid-header">Matches</h1>
+
+    <!-- Taxonomy -->
+
+    <section class="grid-section">
+      <ul>
+        <TreeItem v-for="entity in entities" :key="entity.id"
+                  :entity="entity"
+                  :selected-entity-id="selectedEntity?.id"
+                  @update="updateRootEntities"
+                  @select="storeSelectedEntityAndGetMatches($event)"/>
+
+        <li>
+          <input @change="onCreate($event)"
+                 placeholder="New root entity">
+        </li>
+      </ul>
+    </section>
+
+    <!-- Matches -->
+
+    <section class="grid-section">
+      <div v-for="(matches, name) of nameToMatches" :key="name">
+        <h2 class="name-header">{{ name }}</h2>
+
+        <template v-if="matches.length > 0">
+          <p v-for="(match, index) of matches" :key="index"
+             class="phrase"
+             v-html="getMarkedPhrase(match)">
+          </p>
+
+          <a class="load-more-matches"
+             @click="loadMoreMatches(name)">
+            Load more
+          </a>
+        </template>
+
+        <p v-else class="no-matches">
+          No matches for this name
+        </p>
+      </div>
+    </section>
+  </main>
+
 </template>
 
 <!-- TypeScript -->
@@ -24,30 +68,33 @@ import {defineComponent} from 'vue'
 
 import DeepEntity from '@/models/DeepEntity'
 import Entity from '@/models/Entity'
-import TaxonomyService from '@/services/TaxonomyService'
-import TaxonomyUpload from '@/components/TaxonomyUpload.vue'
+import EntityService from '@/services/EntityService'
+import Match from '@/models/Match'
+import MatchesService from '@/services/MatchesService'
 import TreeItem from '@/components/TreeItem.vue'
+import Upload from '@/components/Upload.vue'
 
 export default defineComponent({
   name: 'Taxonomy',
 
-  components: {TaxonomyUpload, TreeItem},
+  components: {Upload, TreeItem},
 
   data() {
     return {
-      taxonomy: [] as DeepEntity[]
+      entities: [] as Array<DeepEntity>,
+      selectedEntity: null as null | Entity,
+      nameToMatches: {} as { [key: string]: Array<Match> }
     }
   },
 
   mounted() {
-    this.updateTaxonomy()
+    this.updateRootEntities()
   },
 
   methods: {
-    updateTaxonomy(): void {
-      TaxonomyService.getTaxonomy()
-          .then((taxonomy: DeepEntity[]) => this.taxonomy = taxonomy)
-          .catch(error => console.error(error))
+    updateRootEntities(): void {
+      EntityService.getEntities()
+          .then((entities: DeepEntity[]) => this.entities = entities)
     },
 
     createEntity(names: string[], parent: number | null): void {
@@ -57,14 +104,13 @@ export default defineComponent({
         parent: parent
       }
 
-      TaxonomyService.postEntity(entity)
+      EntityService.postEntity(entity)
           .then(() => {
-            this.updateTaxonomy()
+            this.updateRootEntities()
           })
-          .catch(error => console.error(error))
     },
 
-    onCreate(event: Event): void {
+    updateEntity(event: Event): void {
       const input = event.target as HTMLInputElement
 
       this.createEntity(input.value.split(' | '), null)
@@ -72,8 +118,57 @@ export default defineComponent({
       input.value = ''
     },
 
-    onUpdate(): void {
-      this.updateTaxonomy()
+    storeSelectedEntityAndGetMatches(entity: Entity): void {
+      this.selectedEntity = entity
+
+      this.getMatches(entity)
+    },
+
+    getMatches(entity: Entity): void {
+      this.nameToMatches = {}
+
+      for (let name of entity.names) {
+        MatchesService.getMatches(name)
+            .then(matches => {
+              console.log(matches)
+              const matchesDict = this.nameToMatches
+              matchesDict[name] = matches
+              this.nameToMatches = matchesDict
+            })
+      }
+    },
+
+    loadMoreMatches(name: string): void {
+      const existingMatches = this.nameToMatches[name]
+
+      MatchesService.getMatches(name, existingMatches.length)
+          .then(matches => {
+            const matchesDict = this.nameToMatches
+            matchesDict[name] = [...existingMatches, ...matches]
+            this.nameToMatches = matchesDict
+          })
+    },
+
+    getMarkedPhrase(match: Match): string {
+      const phrase = match.phrase_text
+      const mentionTokens = match.mention.split(' ')
+
+      let html = ''
+      let pos = 0
+
+      for (let token of mentionTokens) {
+        const phraseFromPos = phrase.substring(pos)
+
+        const tokenStart = phraseFromPos.indexOf(token)
+        const tokenEnd = tokenStart + token.length
+
+        html += phraseFromPos.substring(0, tokenStart)
+            + '<span class="mention">' + phraseFromPos.substring(tokenStart, tokenEnd) + '</span>'
+
+        pos += tokenEnd
+      }
+
+      return html + phrase.substring(pos)
     }
   }
 })
@@ -84,10 +179,56 @@ export default defineComponent({
 
 <style scoped>
 
-/* Other */
+.taxonomy-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-column-gap: 32px;
 
-h1 {
-  margin: 0.5em auto;
+  max-width: 1000px;
+  margin: auto;
+}
+
+.upload-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+
+  max-width: 500px;
+  margin: auto;
+}
+
+.grid-header {
+  padding: 16px;
+  color: grey;
+  border-bottom: 1px solid grey;
+  text-align: center;
+}
+
+.grid-section {
+  padding: 16px;
+}
+
+.name-header {
+  margin: 12px 0;
+  font-size: 1.2em;
+}
+
+.phrase {
+  margin: 12px 0;
+}
+
+.phrase >>> .mention {
+  color: red;
+  font-weight: bold;
+}
+
+.no-matches {
+  color: grey;
+}
+
+.load-more-matches {
+  color: grey;
+  text-decoration: underline;
+  cursor: pointer;
 }
 
 </style>

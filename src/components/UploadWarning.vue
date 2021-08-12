@@ -8,7 +8,7 @@
       </header>
 
       <main class="modal-content">
-        <p class="message">Uploading a new taxonomy will <b>overwrite</b> the existing one!</p>
+        <p class="message">Uploading will <b>overwrite</b> the existing taxonomy and matches!</p>
         <div class="buttons">
           <button class="button cancel" @click="onCancel">Cancel</button>
           <button class="button continue" @click="onOverwrite">Overwrite</button>
@@ -26,7 +26,7 @@
 import {defineComponent} from 'vue'
 
 export default defineComponent({
-  name: 'TaxonomyUploadWarning',
+  name: 'UploadWarning',
 
   methods: {
     onCancel(): void {

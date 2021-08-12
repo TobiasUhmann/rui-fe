@@ -1,10 +1,9 @@
 <template>
-  <TaxonomyUploadWarning :class="[showUploadWarning ? 'd-block' : 'd-none']"
-                         @cancel="onCancelUpload"
-                         @overwrite="onConfirmUpload"/>
+  <UploadWarning :class="[showUploadWarning ? 'd-block' : 'd-none']"
+                 @cancel="onCancelUpload"
+                 @overwrite="onConfirmUpload"/>
 
   <div>
-    <h1>Taxonomy Upload</h1>
     <form ref="form" @submit.prevent="onSubmit">
       <label for="nodesTxtUpload">Nodes TXT</label>
       <input id="nodesTxtUpload" type="file" name="nodesTxt">
@@ -14,6 +13,9 @@
 
       <label for="metaYmlUpload">Meta YML</label>
       <input id="metaYmlUpload" type="file" name="metaYml">
+
+      <label for="matchTxtUpload">Match TXT</label>
+      <input id="matchTxtUpload" type="file" name="matchTxt">
 
       <input type="submit" value="Upload"/>
     </form>
@@ -26,13 +28,13 @@
 
 import {defineComponent} from 'vue'
 
-import TaxonomyService from '@/services/TaxonomyService'
-import TaxonomyUploadWarning from '@/components/TaxonomyUploadWarning.vue'
+import UploadWarning from '@/components/UploadWarning.vue'
+import UploadService from '@/services/UploadService'
 
 export default defineComponent({
-  name: 'TaxonomyUpload',
+  name: 'Upload',
 
-  components: {TaxonomyUploadWarning},
+  components: {UploadWarning},
 
   emits: ['uploaded'],
 
@@ -55,7 +57,7 @@ export default defineComponent({
       const form = this.$refs.form as HTMLFormElement
 
       const formData = new FormData(form)
-      TaxonomyService.putTaxonomy(formData)
+      UploadService.putUpload(formData)
           .then(() => this.$emit('uploaded'))
 
       this.showUploadWarning = false
