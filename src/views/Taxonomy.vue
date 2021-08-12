@@ -41,8 +41,8 @@
 
         <template v-if="matches.length > 0">
           <p v-for="(match, index) of matches" :key="index"
-             class="mention">
-            {{ match.phrase_text }}
+             class="phrase"
+             v-html="getMarkedPhrase(match)">
           </p>
         </template>
 
@@ -132,6 +132,28 @@ export default defineComponent({
               this.matches = newMatches
             })
       }
+    },
+
+    getMarkedPhrase(match: Match): string {
+      const phrase = match.phrase_text
+      const mentionTokens = match.mention.split(' ')
+
+      let html = ''
+      let pos = 0
+
+      for (let token of mentionTokens) {
+        const phraseFromPos = phrase.substring(pos)
+
+        const tokenStart = phraseFromPos.indexOf(token)
+        const tokenEnd = tokenStart + token.length
+
+        html += phraseFromPos.substring(0, tokenStart)
+            + '<span class="mention">' + phraseFromPos.substring(tokenStart, tokenEnd) + '</span>'
+
+        pos += tokenEnd
+      }
+
+      return html + phrase.substring(pos)
     }
   }
 })
@@ -175,8 +197,13 @@ export default defineComponent({
   font-size: 1.2em;
 }
 
-.mention {
+.phrase {
   margin: 12px 0;
+}
+
+.phrase >>> .mention {
+  color: red;
+  font-weight: bold;
 }
 
 .no-matches {
