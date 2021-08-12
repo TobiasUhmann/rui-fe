@@ -36,7 +36,7 @@
     <!-- Matches -->
 
     <section class="grid-section">
-      <div v-for="(matches, name) of matches" :key="name">
+      <div v-for="(matches, name) of matchesDict" :key="name">
         <h2 class="name-header">{{ name }}</h2>
 
         <template v-if="matches.length > 0">
@@ -44,6 +44,11 @@
              class="phrase"
              v-html="getMarkedPhrase(match)">
           </p>
+
+          <a class="load-more-matches"
+             @click="loadMoreMatches(name)">
+            Load more
+          </a>
         </template>
 
         <p v-else class="no-matches">
@@ -78,7 +83,7 @@ export default defineComponent({
     return {
       entities: [] as DeepEntity[],
       selectedEntity: null as null | Entity,
-      matches: {} as { [key: string]: Array<Match> }
+      matchesDict: {} as { [key: string]: Array<Match> }
     }
   },
 
@@ -120,18 +125,32 @@ export default defineComponent({
     storeSelectedEntityAndGetMatches(entity: Entity): void {
       this.selectedEntity = entity
 
-      this.matches = {}
+      this.getMatches(entity)
+    },
 
-      console.log(entity)
+    getMatches(entity: Entity): void {
+      this.matchesDict = {}
 
       for (let name of entity.names) {
         MatchesService.getMatches(name)
             .then(matches => {
-              const newMatches = this.matches
-              newMatches[name] = matches
-              this.matches = newMatches
+              console.log(matches)
+              const matchesDict = this.matchesDict
+              matchesDict[name] = matches
+              this.matchesDict = matchesDict
             })
       }
+    },
+
+    loadMoreMatches(name: string): void {
+      const existingMatches = this.matchesDict[name]
+
+      MatchesService.getMatches(name, existingMatches.length)
+          .then(matches => {
+            const matchesDict = this.matchesDict
+            matchesDict[name] = [...existingMatches, ...matches]
+            this.matchesDict = matchesDict
+          })
     },
 
     getMarkedPhrase(match: Match): string {
@@ -208,6 +227,12 @@ export default defineComponent({
 
 .no-matches {
   color: grey;
+}
+
+.load-more-matches {
+  color: grey;
+  text-decoration: underline;
+  cursor: pointer;
 }
 
 </style>
