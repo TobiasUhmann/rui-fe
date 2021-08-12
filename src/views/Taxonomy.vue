@@ -23,7 +23,7 @@
         <TreeItem v-for="entity in entities" :key="entity.id"
                   :entity="entity"
                   :selected-entity-id="selectedEntity?.id"
-                  @update="onUpdate"
+                  @update="updateRootEntities"
                   @select="storeSelectedEntityAndGetMatches($event)"/>
 
         <li>
@@ -36,7 +36,7 @@
     <!-- Matches -->
 
     <section class="grid-section">
-      <div v-for="(matches, name) of matchesDict" :key="name">
+      <div v-for="(matches, name) of nameToMatches" :key="name">
         <h2 class="name-header">{{ name }}</h2>
 
         <template v-if="matches.length > 0">
@@ -81,9 +81,9 @@ export default defineComponent({
 
   data() {
     return {
-      entities: [] as DeepEntity[],
+      entities: [] as Array<DeepEntity>,
       selectedEntity: null as null | Entity,
-      matchesDict: {} as { [key: string]: Array<Match> }
+      nameToMatches: {} as { [key: string]: Array<Match> }
     }
   },
 
@@ -118,10 +118,6 @@ export default defineComponent({
       input.value = ''
     },
 
-    onUpdate(): void {
-      this.updateRootEntities()
-    },
-
     storeSelectedEntityAndGetMatches(entity: Entity): void {
       this.selectedEntity = entity
 
@@ -129,27 +125,27 @@ export default defineComponent({
     },
 
     getMatches(entity: Entity): void {
-      this.matchesDict = {}
+      this.nameToMatches = {}
 
       for (let name of entity.names) {
         MatchesService.getMatches(name)
             .then(matches => {
               console.log(matches)
-              const matchesDict = this.matchesDict
+              const matchesDict = this.nameToMatches
               matchesDict[name] = matches
-              this.matchesDict = matchesDict
+              this.nameToMatches = matchesDict
             })
       }
     },
 
     loadMoreMatches(name: string): void {
-      const existingMatches = this.matchesDict[name]
+      const existingMatches = this.nameToMatches[name]
 
       MatchesService.getMatches(name, existingMatches.length)
           .then(matches => {
-            const matchesDict = this.matchesDict
+            const matchesDict = this.nameToMatches
             matchesDict[name] = [...existingMatches, ...matches]
-            this.matchesDict = matchesDict
+            this.nameToMatches = matchesDict
           })
     },
 
