@@ -74,8 +74,14 @@ h2 {
 
 a {
   margin: 8px;
+
   color: black;
+  font-size: 1.2em;
   text-decoration: none;
+}
+
+a.router-link-exact-active {
+  font-weight: bold;
 }
 
 /* LAVIS Logo */
