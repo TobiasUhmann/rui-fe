@@ -175,6 +175,17 @@ export default defineComponent({
   margin: auto;
 }
 
+.grid-header {
+  padding: 16px;
+  color: grey;
+  border-bottom: 1px solid grey;
+  text-align: center;
+}
+
+.grid-section {
+  padding: 16px;
+}
+
 .name-header {
   margin: 12px 0;
   font-size: 1.2em;

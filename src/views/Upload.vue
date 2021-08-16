@@ -4,29 +4,29 @@
                  @cancel="showUploadWarning = false"
                  @overwrite="uploadAndRedirect"/>
 
-  <main class="upload-grid">
-    <h1 class="grid-header">Upload</h1>
+  <form class="upload-form"
+        ref="form"
+        @submit.prevent="showUploadWarning = true">
 
-    <section class="grid-section">
-      <form ref="form" @submit.prevent="showUploadWarning = true">
+    <label for="nodesTxtUpload">Nodes TXT</label>
+    <input id="nodesTxtUpload" class="upload-form-input"
+           type="file" name="nodesTxt">
 
-        <label for="nodesTxtUpload">Nodes TXT</label>
-        <input id="nodesTxtUpload" type="file" name="nodesTxt">
+    <label for="edgesTxtUpload">Edges TXT</label>
+    <input id="edgesTxtUpload" class="upload-form-input"
+           type="file" name="edgesTxt">
 
-        <label for="edgesTxtUpload">Edges TXT</label>
-        <input id="edgesTxtUpload" type="file" name="edgesTxt">
+    <label for="metaYmlUpload">Meta YML</label>
+    <input id="metaYmlUpload" class="upload-form-input"
+           type="file" name="metaYml">
 
-        <label for="metaYmlUpload">Meta YML</label>
-        <input id="metaYmlUpload" type="file" name="metaYml">
+    <label for="matchTxtUpload">Match TXT</label>
+    <input id="matchTxtUpload" class="upload-form-input"
+           type="file" name="matchTxt">
 
-        <label for="matchTxtUpload">Match TXT</label>
-        <input id="matchTxtUpload" type="file" name="matchTxt">
-
-        <input type="submit" value="Upload"/>
-
-      </form>
-    </section>
-  </main>
+    <input type="submit" class="upload-form-input"
+           value="Upload"/>
+  </form>
 
 </template>
 
@@ -74,25 +74,7 @@ export default defineComponent({
 
 <style scoped>
 
-.upload-grid {
-  display: grid;
-  grid-template-columns: 1fr;
-
-  max-width: 500px;
-  margin: auto;
-}
-
-form {
-  display: grid;
-  grid-template-columns: 100px 200px;
-  grid-gap: 16px;
-}
-
-input {
-  grid-column: 2;
-}
-
-/* Modal */
+/* Upload Warning Modal */
 
 .d-none {
   display: none;
@@ -100,6 +82,26 @@ input {
 
 .d-block {
   display: block;
+}
+
+/* Form Position */
+
+.upload-form {
+  margin: 32px auto;
+}
+
+/* Form Layout */
+
+.upload-form {
+  display: grid;
+  grid-template-columns: 100px 1fr;
+  grid-gap: 16px;
+
+  width: 360px;
+}
+
+.upload-form-input {
+  grid-column: 2;
 }
 
 </style>
