@@ -7,6 +7,7 @@
     </div>
 
     <nav>
+      <router-link to="/upload">Upload</router-link>
       <router-link to="/taxonomy">Taxonomy</router-link>
     </nav>
 
