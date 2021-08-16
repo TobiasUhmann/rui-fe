@@ -7,7 +7,6 @@
     </div>
 
     <nav>
-      <router-link to="/explore">Explore</router-link>
       <router-link to="/taxonomy">Taxonomy</router-link>
     </nav>
 

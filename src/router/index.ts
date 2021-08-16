@@ -6,11 +6,6 @@ const routes: Array<RouteRecordRaw> = [
         redirect: '/taxonomy'
     },
     {
-        path: '/explore',
-        name: 'Explore',
-        component: () => import(/* webpackChunkName: 'explore' */ '../views/Explore.vue')
-    },
-    {
         path: '/taxonomy',
         name: 'Taxonomy',
         component: () => import(/* webpackChunkName: 'taxonomy' */ '../views/Taxonomy.vue')
