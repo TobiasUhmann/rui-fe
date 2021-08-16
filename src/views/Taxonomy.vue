@@ -1,18 +1,6 @@
 <template>
 
-  <!-- Upload -->
-
-  <main v-if="entities.length === 0" class="upload-grid">
-    <h1 class="grid-header">Upload</h1>
-
-    <section class="grid-section">
-      <Upload @uploaded="updateRootEntities"/>
-    </section>
-  </main>
-
-  <!-- Taxonomy & Matches -->
-
-  <main v-else class="taxonomy-grid">
+  <main class="taxonomy-grid">
     <h1 class="grid-header">Taxonomy</h1>
     <h1 class="grid-header">Matches</h1>
 
@@ -72,12 +60,11 @@ import EntityService from '@/services/EntityService'
 import Match from '@/models/Match'
 import MatchesService from '@/services/MatchesService'
 import TreeItem from '@/components/TreeItem.vue'
-import Upload from '@/components/Upload.vue'
 
 export default defineComponent({
   name: 'Taxonomy',
 
-  components: {Upload, TreeItem},
+  components: {TreeItem},
 
   data() {
     return {
@@ -186,25 +173,6 @@ export default defineComponent({
 
   max-width: 1000px;
   margin: auto;
-}
-
-.upload-grid {
-  display: grid;
-  grid-template-columns: 1fr;
-
-  max-width: 500px;
-  margin: auto;
-}
-
-.grid-header {
-  padding: 16px;
-  color: grey;
-  border-bottom: 1px solid grey;
-  text-align: center;
-}
-
-.grid-section {
-  padding: 16px;
 }
 
 .name-header {

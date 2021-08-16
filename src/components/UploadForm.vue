@@ -32,7 +32,7 @@ import UploadWarning from '@/components/UploadWarning.vue'
 import UploadService from '@/services/UploadService'
 
 export default defineComponent({
-  name: 'Upload',
+  name: 'UploadForm',
 
   components: {UploadWarning},
 
