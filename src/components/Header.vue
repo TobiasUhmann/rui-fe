@@ -7,8 +7,7 @@
     </div>
 
     <nav>
-      <router-link to="/dashboard">Dashboard</router-link>
-      <router-link to="/explore">Explore</router-link>
+      <router-link to="/upload">Upload</router-link>
       <router-link to="/taxonomy">Taxonomy</router-link>
     </nav>
 
@@ -75,8 +74,14 @@ h2 {
 
 a {
   margin: 8px;
+
   color: black;
+  font-size: 1.2em;
   text-decoration: none;
+}
+
+a.router-link-exact-active {
+  font-weight: bold;
 }
 
 /* LAVIS Logo */

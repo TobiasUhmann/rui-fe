@@ -3,17 +3,12 @@ import {createRouter, createWebHistory, RouteRecordRaw} from 'vue-router'
 const routes: Array<RouteRecordRaw> = [
     {
         path: '/',
-        redirect: '/dashboard'
+        redirect: '/upload'
     },
     {
-        path: '/dashboard',
-        name: 'Dashboard',
-        component: () => import(/* webpackChunkName: 'dashboard' */ '../views/Dashboard.vue')
-    },
-    {
-        path: '/explore',
-        name: 'Explore',
-        component: () => import(/* webpackChunkName: 'explore' */ '../views/Explore.vue')
+        path: '/upload',
+        name: 'Upload',
+        component: () => import(/* webpackChunkName: 'upload' */ '../views/Upload.vue')
     },
     {
         path: '/taxonomy',

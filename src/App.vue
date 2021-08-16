@@ -48,8 +48,4 @@ export default {
 
 /* */
 
-main {
-  padding: 12px;
-}
-
 </style>
