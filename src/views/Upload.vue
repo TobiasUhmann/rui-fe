@@ -8,11 +8,12 @@
         ref="form"
         @submit.prevent="showUploadWarning = true">
 
-    <label for="symptaxCoreZipInput">Symptax Core ZIP</label>
-    <input id="symptaxCoreZipInput" class="upload-form-input"
-           type="file" name="symptaxCoreZip">
+    <label for="symptaxUploadZip">Symptax Upload ZIP</label>
+    <input id="symptaxUploadZip" class="upload-form-input"
+           type="file" name="symptaxUploadZip">
 
-    <input type="submit" class="upload-form-input"
+    <input class="upload-form-input"
+           type="submit"
            value="Upload"/>
   </form>
 

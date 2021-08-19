@@ -1,38 +1,32 @@
 <template>
   <li :class="[extended ? 'extended' : 'collapsed']">
 
-    <!-- Editable, clickable entity name -->
-    <input v-if="editing"
-           @change="updateEntityAndStopEditing($event)"
-           :value="entity.names.join(' | ')"/>
-    <span v-else
-          class="entity-name"
-          :class="{selected: entity.id === selectedEntityId}"
-          @click="toggleAndEmitSelect">
-      {{ entity.names.join(' | ') }}
-    </span>
+    <!-- Node name -->
 
-    <!-- Edit -->
-    <span class="edit" @click="editing = true">
-      (edit)
+    <span class="node-name"
+          :class="{selected: node.id === selectedNodeId}"
+          @click="toggleAndEmitSelect">
+      {{ `${node.entities[0].name} (+${node.entities.length - 1})` }}
     </span>
 
     <!-- Delete -->
-    <span class="delete" @click="deleteEntity">
+
+    <span class="delete" @click="deleteNode">
       (delete)
     </span>
 
-    <!-- Child entities & Input new child entity-->
+    <!-- Child nodes & Input new child node-->
+
     <ul v-if="extended">
-      <TreeItem v-for="(child, index) in entity.children" :key="index"
-                :entity="child"
-                :selected-entity-id="selectedEntityId"
+      <TreeItem v-for="(child, index) in node.children" :key="index"
+                :node="child"
+                :selected-node-id="selectedNodeId"
                 @update="$emit('update', $event)"
                 @select="$emit('select', $event)"/>
 
       <li>
-        <input @change="updateEntity($event)"
-               placeholder="New sub entity">
+        <input placeholder="New child node"
+               @change="createNode($event)">
       </li>
     </ul>
 
@@ -45,25 +39,25 @@
 
 import {defineComponent, PropType} from 'vue'
 
-import DeepEntity from '@/models/DeepEntity'
-import Entity from '@/models/Entity'
-import EntityService from '@/services/EntityService'
+import DeepNode from '@/models/node/DeepNode'
+import NodeService from '@/services/NodeService'
+import PostNode from '@/models/node/PostNode'
+import PostNodeEntity from '@/models/entity/PostNodeEntity'
 
 export default defineComponent({
   name: 'TreeItem',
 
   props: {
-    entity: {
-      type: Object as PropType<DeepEntity>,
+    node: {
+      type: Object as PropType<DeepNode>,
       required: true
     },
-    selectedEntityId: Number
+    selectedNodeId: Number
   },
 
   data() {
     return {
-      extended: false,
-      editing: false
+      extended: false
     }
   },
 
@@ -71,39 +65,28 @@ export default defineComponent({
     toggleAndEmitSelect(): void {
       this.extended = !this.extended
 
-      this.$emit('select', this.entity)
+      this.$emit('select', this.node)
     },
 
-    updateEntity(event: Event): void {
+    createNode(event: Event): void {
       const input = event.target as HTMLInputElement
 
-      const entity: Entity = {
-        id: 0,
-        names: input.value.split(' | '),
-        parent: this.entity.id
+      const entityNames = input.value.split(' | ')
+      const postNodeEntities = entityNames.map<PostNodeEntity>(name => {
+        return {name}
+      })
+
+      const postNode: PostNode = {
+        parentId: this.node.id,
+        entities: postNodeEntities
       }
 
-      EntityService.postEntity(entity)
+      NodeService.postNode(postNode)
           .then(() => this.$emit('update'))
     },
 
-    updateEntityAndStopEditing(event: Event): void {
-      const input = event.target as HTMLInputElement
-
-      const patchedEntity: Entity = {
-        ...this.entity,
-
-        names: input.value.split(' | ')
-      }
-
-      EntityService.putEntity(patchedEntity)
-          .then(() => this.$emit('update'))
-
-      this.editing = false
-    },
-
-    deleteEntity(): void {
-      EntityService.deleteEntity(this.entity.id as number)
+    deleteNode(): void {
+      NodeService.deleteNode(this.node.id)
           .then(() => this.$emit('update'))
     }
   }
@@ -115,7 +98,7 @@ export default defineComponent({
 
 <style scoped>
 
-.entity-name {
+.node-name {
   cursor: pointer;
 }
 
@@ -135,12 +118,12 @@ li.extended::marker {
 
 /* Edit, delete */
 
-.edit, .delete {
+.delete {
   color: lightgrey;
   cursor: pointer;
 }
 
-.edit:hover, .delete:hover {
+.delete:hover {
   color: grey;
 }
 

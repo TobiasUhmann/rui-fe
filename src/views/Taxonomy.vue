@@ -8,15 +8,15 @@
 
     <section class="grid-section">
       <ul>
-        <TreeItem v-for="entity in entities" :key="entity.id"
-                  :entity="entity"
-                  :selected-entity-id="selectedEntity?.id"
-                  @update="updateRootEntities"
-                  @select="storeSelectedEntityAndGetMatches($event)"/>
+        <TreeItem v-for="node in nodes" :key="node.id"
+                  :node="node"
+                  :selected-node-id="selectedNode?.id"
+                  @update="updateTaxonomy"
+                  @select="storeSelectedNodeAndLoadMatches($event)"/>
 
         <li>
-          <input @change="onCreate($event)"
-                 placeholder="New root entity">
+          <input @change="createNode($event)"
+                 placeholder="New root node">
         </li>
       </ul>
     </section>
@@ -24,17 +24,17 @@
     <!-- Matches -->
 
     <section class="grid-section">
-      <div v-for="(matches, name) of nameToMatches" :key="name">
-        <h2 class="name-header">{{ name }}</h2>
+      <div v-for="(matches, entity) of entityToMatches" :key="entity">
+        <h2 class="name-header">{{ entityToName[entity] }}</h2>
 
         <template v-if="matches.length > 0">
           <p v-for="(match, index) of matches" :key="index"
              class="phrase"
-             v-html="getMarkedPhrase(match)">
+             v-html="getMarkedContext(match)">
           </p>
 
           <a class="load-more-matches"
-             @click="loadMoreMatches(name)">
+             @click="loadMoreMatches(entity)">
             Load more
           </a>
         </template>
@@ -54,11 +54,13 @@
 
 import {defineComponent} from 'vue'
 
-import DeepEntity from '@/models/DeepEntity'
-import Entity from '@/models/Entity'
-import EntityService from '@/services/EntityService'
-import Match from '@/models/Match'
-import MatchesService from '@/services/MatchesService'
+import DeepNode from '@/models/node/DeepNode'
+import Match from '@/models/match/Match'
+import MatchService from '@/services/MatchService'
+import Node from '@/models/node/Node'
+import NodeService from '@/services/NodeService'
+import PostNode from '@/models/node/PostNode'
+import PostNodeEntity from '@/models/entity/PostNodeEntity'
 import TreeItem from '@/components/TreeItem.vue'
 
 export default defineComponent({
@@ -68,94 +70,90 @@ export default defineComponent({
 
   data() {
     return {
-      entities: [] as Array<DeepEntity>,
-      selectedEntity: null as null | Entity,
-      nameToMatches: {} as { [key: string]: Array<Match> }
+      nodes: [] as DeepNode[],
+      selectedNode: null as null | Node,
+      entityToName: {} as { [key: number]: string },
+      entityToMatches: {} as { [key: number]: Match[] }
     }
   },
 
   mounted() {
-    this.updateRootEntities()
+    this.updateTaxonomy()
   },
 
   methods: {
-    updateRootEntities(): void {
-      EntityService.getEntities()
-          .then((entities: DeepEntity[]) => this.entities = entities)
+    updateTaxonomy(): void {
+      NodeService.getNodes().then((nodes: DeepNode[]) => this.nodes = nodes)
     },
 
-    createEntity(names: string[], parent: number | null): void {
-      const entity: Entity = {
-        id: null,
-        names: names,
-        parent: parent
-      }
-
-      EntityService.postEntity(entity)
-          .then(() => {
-            this.updateRootEntities()
-          })
-    },
-
-    updateEntity(event: Event): void {
+    createNode(event: Event): void {
       const input = event.target as HTMLInputElement
 
-      this.createEntity(input.value.split(' | '), null)
+      const entityNames = input.value.split(' | ')
+      const postNodeEntities = entityNames.map<PostNodeEntity>(name => {
+        return {name}
+      })
+
+      const postNode: PostNode = {
+        parentId: null,
+        entities: postNodeEntities
+      }
+
+      NodeService.postNode(postNode)
+          .then(() => this.updateTaxonomy())
 
       input.value = ''
     },
 
-    storeSelectedEntityAndGetMatches(entity: Entity): void {
-      this.selectedEntity = entity
+    storeSelectedNodeAndLoadMatches(node: Node): void {
+      this.selectedNode = node
 
-      this.getMatches(entity)
-    },
+      this.entityToName = {}
+      this.entityToMatches = {}
 
-    getMatches(entity: Entity): void {
-      this.nameToMatches = {}
-
-      for (let name of entity.names) {
-        MatchesService.getMatches(name)
-            .then(matches => {
-              console.log(matches)
-              const matchesDict = this.nameToMatches
-              matchesDict[name] = matches
-              this.nameToMatches = matchesDict
-            })
+      for (let entity of node.entities) {
+        MatchService.getMatches(entity.id).then((matches: Match[]) => {
+          this.entityToName[entity.id] = entity.name
+          this.entityToMatches[entity.id] = matches
+        })
       }
     },
 
-    loadMoreMatches(name: string): void {
-      const existingMatches = this.nameToMatches[name]
+    loadMoreMatches(entityId: number): void {
+      const existingEntityMatches = this.entityToMatches[entityId]
 
-      MatchesService.getMatches(name, existingMatches.length)
-          .then(matches => {
-            const matchesDict = this.nameToMatches
-            matchesDict[name] = [...existingMatches, ...matches]
-            this.nameToMatches = matchesDict
-          })
+      MatchService.getMatches(entityId, existingEntityMatches.length).then((matches: Match[]) => {
+        const entityToMatches = this.entityToMatches
+        entityToMatches[entityId] = [...existingEntityMatches, ...matches]
+        this.entityToMatches = entityToMatches
+      })
     },
 
-    getMarkedPhrase(match: Match): string {
-      const phrase = match.phrase_text
-      const mentionTokens = match.mention.split(' ')
+    getMarkedContext(match: Match): string {
+      let markTokens: number[] = []
 
-      let html = ''
-      let pos = 0
+      for (let i = 0; i < match.mentionIndexes.length; i += 2) {
+        const from = match.mentionIndexes[i]
+        const until = match.mentionIndexes[i + 1]
 
-      for (let token of mentionTokens) {
-        const phraseFromPos = phrase.substring(pos)
-
-        const tokenStart = phraseFromPos.indexOf(token)
-        const tokenEnd = tokenStart + token.length
-
-        html += phraseFromPos.substring(0, tokenStart)
-            + '<span class="mention">' + phraseFromPos.substring(tokenStart, tokenEnd) + '</span>'
-
-        pos += tokenEnd
+        for (let j = from; j < until; j++) {
+          markTokens.push(j)
+        }
       }
 
-      return html + phrase.substring(pos)
+      const contextTokens = match.context.split(' ')
+      let htmlTokens: string[] = []
+
+      for (let i = 0; i < contextTokens.length; i++) {
+
+        if (markTokens.indexOf(i) !== -1) {
+          htmlTokens.push('<span class="mention">' + contextTokens[i] + '</span>')
+        } else {
+          htmlTokens.push(contextTokens[i])
+        }
+      }
+
+      return htmlTokens.join(' ')
     }
   }
 })
