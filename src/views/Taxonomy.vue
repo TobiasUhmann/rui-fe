@@ -54,10 +54,10 @@
 
 import {defineComponent} from 'vue'
 
-import DeepNode from '@/models/DeepNode'
-import Match from '@/models/Match'
+import DeepNode from '@/models/node/DeepNode'
+import Match from '@/models/match/Match'
 import MatchService from '@/services/MatchService'
-import Node from '@/models/Node'
+import Node from '@/models/node/Node'
 import NodeService from '@/services/NodeService'
 import TreeItem from '@/components/TreeItem.vue'
 

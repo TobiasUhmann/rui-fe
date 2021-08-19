@@ -45,8 +45,8 @@
 
 import {defineComponent, PropType} from 'vue'
 
-import DeepNode from '@/models/DeepNode'
-import Node from '@/models/Node'
+import DeepNode from '@/models/node/DeepNode'
+import Node from '@/models/node/Node'
 import NodeService from '@/services/NodeService'
 
 export default defineComponent({
