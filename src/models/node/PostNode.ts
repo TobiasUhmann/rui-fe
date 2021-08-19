@@ -1,6 +1,6 @@
 import PostNodeEntity from '@/models/entity/PostNodeEntity'
-import NodePatch from '@/models/node/NodePatch'
 
-export default interface PostNode extends NodePatch{
+export default interface PostNode {
+    parent: number,
     entities: PostNodeEntity[]
 }

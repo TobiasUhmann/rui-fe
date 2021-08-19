@@ -1,5 +1,5 @@
-import PostEntity from '@/models/entity/PostEntity'
-
-export default interface Entity extends PostEntity {
+export default interface Entity {
+    name: string,
+    node: number,
     id: number
 }

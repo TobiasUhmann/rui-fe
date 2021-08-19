@@ -1,7 +1,8 @@
-import Node from '@/models/node/Node'
 import Entity from '@/models/entity/Entity'
 
-export default interface DeepNode extends Node {
+export default interface DeepNode {
+    id: number,
+    parent: number,
     children: DeepNode[],
     entities: Entity[]
 }

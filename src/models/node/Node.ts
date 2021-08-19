@@ -1,5 +1,7 @@
-import PostNode from '@/models/node/PostNode'
+import Entity from '@/models/entity/Entity'
 
-export default interface Node extends PostNode {
-    id: number
+export default interface Node {
+    id: number,
+    parent: number,
+    entities: Entity[]
 }
