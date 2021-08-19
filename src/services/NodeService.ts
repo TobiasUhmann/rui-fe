@@ -1,5 +1,6 @@
 import DeepNode from '@/models/node/DeepNode'
-import Node from '@/models/node/Node'
+import PostNode from '@/models/node/PostNode'
+import NodePatch from "@/models/node/NodePatch";
 
 export default {
 
@@ -13,39 +14,27 @@ export default {
             .catch(error => console.error(error))
     },
 
-    postNode(node: Node): Promise<void> {
+    postNode(postNode: PostNode): Promise<void> {
         const fetchOptions = {
             method: 'POST',
-
-            headers: {
-                'Content-Type': 'application/json'
-            },
-
-            body: JSON.stringify(node)
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(postNode)
         }
 
         return fetch(`${process.env.VUE_APP_API_URL}/nodes`, fetchOptions)
-            .then(response => {
-                console.debug(response)
-            })
+            .then(response => console.debug(response))
             .catch(error => console.error(error))
     },
 
-    putNode(node: Node): Promise<void> {
+    patchNode(nodePatch: NodePatch): Promise<void> {
         const fetchOptions = {
             method: 'PUT',
-
-            headers: {
-                'Content-Type': 'application/json'
-            },
-
-            body: JSON.stringify(node)
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(nodePatch)
         }
 
         return fetch(`${process.env.VUE_APP_API_URL}/nodes`, fetchOptions)
-            .then(response => {
-                console.debug(response)
-            })
+            .then(response => console.debug(response))
             .catch(error => console.error(error))
     },
 
@@ -55,9 +44,7 @@ export default {
         }
 
         return fetch(`${process.env.VUE_APP_API_URL}/nodes/${nodeId}`, fetchOptions)
-            .then(response => {
-                console.debug(response)
-            })
+            .then(response => console.debug(response))
             .catch(error => console.error(error))
     }
 }

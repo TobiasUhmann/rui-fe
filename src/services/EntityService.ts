@@ -1,63 +1,26 @@
-import DeepNode from '@/models/node/DeepNode'
-import Node from '@/models/node/Node'
+import PostEntity from '@/models/entity/PostEntity'
 
 export default {
 
-    getNodes(): Promise<DeepNode[]> {
-        return fetch(`${process.env.VUE_APP_API_URL}/nodes`)
-            .then(response => {
-                console.debug(response)
-                return response.json()
-            })
-            .then(data => data.rootNodes)
-            .catch(error => console.error(error))
-    },
-
-    postNode(node: Node): Promise<void> {
+    postEntity(postEntity: PostEntity): Promise<void> {
         const fetchOptions = {
             method: 'POST',
-
-            headers: {
-                'Content-Type': 'application/json'
-            },
-
-            body: JSON.stringify(node)
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(postEntity)
         }
 
-        return fetch(`${process.env.VUE_APP_API_URL}/nodes`, fetchOptions)
-            .then(response => {
-                console.debug(response)
-            })
+        return fetch(`${process.env.VUE_APP_API_URL}/entities`, fetchOptions)
+            .then(response => console.debug(response))
             .catch(error => console.error(error))
     },
 
-    putNode(node: Node): Promise<void> {
-        const fetchOptions = {
-            method: 'PUT',
-
-            headers: {
-                'Content-Type': 'application/json'
-            },
-
-            body: JSON.stringify(node)
-        }
-
-        return fetch(`${process.env.VUE_APP_API_URL}/nodes`, fetchOptions)
-            .then(response => {
-                console.debug(response)
-            })
-            .catch(error => console.error(error))
-    },
-
-    deleteNode(nodeId: number): Promise<void> {
+    deleteEntity(entityId: number): Promise<void> {
         const fetchOptions = {
             method: 'DELETE'
         }
 
-        return fetch(`${process.env.VUE_APP_API_URL}/nodes/${nodeId}`, fetchOptions)
-            .then(response => {
-                console.debug(response)
-            })
+        return fetch(`${process.env.VUE_APP_API_URL}/entities/${entityId}`, fetchOptions)
+            .then(response => console.debug(response))
             .catch(error => console.error(error))
     }
 }
