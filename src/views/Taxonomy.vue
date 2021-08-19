@@ -15,7 +15,7 @@
                   @select="storeSelectedNodeAndGetMatches($event)"/>
 
         <li>
-          <input @change="onCreate($event)"
+          <input @change="createNode($event)"
                  placeholder="New root node">
         </li>
       </ul>
@@ -84,23 +84,19 @@ export default defineComponent({
           .then((nodes: DeepNode[]) => this.nodes = nodes)
     },
 
-    createNode(names: string[], parent: number | null): void {
+    createNode(event: Event): void {
+      const input = event.target as HTMLInputElement
+
       const node: Node = {
         id: null,
-        names: names,
-        parent: parent
+        names: input.value.split(' | '),
+        parent: null
       }
 
       NodeService.postNode(node)
           .then(() => {
             this.updateRootNodes()
           })
-    },
-
-    updateNode(event: Event): void {
-      const input = event.target as HTMLInputElement
-
-      this.createNode(input.value.split(' | '), null)
 
       input.value = ''
     },
@@ -117,7 +113,6 @@ export default defineComponent({
       for (let name of node.names) {
         MatchService.getMatches(name)
             .then(matches => {
-              console.log(matches)
               const matchesDict = this.nameToMatches
               matchesDict[name] = matches
               this.nameToMatches = matchesDict

@@ -25,13 +25,13 @@
     <!-- Child nodes & Input new child node-->
     <ul v-if="extended">
       <TreeItem v-for="(child, index) in node.children" :key="index"
-                node="child"
+                :node="child"
                 :selected-node-id="selectedNodeId"
                 @update="$emit('update', $event)"
                 @select="$emit('select', $event)"/>
 
       <li>
-        <input @change="updateNode($event)"
+        <input @change="createNode($event)"
                placeholder="New sub node">
       </li>
     </ul>
@@ -74,7 +74,7 @@ export default defineComponent({
       this.$emit('select', this.node)
     },
 
-    updateNode(event: Event): void {
+    createNode(event: Event): void {
       const input = event.target as HTMLInputElement
 
       const node: Node = {
