@@ -12,7 +12,7 @@
                   :node="node"
                   :selected-node-id="selectedNode?.id"
                   @update="updateTaxonomy"
-                  @select="storeSelectedNodeAndGetMatches($event)"/>
+                  @select="storeSelectedNodeAndLoadMatches($event)"/>
 
         <li>
           <input @change="createNode($event)"
@@ -25,7 +25,7 @@
 
     <section class="grid-section">
       <div v-for="(matches, entity) of entityToMatches" :key="entity">
-        <h2 class="name-header">{{ entity }}</h2>
+        <h2 class="name-header">{{ entityToName[entity] }}</h2>
 
         <template v-if="matches.length > 0">
           <p v-for="(match, index) of matches" :key="index"
@@ -72,6 +72,7 @@ export default defineComponent({
     return {
       nodes: [] as DeepNode[],
       selectedNode: null as null | Node,
+      entityToName: {} as { [key: number]: string },
       entityToMatches: {} as { [key: number]: Match[] }
     }
   },
@@ -104,17 +105,15 @@ export default defineComponent({
       input.value = ''
     },
 
-    storeSelectedNodeAndGetMatches(node: Node): void {
+    storeSelectedNodeAndLoadMatches(node: Node): void {
       this.selectedNode = node
 
-      this.getMatches(node)
-    },
-
-    getMatches(node: Node): void {
+      this.entityToName = {}
       this.entityToMatches = {}
 
       for (let entity of node.entities) {
         MatchService.getMatches(entity.id).then((matches: Match[]) => {
+          this.entityToName[entity.id] = entity.name
           this.entityToMatches[entity.id] = matches
         })
       }
