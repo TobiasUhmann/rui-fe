@@ -1,7 +1,9 @@
 import Entity from '@/models/entity/Entity'
 
 export default interface Node {
-    id: number,
-    parent: number,
+    id: number
+
+    parentId: number
+
     entities: Entity[]
 }

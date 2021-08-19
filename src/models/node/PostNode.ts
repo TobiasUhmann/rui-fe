@@ -1,6 +1,7 @@
 import PostNodeEntity from '@/models/entity/PostNodeEntity'
 
 export default interface PostNode {
-    parent: number,
+    parentId: null | number
+
     entities: PostNodeEntity[]
 }

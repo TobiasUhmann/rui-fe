@@ -25,8 +25,8 @@
                 @select="$emit('select', $event)"/>
 
       <li>
-        <input @change="createNode($event)"
-               placeholder="New child node">
+        <input placeholder="New child node"
+               @change="createNode($event)">
       </li>
     </ul>
 
@@ -42,6 +42,7 @@ import {defineComponent, PropType} from 'vue'
 import DeepNode from '@/models/node/DeepNode'
 import NodeService from '@/services/NodeService'
 import PostNode from '@/models/node/PostNode'
+import PostNodeEntity from '@/models/entity/PostNodeEntity'
 
 export default defineComponent({
   name: 'TreeItem',
@@ -71,11 +72,13 @@ export default defineComponent({
       const input = event.target as HTMLInputElement
 
       const entityNames = input.value.split(' | ')
-      const postNodeEntities = entityNames.map(name => {name})
+      const postNodeEntities = entityNames.map<PostNodeEntity>(name => {
+        return {name}
+      })
 
       const postNode: PostNode = {
-        parent: this.node.id,
-        names: postNodeEntities
+        parentId: this.node.id,
+        entities: postNodeEntities
       }
 
       NodeService.postNode(postNode)

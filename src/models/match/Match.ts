@@ -1,7 +1,8 @@
 export default interface Match {
-    ticket: number,
-    eid: number,
-    mention: string,
-    mentionIdxs: number[],
+    entityId: number
+
+    ticket: number
     context: string
+    mention: string
+    mentionIndexes: number[]
 }

@@ -59,8 +59,9 @@ import Match from '@/models/match/Match'
 import MatchService from '@/services/MatchService'
 import Node from '@/models/node/Node'
 import NodeService from '@/services/NodeService'
+import PostNode from '@/models/node/PostNode'
+import PostNodeEntity from '@/models/entity/PostNodeEntity'
 import TreeItem from '@/components/TreeItem.vue'
-import PostNode from "@/models/node/PostNode";
 
 export default defineComponent({
   name: 'Taxonomy',
@@ -81,20 +82,19 @@ export default defineComponent({
 
   methods: {
     updateTaxonomy(): void {
-      NodeService.getNodes()
-          .then((nodes: DeepNode[]) => this.nodes = nodes)
+      NodeService.getNodes().then((nodes: DeepNode[]) => this.nodes = nodes)
     },
 
     createNode(event: Event): void {
       const input = event.target as HTMLInputElement
 
       const entityNames = input.value.split(' | ')
-      const postNodeEntities = entityNames.map(name => {
-        name
+      const postNodeEntities = entityNames.map<PostNodeEntity>(name => {
+        return {name}
       })
 
       const postNode: PostNode = {
-        parent: null,
+        parentId: null,
         entities: postNodeEntities
       }
 
@@ -133,24 +133,24 @@ export default defineComponent({
     getMarkedContext(match: Match): string {
       let markTokens: number[] = []
 
-      for (let i = 0; i < match.mentionIdxs; i += 2) {
-        const from = match.mentionIdxs[i]
-        const until = match.mentionIdxs[i + 1]
+      for (let i = 0; i < match.mentionIndexes.length; i += 2) {
+        const from = match.mentionIndexes[i]
+        const until = match.mentionIndexes[i + 1]
 
         for (let j = from; j < until; j++) {
-          markTokens += j
+          markTokens.push(j)
         }
       }
 
-      const contextTokens = match.context.split()
+      const contextTokens = match.context.split(' ')
       let htmlTokens: string[] = []
 
       for (let i = 0; i < contextTokens.length; i++) {
 
         if (markTokens.indexOf(i) !== -1) {
-          htmlTokens += '<span class="mention">' + contextTokens[i] + '</span>'
+          htmlTokens.push('<span class="mention">' + contextTokens[i] + '</span>')
         } else {
-          htmlTokens += contextTokens[i]
+          htmlTokens.push(contextTokens[i])
         }
       }
 

@@ -8,7 +8,6 @@ export default {
                 console.debug(response)
                 return response.json()
             })
-            .then(data => data.matches)
             .catch(error => console.error(error))
     }
 }

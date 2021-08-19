@@ -1,4 +1,5 @@
 export default interface PostEntity {
-    name: string,
-    node: number
+    nodeId: number
+
+    name: string
 }

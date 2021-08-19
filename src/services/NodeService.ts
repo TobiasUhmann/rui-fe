@@ -10,7 +10,6 @@ export default {
                 console.debug(response)
                 return response.json()
             })
-            .then(data => data.rootNodes)
             .catch(error => console.error(error))
     },
 
@@ -28,7 +27,7 @@ export default {
 
     patchNode(nodePatch: NodePatch): Promise<void> {
         const fetchOptions = {
-            method: 'PUT',
+            method: 'PATCH',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify(nodePatch)
         }
