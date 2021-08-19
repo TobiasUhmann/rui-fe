@@ -1,5 +1,5 @@
 export default interface Match {
-    entity: string,
+    node: string,
     mention: string,
     ticket: number,
     phrase_id: number,

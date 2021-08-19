@@ -1,15 +1,15 @@
 <template>
   <li :class="[extended ? 'extended' : 'collapsed']">
 
-    <!-- Editable, clickable entity name -->
+    <!-- Editable, clickable node name -->
     <input v-if="editing"
-           @change="updateEntityAndStopEditing($event)"
-           :value="entity.names.join(' | ')"/>
+           @change="updateNodeAndStopEditing($event)"
+           :value="node.names.join(' | ')"/>
     <span v-else
-          class="entity-name"
-          :class="{selected: entity.id === selectedEntityId}"
+          class="node-name"
+          :class="{selected: node.id === selectedNodeId}"
           @click="toggleAndEmitSelect">
-      {{ entity.names.join(' | ') }}
+      {{ node.names.join(' | ') }}
     </span>
 
     <!-- Edit -->
@@ -18,21 +18,21 @@
     </span>
 
     <!-- Delete -->
-    <span class="delete" @click="deleteEntity">
+    <span class="delete" @click="deleteNode">
       (delete)
     </span>
 
-    <!-- Child entities & Input new child entity-->
+    <!-- Child nodes & Input new child node-->
     <ul v-if="extended">
-      <TreeItem v-for="(child, index) in entity.children" :key="index"
-                :entity="child"
-                :selected-entity-id="selectedEntityId"
+      <TreeItem v-for="(child, index) in node.children" :key="index"
+                node="child"
+                :selected-node-id="selectedNodeId"
                 @update="$emit('update', $event)"
                 @select="$emit('select', $event)"/>
 
       <li>
-        <input @change="updateEntity($event)"
-               placeholder="New sub entity">
+        <input @change="updateNode($event)"
+               placeholder="New sub node">
       </li>
     </ul>
 
@@ -45,19 +45,19 @@
 
 import {defineComponent, PropType} from 'vue'
 
-import DeepEntity from '@/models/DeepEntity'
-import Entity from '@/models/Entity'
-import EntityService from '@/services/EntityService'
+import DeepNode from '@/models/DeepNode'
+import Node from '@/models/Node'
+import NodeService from '@/services/NodeService'
 
 export default defineComponent({
   name: 'TreeItem',
 
   props: {
-    entity: {
-      type: Object as PropType<DeepEntity>,
+    node: {
+      type: Object as PropType<DeepNode>,
       required: true
     },
-    selectedEntityId: Number
+    selectedNodeId: Number
   },
 
   data() {
@@ -71,39 +71,39 @@ export default defineComponent({
     toggleAndEmitSelect(): void {
       this.extended = !this.extended
 
-      this.$emit('select', this.entity)
+      this.$emit('select', this.node)
     },
 
-    updateEntity(event: Event): void {
+    updateNode(event: Event): void {
       const input = event.target as HTMLInputElement
 
-      const entity: Entity = {
+      const node: Node = {
         id: 0,
         names: input.value.split(' | '),
-        parent: this.entity.id
+        parent: this.node.id
       }
 
-      EntityService.postEntity(entity)
+      NodeService.postNode(node)
           .then(() => this.$emit('update'))
     },
 
-    updateEntityAndStopEditing(event: Event): void {
+    updateNodeAndStopEditing(event: Event): void {
       const input = event.target as HTMLInputElement
 
-      const patchedEntity: Entity = {
-        ...this.entity,
+      const patchedNode: Node = {
+        ...this.node,
 
         names: input.value.split(' | ')
       }
 
-      EntityService.putEntity(patchedEntity)
+      NodeService.putNode(patchedNode)
           .then(() => this.$emit('update'))
 
       this.editing = false
     },
 
-    deleteEntity(): void {
-      EntityService.deleteEntity(this.entity.id as number)
+    deleteNode(): void {
+      NodeService.deleteNode(this.node.id as number)
           .then(() => this.$emit('update'))
     }
   }
@@ -115,7 +115,7 @@ export default defineComponent({
 
 <style scoped>
 
-.entity-name {
+.node-name {
   cursor: pointer;
 }
 

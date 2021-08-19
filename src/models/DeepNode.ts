@@ -1,6 +1,6 @@
-export default interface DeepEntity {
+export default interface DeepNode {
     id: number | null,
     names: string[],
     parent: number | null,
-    children: DeepEntity[]
+    children: DeepNode[]
 }

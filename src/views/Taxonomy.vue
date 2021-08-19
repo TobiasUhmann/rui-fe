@@ -8,15 +8,15 @@
 
     <section class="grid-section">
       <ul>
-        <TreeItem v-for="entity in entities" :key="entity.id"
-                  :entity="entity"
-                  :selected-entity-id="selectedEntity?.id"
-                  @update="updateRootEntities"
-                  @select="storeSelectedEntityAndGetMatches($event)"/>
+        <TreeItem v-for="node in nodes" :key="node.id"
+                  :node="node"
+                  :selected-node-id="selectedNode?.id"
+                  @update="updateRootNodes"
+                  @select="storeSelectedNodeAndGetMatches($event)"/>
 
         <li>
           <input @change="onCreate($event)"
-                 placeholder="New root entity">
+                 placeholder="New root node">
         </li>
       </ul>
     </section>
@@ -54,11 +54,11 @@
 
 import {defineComponent} from 'vue'
 
-import DeepEntity from '@/models/DeepEntity'
-import Entity from '@/models/Entity'
-import EntityService from '@/services/EntityService'
+import DeepNode from '@/models/DeepNode'
 import Match from '@/models/Match'
 import MatchService from '@/services/MatchService'
+import Node from '@/models/Node'
+import NodeService from '@/services/NodeService'
 import TreeItem from '@/components/TreeItem.vue'
 
 export default defineComponent({
@@ -68,53 +68,53 @@ export default defineComponent({
 
   data() {
     return {
-      entities: [] as Array<DeepEntity>,
-      selectedEntity: null as null | Entity,
+      nodes: [] as Array<DeepNode>,
+      selectedNode: null as null | Node,
       nameToMatches: {} as { [key: string]: Array<Match> }
     }
   },
 
   mounted() {
-    this.updateRootEntities()
+    this.updateRootNodes()
   },
 
   methods: {
-    updateRootEntities(): void {
-      EntityService.getEntities()
-          .then((entities: DeepEntity[]) => this.entities = entities)
+    updateRootNodes(): void {
+      NodeService.getNodes()
+          .then((nodes: DeepNode[]) => this.nodes = nodes)
     },
 
-    createEntity(names: string[], parent: number | null): void {
-      const entity: Entity = {
+    createNode(names: string[], parent: number | null): void {
+      const node: Node = {
         id: null,
         names: names,
         parent: parent
       }
 
-      EntityService.postEntity(entity)
+      NodeService.postNode(node)
           .then(() => {
-            this.updateRootEntities()
+            this.updateRootNodes()
           })
     },
 
-    updateEntity(event: Event): void {
+    updateNode(event: Event): void {
       const input = event.target as HTMLInputElement
 
-      this.createEntity(input.value.split(' | '), null)
+      this.createNode(input.value.split(' | '), null)
 
       input.value = ''
     },
 
-    storeSelectedEntityAndGetMatches(entity: Entity): void {
-      this.selectedEntity = entity
+    storeSelectedNodeAndGetMatches(node: Node): void {
+      this.selectedNode = node
 
-      this.getMatches(entity)
+      this.getMatches(node)
     },
 
-    getMatches(entity: Entity): void {
+    getMatches(node: Node): void {
       this.nameToMatches = {}
 
-      for (let name of entity.names) {
+      for (let name of node.names) {
         MatchService.getMatches(name)
             .then(matches => {
               console.log(matches)

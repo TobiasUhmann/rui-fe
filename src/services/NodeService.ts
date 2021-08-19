@@ -1,19 +1,19 @@
-import DeepEntity from '@/models/DeepEntity'
-import Entity from '@/models/Entity'
+import DeepNode from '@/models/DeepNode'
+import Node from '@/models/Node'
 
 export default {
 
-    getEntities(): Promise<DeepEntity[]> {
-        return fetch(`${process.env.VUE_APP_API_URL}/entities`)
+    getNodes(): Promise<DeepNode[]> {
+        return fetch(`${process.env.VUE_APP_API_URL}/nodes`)
             .then(response => {
                 console.debug(response)
                 return response.json()
             })
-            .then(data => data.entities)
+            .then(data => data.rootNodes)
             .catch(error => console.error(error))
     },
 
-    postEntity(entity: Entity): Promise<void> {
+    postNode(node: Node): Promise<void> {
         const fetchOptions = {
             method: 'POST',
 
@@ -21,17 +21,17 @@ export default {
                 'Content-Type': 'application/json'
             },
 
-            body: JSON.stringify(entity)
+            body: JSON.stringify(node)
         }
 
-        return fetch(`${process.env.VUE_APP_API_URL}/entity`, fetchOptions)
+        return fetch(`${process.env.VUE_APP_API_URL}/nodes`, fetchOptions)
             .then(response => {
                 console.debug(response)
             })
             .catch(error => console.error(error))
     },
 
-    putEntity(entity: Entity): Promise<void> {
+    putNode(node: Node): Promise<void> {
         const fetchOptions = {
             method: 'PUT',
 
@@ -39,22 +39,22 @@ export default {
                 'Content-Type': 'application/json'
             },
 
-            body: JSON.stringify(entity)
+            body: JSON.stringify(node)
         }
 
-        return fetch(`${process.env.VUE_APP_API_URL}/entity`, fetchOptions)
+        return fetch(`${process.env.VUE_APP_API_URL}/nodes`, fetchOptions)
             .then(response => {
                 console.debug(response)
             })
             .catch(error => console.error(error))
     },
 
-    deleteEntity(entity_id: number): Promise<void> {
+    deleteNode(nodeId: number): Promise<void> {
         const fetchOptions = {
             method: 'DELETE'
         }
 
-        return fetch(`${process.env.VUE_APP_API_URL}/entity/${entity_id}`, fetchOptions)
+        return fetch(`${process.env.VUE_APP_API_URL}/nodes/${nodeId}`, fetchOptions)
             .then(response => {
                 console.debug(response)
             })

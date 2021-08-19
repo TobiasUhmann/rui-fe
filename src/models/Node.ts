@@ -1,4 +1,4 @@
-export default interface Entity {
+export default interface Node {
     id: number | null,
     names: string[],
     parent: number | null
