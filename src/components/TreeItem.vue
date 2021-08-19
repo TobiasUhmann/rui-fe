@@ -1,28 +1,22 @@
 <template>
   <li :class="[extended ? 'extended' : 'collapsed']">
 
-    <!-- Editable, clickable node name -->
-    <input v-if="editing"
-           @change="updateNodeAndStopEditing($event)"
-           :value="node.names.join(' | ')"/>
-    <span v-else
-          class="node-name"
+    <!-- Node name -->
+
+    <span class="node-name"
           :class="{selected: node.id === selectedNodeId}"
           @click="toggleAndEmitSelect">
-      {{ node.names.join(' | ') }}
-    </span>
-
-    <!-- Edit -->
-    <span class="edit" @click="editing = true">
-      (edit)
+      {{ `${node.entities[0].name} (+${node.entities.length - 1})` }}
     </span>
 
     <!-- Delete -->
+
     <span class="delete" @click="deleteNode">
       (delete)
     </span>
 
     <!-- Child nodes & Input new child node-->
+
     <ul v-if="extended">
       <TreeItem v-for="(child, index) in node.children" :key="index"
                 :node="child"
@@ -32,7 +26,7 @@
 
       <li>
         <input @change="createNode($event)"
-               placeholder="New sub node">
+               placeholder="New child node">
       </li>
     </ul>
 
@@ -46,8 +40,8 @@
 import {defineComponent, PropType} from 'vue'
 
 import DeepNode from '@/models/node/DeepNode'
-import Node from '@/models/node/Node'
 import NodeService from '@/services/NodeService'
+import PostNode from '@/models/node/PostNode'
 
 export default defineComponent({
   name: 'TreeItem',
@@ -62,8 +56,7 @@ export default defineComponent({
 
   data() {
     return {
-      extended: false,
-      editing: false
+      extended: false
     }
   },
 
@@ -77,33 +70,20 @@ export default defineComponent({
     createNode(event: Event): void {
       const input = event.target as HTMLInputElement
 
-      const node: Node = {
-        id: 0,
-        names: input.value.split(' | '),
-        parent: this.node.id
+      const entityNames = input.value.split(' | ')
+      const postNodeEntities = entityNames.map(name => {name})
+
+      const postNode: PostNode = {
+        parent: this.node.id,
+        names: postNodeEntities
       }
 
-      NodeService.postNode(node)
+      NodeService.postNode(postNode)
           .then(() => this.$emit('update'))
-    },
-
-    updateNodeAndStopEditing(event: Event): void {
-      const input = event.target as HTMLInputElement
-
-      const patchedNode: Node = {
-        ...this.node,
-
-        names: input.value.split(' | ')
-      }
-
-      NodeService.putNode(patchedNode)
-          .then(() => this.$emit('update'))
-
-      this.editing = false
     },
 
     deleteNode(): void {
-      NodeService.deleteNode(this.node.id as number)
+      NodeService.deleteNode(this.node.id)
           .then(() => this.$emit('update'))
     }
   }
@@ -135,12 +115,12 @@ li.extended::marker {
 
 /* Edit, delete */
 
-.edit, .delete {
+.delete {
   color: lightgrey;
   cursor: pointer;
 }
 
-.edit:hover, .delete:hover {
+.delete:hover {
   color: grey;
 }
 
