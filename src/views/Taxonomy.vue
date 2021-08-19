@@ -58,7 +58,7 @@ import DeepEntity from '@/models/DeepEntity'
 import Entity from '@/models/Entity'
 import EntityService from '@/services/EntityService'
 import Match from '@/models/Match'
-import MatchesService from '@/services/MatchesService'
+import MatchService from '@/services/MatchService'
 import TreeItem from '@/components/TreeItem.vue'
 
 export default defineComponent({
@@ -115,7 +115,7 @@ export default defineComponent({
       this.nameToMatches = {}
 
       for (let name of entity.names) {
-        MatchesService.getMatches(name)
+        MatchService.getMatches(name)
             .then(matches => {
               console.log(matches)
               const matchesDict = this.nameToMatches
@@ -128,7 +128,7 @@ export default defineComponent({
     loadMoreMatches(name: string): void {
       const existingMatches = this.nameToMatches[name]
 
-      MatchesService.getMatches(name, existingMatches.length)
+      MatchService.getMatches(name, existingMatches.length)
           .then(matches => {
             const matchesDict = this.nameToMatches
             matchesDict[name] = [...existingMatches, ...matches]
