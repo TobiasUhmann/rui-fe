@@ -9,12 +9,6 @@
       {{ `${node.entities[0].name} (+${node.entities.length - 1})` }}
     </span>
 
-    <!-- Delete -->
-
-    <span class="delete-node" @click="$emit('delete', node)">
-      (delete)
-    </span>
-
     <!-- Child nodes & Input new child node-->
 
     <ul v-if="extended">
@@ -22,11 +16,10 @@
                 :node="child"
                 :selected-node="selectedNode"
                 @select="$emit('select', $event)"
-                @create="$emit('create', $event)"
-                @delete="$emit('delete', $event)"/>
+                @create="$emit('create', $event)"/>
 
       <li>
-        <input placeholder="New child node"
+        <input placeholder="New Child Node"
                @change="createNode($event)">
       </li>
     </ul>
@@ -68,7 +61,7 @@ export default defineComponent({
       this.$emit('select', this.node)
     },
 
-    emitCreate(event: Event): void {
+    createNode(event: Event): void {
       const input = event.target as HTMLInputElement
 
       const entityNames = input.value.split(' | ')
@@ -110,17 +103,6 @@ li.collapsed::marker {
 
 li.extended::marker {
   content: '-  ';
-}
-
-/* Delete Link */
-
-.delete-node {
-  color: lightgrey;
-  cursor: pointer;
-}
-
-.delete-node:hover {
-  color: grey;
 }
 
 /* Selected */

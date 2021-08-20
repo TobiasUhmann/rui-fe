@@ -5,12 +5,11 @@
                 :node="node"
                 :selected-node="selectedNode"
                 @select="this.$emit('select', node)"
-                @create="$emit('create', $event)"
-                @delete="$emit('delete', $event)"/>
+                @create="$emit('create', $event)"/>
 
       <li>
         <input @change="emitCreate($event)"
-               placeholder="New root node">
+               placeholder="New Roo Node">
       </li>
     </ul>
   </div>

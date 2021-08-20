@@ -1,7 +1,8 @@
 <template>
   <div v-if="node">
 
-    {{ node.entities.length }} Entities:
+    {{ node.entities.length }}
+    {{ node.entities.length === 1 ? 'Entity' : 'Entities' }}:
 
     <ul class="entity-list">
 
@@ -24,6 +25,13 @@
                placeholder="New Entity">
       </li>
     </ul>
+
+    <!-- Delete Node -->
+
+    <button class="delete-node"
+            @click="$emit('deleteNode', node)">
+      Delete Node
+    </button>
 
   </div>
 </template>
@@ -56,7 +64,7 @@ export default defineComponent({
         name: input.value
       }
 
-      this.$emit('create', postEntity)
+      this.$emit('createEntity', postEntity)
 
       input.value = ''
     },
@@ -66,7 +74,7 @@ export default defineComponent({
       const node = this.node!
 
       if (node.entities.length > 1) {
-        this.$emit('delete', entityId)
+        this.$emit('deleteEntity', entityId)
       }
     }
   }
@@ -92,6 +100,12 @@ export default defineComponent({
 
 .delete-entity:hover {
   color: grey;
+}
+
+/* Delete Button */
+
+.delete-node {
+  margin-top: 16px;
 }
 
 </style>

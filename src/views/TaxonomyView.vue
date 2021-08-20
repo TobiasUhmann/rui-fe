@@ -7,16 +7,16 @@
                 :nodes="nodes"
                 :selected-node="selectedNode"
                 @select="selectedNode = $event"
-                @create="createNode($event)"
-                @delete="deleteNode($event)"/>
+                @create="createNode($event)"/>
     </section>
 
     <section class="grid-section grid-details">
       <h1 class="grid-header">Node Details</h1>
       <Details class="grid-content"
                :node="selectedNode"
-               @create="createEntity($event)"
-               @delete="deleteEntity($event)"/>
+               @createEntity="createEntity($event)"
+               @deleteEntity="deleteEntity($event)"
+               @deleteNode="deleteNode($event)"/>
     </section>
 
     <section class="grid-section grid-matches">
