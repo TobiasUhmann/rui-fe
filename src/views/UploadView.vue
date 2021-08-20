@@ -29,7 +29,7 @@ import UploadWarning from '@/components/UploadWarning.vue'
 import UploadService from "@/services/UploadService";
 
 export default defineComponent({
-  name: 'UploadPage',
+  name: 'UploadView',
 
   components: {UploadWarning},
 

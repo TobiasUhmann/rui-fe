@@ -64,7 +64,7 @@ import PostNodeEntity from '@/models/entity/PostNodeEntity'
 import TreeItem from '@/components/TreeItem.vue'
 
 export default defineComponent({
-  name: 'Taxonomy',
+  name: 'TaxonomyView',
 
   components: {TreeItem},
 
