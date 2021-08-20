@@ -12,7 +12,7 @@
 
         <!-- Delete -->
 
-        <span class="delete-entity" @click="$emit('delete', entity.id)">
+        <span class="delete-entity" @click="deleteEntity(entity.id)">
           (delete)
         </span>
       </li>
@@ -59,6 +59,15 @@ export default defineComponent({
       this.$emit('create', postEntity)
 
       input.value = ''
+    },
+
+    deleteEntity(entityId: number): void {
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      const node = this.node!
+
+      if (node.entities.length > 1) {
+        this.$emit('delete', entityId)
+      }
     }
   }
 })
