@@ -104,7 +104,13 @@ export default defineComponent({
     },
 
     deleteNode(node: Node): void {
-      NodeService.deleteNode(node.id).then(() => this.reloadTaxonomy())
+      NodeService.deleteNode(node.id).then(() => {
+        if (this.selectedNode && node.id === this.selectedNode.id) {
+          this.selectedNode = null
+        }
+
+        this.reloadTaxonomy();
+      })
     },
 
     createEntity(postEntity: PostEntity): void {

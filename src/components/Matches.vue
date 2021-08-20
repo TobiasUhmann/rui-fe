@@ -27,15 +27,16 @@
 <script lang="ts">
 
 import {defineComponent, PropType} from 'vue'
-import Match from "@/models/match/Match";
-import Node from "@/models/node/Node";
-import MatchService from "@/services/MatchService";
+
+import DeepNode from '@/models/node/DeepNode'
+import Match from '@/models/match/Match'
+import MatchService from '@/services/MatchService'
 
 export default defineComponent({
   name: 'Matches',
 
   props: {
-    node: Object as PropType<Node>
+    node: Object as PropType<DeepNode>
   },
 
   data() {
@@ -46,22 +47,24 @@ export default defineComponent({
   },
 
   watch: {
-    node(current: Node) {
+    node(current: DeepNode | null) {
       this.loadMatches(current)
     }
   },
 
   methods: {
 
-    loadMatches(node: Node): void {
+    loadMatches(node: DeepNode | null): void {
       this.entityToName = {}
       this.entityToMatches = {}
 
-      for (let entity of node.entities) {
-        MatchService.getMatches(entity.id).then((matches: Match[]) => {
-          this.entityToName[entity.id] = entity.name
-          this.entityToMatches[entity.id] = matches
-        })
+      if (node) {
+        for (let entity of node.entities) {
+          MatchService.getMatches(entity.id).then((matches: Match[]) => {
+            this.entityToName[entity.id] = entity.name
+            this.entityToMatches[entity.id] = matches
+          })
+        }
       }
     },
 
