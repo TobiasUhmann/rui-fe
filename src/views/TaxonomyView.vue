@@ -15,7 +15,8 @@
       <h1 class="grid-header">Node Details</h1>
       <Details class="grid-content"
                :node="selectedNode"
-               @create="createEntity($event)"/>
+               @create="createEntity($event)"
+               @delete="deleteEntity($event)"/>
     </section>
 
     <section class="grid-section grid-matches">
@@ -35,13 +36,13 @@ import {defineComponent} from 'vue'
 
 import DeepNode from '@/models/node/DeepNode'
 import Details from '@/components/Details.vue'
+import EntityService from '@/services/EntityService'
 import Matches from '@/components/Matches.vue'
 import Node from '@/models/node/Node'
 import NodeService from '@/services/NodeService'
+import PostEntity from '@/models/entity/PostEntity'
 import PostNode from '@/models/node/PostNode'
 import Taxonomy from '@/components/Taxonomy.vue'
-import EntityService from "@/services/EntityService";
-import PostEntity from "@/models/entity/PostEntity";
 
 export default defineComponent({
   name: 'TaxonomyView',
@@ -99,18 +100,19 @@ export default defineComponent({
     },
 
     createNode(postNode: PostNode): void {
-      NodeService.postNode(postNode)
-          .then(() => this.reloadTaxonomy())
+      NodeService.postNode(postNode).then(() => this.reloadTaxonomy())
     },
 
     deleteNode(node: Node): void {
-      NodeService.deleteNode(node.id)
-          .then(() => this.reloadTaxonomy())
+      NodeService.deleteNode(node.id).then(() => this.reloadTaxonomy())
     },
 
     createEntity(postEntity: PostEntity): void {
-      EntityService.postEntity(postEntity)
-          .then(() => this.reloadTaxonomy())
+      EntityService.postEntity(postEntity).then(() => this.reloadTaxonomy())
+    },
+
+    deleteEntity(entityId: number): void {
+      EntityService.deleteEntity(entityId).then(() => this.reloadTaxonomy())
     }
   }
 })

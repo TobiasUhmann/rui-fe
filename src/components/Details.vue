@@ -4,13 +4,24 @@
     {{ node.entities.length }} Entities:
 
     <ul class="entity-list">
+
+      <!-- Entities -->
+
       <li v-for="entity of node.entities" :key="entity.id">
         {{ entity.name }}
+
+        <!-- Delete -->
+
+        <span class="delete-entity" @click="$emit('delete', entity.id)">
+          (delete)
+        </span>
       </li>
+
+      <!-- New Entity -->
 
       <li>
         <input @change="createEntity($event)"
-               placeholder="New entity">
+               placeholder="New Entity">
       </li>
     </ul>
 
@@ -61,6 +72,17 @@ export default defineComponent({
 .entity-list {
   margin-top: 4px;
   padding-left: 1.5em;
+}
+
+/* Delete Link */
+
+.delete-entity {
+  color: lightgrey;
+  cursor: pointer;
+}
+
+.delete-entity:hover {
+  color: grey;
 }
 
 </style>

@@ -11,7 +11,7 @@
 
     <!-- Delete -->
 
-    <span class="delete" @click="$emit('delete', node)">
+    <span class="delete-node" @click="$emit('delete', node)">
       (delete)
     </span>
 
@@ -112,14 +112,14 @@ li.extended::marker {
   content: '-  ';
 }
 
-/* Edit, delete */
+/* Delete Link */
 
-.delete {
+.delete-node {
   color: lightgrey;
   cursor: pointer;
 }
 
-.delete:hover {
+.delete-node:hover {
   color: grey;
 }
 
