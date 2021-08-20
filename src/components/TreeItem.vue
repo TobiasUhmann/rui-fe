@@ -4,14 +4,14 @@
     <!-- Node name -->
 
     <span class="node-name"
-          :class="{selected: node.id === selectedNodeId}"
+          :class="{selected: node === selectedNode}"
           @click="toggleAndEmitSelect">
       {{ `${node.entities[0].name} (+${node.entities.length - 1})` }}
     </span>
 
     <!-- Delete -->
 
-    <span class="delete" @click="deleteNode">
+    <span class="delete" @click="$emit('delete', node)">
       (delete)
     </span>
 
@@ -20,9 +20,10 @@
     <ul v-if="extended">
       <TreeItem v-for="(child, index) in node.children" :key="index"
                 :node="child"
-                :selected-node-id="selectedNodeId"
-                @update="$emit('update', $event)"
-                @select="$emit('select', $event)"/>
+                :selected-node="selectedNode"
+                @select="$emit('select', $event)"
+                @create="$emit('create', $event)"
+                @delete="$emit('delete', $event)"/>
 
       <li>
         <input placeholder="New child node"
@@ -40,7 +41,6 @@
 import {defineComponent, PropType} from 'vue'
 
 import DeepNode from '@/models/node/DeepNode'
-import NodeService from '@/services/NodeService'
 import PostNode from '@/models/node/PostNode'
 import PostNodeEntity from '@/models/entity/PostNodeEntity'
 
@@ -52,7 +52,7 @@ export default defineComponent({
       type: Object as PropType<DeepNode>,
       required: true
     },
-    selectedNodeId: Number
+    selectedNode: Object as PropType<DeepNode>
   },
 
   data() {
@@ -68,7 +68,7 @@ export default defineComponent({
       this.$emit('select', this.node)
     },
 
-    createNode(event: Event): void {
+    emitCreate(event: Event): void {
       const input = event.target as HTMLInputElement
 
       const entityNames = input.value.split(' | ')
@@ -81,13 +81,9 @@ export default defineComponent({
         entities: postNodeEntities
       }
 
-      NodeService.postNode(postNode)
-          .then(() => this.$emit('update'))
-    },
+      this.$emit('create', postNode)
 
-    deleteNode(): void {
-      NodeService.deleteNode(this.node.id)
-          .then(() => this.$emit('update'))
+      input.value = ''
     }
   }
 })

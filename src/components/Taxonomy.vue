@@ -3,12 +3,13 @@
     <ul>
       <TreeItem v-for="node in nodes" :key="node.id"
                 :node="node"
-                :selected-node-id="selectedNode?.id"
-                @update="updateTaxonomy"
-                @select="storeSelectedNodeAndPropagate($event)"/>
+                :selected-node="selectedNode"
+                @select="this.$emit('select', node)"
+                @create="$emit('create', $event)"
+                @delete="$emit('delete', $event)"/>
 
       <li>
-        <input @change="createNode($event)"
+        <input @change="emitCreate($event)"
                placeholder="New root node">
       </li>
     </ul>
@@ -19,11 +20,9 @@
 
 <script lang="ts">
 
-import {defineComponent} from 'vue'
+import {defineComponent, PropType} from 'vue'
 
 import DeepNode from '@/models/node/DeepNode'
-import Node from '@/models/node/Node'
-import NodeService from '@/services/NodeService'
 import PostNode from '@/models/node/PostNode'
 import PostNodeEntity from '@/models/entity/PostNodeEntity'
 import TreeItem from '@/components/TreeItem.vue'
@@ -33,23 +32,17 @@ export default defineComponent({
 
   components: {TreeItem},
 
-  data() {
-    return {
-      nodes: [] as DeepNode[],
-      selectedNode: null as Node | null
-    }
-  },
-
-  mounted() {
-    this.updateTaxonomy()
+  props: {
+    nodes: {
+      type: Array as PropType<DeepNode>[],
+      required: true
+    },
+    selectedNode: Object as PropType<DeepNode>
   },
 
   methods: {
-    updateTaxonomy(): void {
-      NodeService.getNodes().then((nodes: DeepNode[]) => this.nodes = nodes)
-    },
 
-    createNode(event: Event): void {
+    emitCreate(event: Event): void {
       const input = event.target as HTMLInputElement
 
       const entityNames = input.value.split(' | ')
@@ -62,16 +55,9 @@ export default defineComponent({
         entities: postNodeEntities
       }
 
-      NodeService.postNode(postNode)
-          .then(() => this.updateTaxonomy())
+      this.$emit('create', postNode)
 
       input.value = ''
-    },
-
-    storeSelectedNodeAndPropagate(node: Node): void {
-      this.selectedNode = node
-
-      this.$emit('select', node)
     }
   }
 })

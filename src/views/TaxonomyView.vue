@@ -4,12 +4,18 @@
     <section class="grid-section grid-taxonomy">
       <h1 class="grid-header">Taxonomy</h1>
       <Taxonomy class="grid-content"
-                @select="selectedNode = $event"/>
+                :nodes="nodes"
+                :selected-node="selectedNode"
+                @select="selectedNode = $event"
+                @create="createNode($event)"
+                @delete="deleteNode($event)"/>
     </section>
 
     <section class="grid-section grid-details">
-      <h1 class="grid-header">Details</h1>
-      <Details class="grid-content"/>
+      <h1 class="grid-header">Node Details</h1>
+      <Details class="grid-content"
+               :node="selectedNode"
+               @create="createEntity($event)"/>
     </section>
 
     <section class="grid-section grid-matches">
@@ -27,10 +33,15 @@
 
 import {defineComponent} from 'vue'
 
+import DeepNode from '@/models/node/DeepNode'
+import Details from '@/components/Details.vue'
 import Matches from '@/components/Matches.vue'
 import Node from '@/models/node/Node'
+import NodeService from '@/services/NodeService'
+import PostNode from '@/models/node/PostNode'
 import Taxonomy from '@/components/Taxonomy.vue'
-import Details from "@/components/Details.vue";
+import EntityService from "@/services/EntityService";
+import PostEntity from "@/models/entity/PostEntity";
 
 export default defineComponent({
   name: 'TaxonomyView',
@@ -39,7 +50,67 @@ export default defineComponent({
 
   data() {
     return {
-      selectedNode: null as Node | null
+      nodes: [] as DeepNode[],
+      selectedNode: null as DeepNode | null
+    }
+  },
+
+  mounted() {
+    this.loadTaxonomy()
+  },
+
+  methods: {
+    loadTaxonomy(): void {
+      NodeService.getNodes().then((nodes: DeepNode[]) => this.nodes = nodes)
+    },
+
+    reloadTaxonomy(): void {
+      if (this.selectedNode) {
+        this.reloadTaxonomyWithSelectedNode(this.selectedNode)
+      } else {
+        this.loadTaxonomy()
+      }
+    },
+
+    reloadTaxonomyWithSelectedNode(selectedNode: Node): void {
+      const selectedNodeId = selectedNode.id
+
+      function findNodeInNodes(nodes: DeepNode[], id: number): DeepNode | null {
+        for (let node of nodes) {
+          if (node.id === id) {
+            return node
+          }
+
+          const foundNode = findNodeInNodes(node.children, id)
+
+          if (foundNode) {
+            return foundNode
+          }
+        }
+
+        return null
+      }
+
+      NodeService.getNodes().then((nodes: DeepNode[]) => {
+        this.nodes = nodes
+
+        this.selectedNode = findNodeInNodes(nodes, selectedNodeId)
+      })
+    },
+
+    createNode(postNode: PostNode): void {
+      NodeService.postNode(postNode)
+          .then(() => this.reloadTaxonomy())
+    },
+
+    deleteNode(node: Node): void {
+      NodeService.deleteNode(node.id)
+          .then(() => this.reloadTaxonomy())
+    },
+
+    createEntity(postEntity: PostEntity): void {
+      EntityService.postEntity(postEntity)
+          .then(() => this.reloadTaxonomy())
     }
   }
 })
