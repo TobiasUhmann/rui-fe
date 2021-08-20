@@ -19,7 +19,7 @@ export default defineComponent({
 
 <!-- Scoped CSS -->
 
-<style>
+<style scoped>
 
 /* Flex Layout */
 
