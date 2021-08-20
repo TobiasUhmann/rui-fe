@@ -1,24 +1,37 @@
 <template>
-  <div>
-    <div v-for="(matches, entity) of entityToMatches" :key="entity">
-      <h2 class="name-header">{{ entityToName[entity] }}</h2>
+  <div v-if="node">
 
-      <template v-if="matches.length > 0">
-        <p v-for="(match, index) of matches" :key="index"
-           class="phrase"
+    <div v-for="(matchesData, entity) of entityToMatchesData" :key="entity">
+
+      <h2 class="name-header">
+        {{ matchesData.name }}
+        ({{ matchesData.matches.length }} / {{ matchesData.matchesCount }})
+      </h2>
+
+      <!-- Contexts -->
+
+      <template v-if="matchesData.matches.length > 0">
+        <p v-for="(match, index) of matchesData.matches" :key="index"
+           class="context"
            v-html="getMarkedContext(match)">
         </p>
 
-        <a class="load-more-matches"
-           @click="$emit('loadMoreMatches', entity)">
+        <!-- Load More -->
+
+        <a v-if="matchesData.matches.length < matchesData.matchesCount"
+           class="load-more-matches"
+           @click="loadMoreMatches(entity)">
           Load more
         </a>
       </template>
+
+      <!-- No Matches -->
 
       <p v-else class="no-matches">
         No matches for this name
       </p>
     </div>
+
   </div>
 </template>
 
@@ -28,25 +41,60 @@
 
 import {defineComponent, PropType} from 'vue'
 
+import DeepNode from '@/models/node/DeepNode'
 import Match from '@/models/match/Match'
+import MatchService from '@/services/MatchService'
 
 export default defineComponent({
   name: 'Matches',
 
   props: {
-    entityToMatchesData: {
-      type: Object as PropType<{
+    node: Object as PropType<DeepNode>
+  },
+
+  data() {
+    return {
+      entityToMatchesData: {} as {
         [entity: number]: {
           name: string,
           matchesCount: number,
           matches: Match[]
         }
-      }>,
-      required: true
+      }
+    }
+  },
+
+  watch: {
+    node(current: DeepNode | null) {
+      this.loadMatches(current)
     }
   },
 
   methods: {
+
+    loadMatches(node: DeepNode | null): void {
+      this.entityToMatchesData = {}
+
+      if (node) {
+        for (let entity of node.entities) {
+          MatchService.getMatches(entity.id).then((matches: Match[]) => {
+            this.entityToMatchesData[entity.id] = {
+              name: entity.name,
+              matchesCount: entity.matchesCount,
+              matches: matches
+            }
+          })
+        }
+      }
+    },
+
+    loadMoreMatches(entityId: number): void {
+      const loadedEntityMatches = this.entityToMatchesData[entityId].matches
+
+      MatchService.getMatches(entityId, loadedEntityMatches.length).then((matches: Match[]) => {
+        this.entityToMatchesData[entityId].matches.push(...matches)
+      })
+    },
 
     getMarkedContext(match: Match): string {
       let markTokens: number[] = []
@@ -88,11 +136,11 @@ export default defineComponent({
   font-size: 1.2em;
 }
 
-.phrase {
+.context {
   margin: 12px 0;
 }
 
-.phrase >>> .mention {
+.context >>> .mention {
   color: red;
   font-weight: bold;
 }

@@ -22,8 +22,7 @@
     <section class="grid-section grid-matches">
       <h1 class="grid-header">Matches</h1>
       <Matches class="grid-content"
-               :entity-to-matches-data="entityToMatchesData"
-               @loadMoreMatches="loadMoreMatches($event)"/>
+               :node="selectedNode"/>
     </section>
   </main>
 
@@ -38,8 +37,6 @@ import {defineComponent} from 'vue'
 import DeepNode from '@/models/node/DeepNode'
 import Details from '@/components/Details.vue'
 import EntityService from '@/services/EntityService'
-import Match from '@/models/match/Match'
-import MatchService from '@/services/MatchService'
 import Matches from '@/components/Matches.vue'
 import Node from '@/models/node/Node'
 import NodeService from '@/services/NodeService'
@@ -55,21 +52,7 @@ export default defineComponent({
   data() {
     return {
       nodes: [] as DeepNode[],
-      selectedNode: null as DeepNode | null,
-
-      entityToMatchesData: {} as {
-        [entity: number]: {
-          name: string,
-          matchesCount: number,
-          matches: Match[]
-        }
-      }
-    }
-  },
-
-  watch: {
-    selectedNode(current: DeepNode | null) {
-      this.loadMatches(current)
+      selectedNode: null as DeepNode | null
     }
   },
 
@@ -136,31 +119,7 @@ export default defineComponent({
 
     deleteEntity(entityId: number): void {
       EntityService.deleteEntity(entityId).then(() => this.reloadTaxonomy())
-    },
-
-    loadMatches(node: DeepNode | null): void {
-      this.entityToMatchesData = {}
-
-      if (node) {
-        for (let entity of node.entities) {
-          MatchService.getMatches(entity.id).then((matches: Match[]) => {
-            this.entityToMatchesData[entity.id] = {
-              name: entity.name,
-              matchesCount: 42,
-              matches: matches
-            }
-          })
-        }
-      }
-    },
-
-    loadMoreMatches(entityId: number): void {
-      const loadedEntityMatches = this.entityToMatchesData[entityId].matches
-
-      MatchService.getMatches(entityId, loadedEntityMatches.length).then((matches: Match[]) => {
-        this.entityToMatchesData[entityId].matches.push(...matches)
-      })
-    },
+    }
   }
 })
 
