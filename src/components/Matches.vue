@@ -1,22 +1,24 @@
 <template>
-  <div v-for="(matches, entity) of entityToMatches" :key="entity">
-    <h2 class="name-header">{{ entityToName[entity] }}</h2>
+  <div>
+    <div v-for="(matches, entity) of entityToMatches" :key="entity">
+      <h2 class="name-header">{{ entityToName[entity] }}</h2>
 
-    <template v-if="matches.length > 0">
-      <p v-for="(match, index) of matches" :key="index"
-         class="phrase"
-         v-html="getMarkedContext(match)">
+      <template v-if="matches.length > 0">
+        <p v-for="(match, index) of matches" :key="index"
+           class="phrase"
+           v-html="getMarkedContext(match)">
+        </p>
+
+        <a class="load-more-matches"
+           @click="loadMoreMatches(entity)">
+          Load more
+        </a>
+      </template>
+
+      <p v-else class="no-matches">
+        No matches for this name
       </p>
-
-      <a class="load-more-matches"
-         @click="loadMoreMatches(entity)">
-        Load more
-      </a>
-    </template>
-
-    <p v-else class="no-matches">
-      No matches for this name
-    </p>
+    </div>
   </div>
 </template>
 

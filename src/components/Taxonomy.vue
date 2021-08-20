@@ -1,4 +1,5 @@
 <template>
+  <div>
     <ul>
       <TreeItem v-for="node in nodes" :key="node.id"
                 :node="node"
@@ -11,6 +12,7 @@
                placeholder="New root node">
       </li>
     </ul>
+  </div>
 </template>
 
 <!-- TypeScript -->

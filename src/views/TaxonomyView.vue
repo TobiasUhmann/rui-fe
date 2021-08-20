@@ -1,14 +1,21 @@
 <template>
 
-  <main class="taxonomy-grid">
-    <section class="grid-section">
+  <main class="grid">
+    <section class="grid-section grid-taxonomy">
       <h1 class="grid-header">Taxonomy</h1>
-      <Taxonomy @select="selectedNode = $event"/>
+      <Taxonomy class="grid-content"
+                @select="selectedNode = $event"/>
     </section>
 
-    <section class="grid-section">
+    <section class="grid-section grid-details">
+      <h1 class="grid-header">Details</h1>
+      <Details class="grid-content"/>
+    </section>
+
+    <section class="grid-section grid-matches">
       <h1 class="grid-header">Matches</h1>
-      <Matches :node="selectedNode"/>
+      <Matches class="grid-content"
+               :node="selectedNode"/>
     </section>
   </main>
 
@@ -23,11 +30,12 @@ import {defineComponent} from 'vue'
 import Matches from '@/components/Matches.vue'
 import Node from '@/models/node/Node'
 import Taxonomy from '@/components/Taxonomy.vue'
+import Details from "@/components/Details.vue";
 
 export default defineComponent({
   name: 'TaxonomyView',
 
-  components: {Matches, Taxonomy},
+  components: {Details, Matches, Taxonomy},
 
   data() {
     return {
@@ -42,21 +50,37 @@ export default defineComponent({
 
 <style scoped>
 
-.taxonomy-grid {
+.grid {
   display: grid;
+  grid-template-areas:
+    "taxonomy details"
+    "taxonomy matches";
   grid-template-columns: 1fr 1fr;
+  grid-template-rows: auto 1fr;
   grid-column-gap: 32px;
 
   max-width: 1000px;
   margin: auto;
-}
-
-.grid-section {
   padding: 16px;
 }
 
+.grid-content {
+  padding: 16px;
+}
+
+.grid-taxonomy {
+  grid-area: taxonomy;
+}
+
+.grid-details {
+  grid-area: details;
+}
+
+.grid-matches {
+  grid-area: matches;
+}
+
 .grid-header {
-  margin-bottom: 12px;
   padding: 16px;
   color: grey;
   border-bottom: 1px solid grey;
