@@ -1,6 +1,4 @@
 <template>
-
-  <section class="grid-section">
     <ul>
       <TreeItem v-for="node in nodes" :key="node.id"
                 :node="node"
@@ -13,8 +11,6 @@
                placeholder="New root node">
       </li>
     </ul>
-  </section>
-
 </template>
 
 <!-- TypeScript -->
@@ -79,16 +75,6 @@ export default defineComponent({
 })
 
 </script>
-
-<!-- Scoped CSS -->
-
-<style scoped>
-
-.grid-section {
-  padding: 16px;
-}
-
-</style>
 
 <!-- Nested CSS -->
 

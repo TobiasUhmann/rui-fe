@@ -1,11 +1,15 @@
 <template>
 
   <main class="taxonomy-grid">
-    <h1 class="grid-header">Taxonomy</h1>
-    <h1 class="grid-header">Matches</h1>
+    <section class="grid-section">
+      <h1 class="grid-header">Taxonomy</h1>
+      <Taxonomy @select="selectedNode = $event"/>
+    </section>
 
-    <Taxonomy @select="selectedNode = $event"/>
-    <Matches :node="selectedNode"/>
+    <section class="grid-section">
+      <h1 class="grid-header">Matches</h1>
+      <Matches :node="selectedNode"/>
+    </section>
   </main>
 
 </template>
@@ -47,7 +51,12 @@ export default defineComponent({
   margin: auto;
 }
 
+.grid-section {
+  padding: 16px;
+}
+
 .grid-header {
+  margin-bottom: 12px;
   padding: 16px;
   color: grey;
   border-bottom: 1px solid grey;

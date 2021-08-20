@@ -1,27 +1,23 @@
 <template>
+  <div v-for="(matches, entity) of entityToMatches" :key="entity">
+    <h2 class="name-header">{{ entityToName[entity] }}</h2>
 
-  <section class="grid-section">
-    <div v-for="(matches, entity) of entityToMatches" :key="entity">
-      <h2 class="name-header">{{ entityToName[entity] }}</h2>
-
-      <template v-if="matches.length > 0">
-        <p v-for="(match, index) of matches" :key="index"
-           class="phrase"
-           v-html="getMarkedContext(match)">
-        </p>
-
-        <a class="load-more-matches"
-           @click="loadMoreMatches(entity)">
-          Load more
-        </a>
-      </template>
-
-      <p v-else class="no-matches">
-        No matches for this name
+    <template v-if="matches.length > 0">
+      <p v-for="(match, index) of matches" :key="index"
+         class="phrase"
+         v-html="getMarkedContext(match)">
       </p>
-    </div>
-  </section>
 
+      <a class="load-more-matches"
+         @click="loadMoreMatches(entity)">
+        Load more
+      </a>
+    </template>
+
+    <p v-else class="no-matches">
+      No matches for this name
+    </p>
+  </div>
 </template>
 
 <!-- TypeScript -->
@@ -111,10 +107,6 @@ export default defineComponent({
 <!-- Scoped CSS -->
 
 <style scoped>
-
-.grid-section {
-  padding: 16px;
-}
 
 .name-header {
   margin: 12px 0;
