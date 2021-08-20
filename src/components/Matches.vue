@@ -10,7 +10,7 @@
         </p>
 
         <a class="load-more-matches"
-           @click="loadMoreMatches(entity)">
+           @click="$emit('loadMoreMatches', entity)">
           Load more
         </a>
       </template>
@@ -28,55 +28,23 @@
 
 import {defineComponent, PropType} from 'vue'
 
-import DeepNode from '@/models/node/DeepNode'
 import Match from '@/models/match/Match'
-import MatchService from '@/services/MatchService'
 
 export default defineComponent({
   name: 'Matches',
 
   props: {
-    node: Object as PropType<DeepNode>
-  },
-
-  data() {
-    return {
-      entityToName: {} as { [key: number]: string },
-      entityToMatches: {} as { [key: number]: Match[] }
-    }
-  },
-
-  watch: {
-    node(current: DeepNode | null) {
-      this.loadMatches(current)
+    entityToName: {
+      type: Object as PropType<{ [key: number]: string }>,
+      required: true
+    },
+    entityToMatches: {
+      type: Object as PropType<{ [key: number]: Match[] }>,
+      required: true
     }
   },
 
   methods: {
-
-    loadMatches(node: DeepNode | null): void {
-      this.entityToName = {}
-      this.entityToMatches = {}
-
-      if (node) {
-        for (let entity of node.entities) {
-          MatchService.getMatches(entity.id).then((matches: Match[]) => {
-            this.entityToName[entity.id] = entity.name
-            this.entityToMatches[entity.id] = matches
-          })
-        }
-      }
-    },
-
-    loadMoreMatches(entityId: number): void {
-      const existingEntityMatches = this.entityToMatches[entityId]
-
-      MatchService.getMatches(entityId, existingEntityMatches.length).then((matches: Match[]) => {
-        const entityToMatches = this.entityToMatches
-        entityToMatches[entityId] = [...existingEntityMatches, ...matches]
-        this.entityToMatches = entityToMatches
-      })
-    },
 
     getMarkedContext(match: Match): string {
       let markTokens: number[] = []

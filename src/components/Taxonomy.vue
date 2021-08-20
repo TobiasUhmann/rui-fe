@@ -33,7 +33,7 @@ export default defineComponent({
 
   props: {
     nodes: {
-      type: Array as PropType<DeepNode>[],
+      type: Array as PropType<Array<DeepNode>>,
       required: true
     },
     selectedNode: Object as PropType<DeepNode>

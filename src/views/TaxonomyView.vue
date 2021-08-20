@@ -22,7 +22,9 @@
     <section class="grid-section grid-matches">
       <h1 class="grid-header">Matches</h1>
       <Matches class="grid-content"
-               :node="selectedNode"/>
+               :entity-to-name="entityToName"
+               :entity-to-matches="entityToMatches"
+               @loadMoreMatches="loadMoreMatches($event)"/>
     </section>
   </main>
 
@@ -37,6 +39,8 @@ import {defineComponent} from 'vue'
 import DeepNode from '@/models/node/DeepNode'
 import Details from '@/components/Details.vue'
 import EntityService from '@/services/EntityService'
+import Match from '@/models/match/Match'
+import MatchService from '@/services/MatchService'
 import Matches from '@/components/Matches.vue'
 import Node from '@/models/node/Node'
 import NodeService from '@/services/NodeService'
@@ -52,7 +56,16 @@ export default defineComponent({
   data() {
     return {
       nodes: [] as DeepNode[],
-      selectedNode: null as DeepNode | null
+      selectedNode: null as DeepNode | null,
+
+      entityToName: {} as { [key: number]: string },
+      entityToMatches: {} as { [key: number]: Match[] }
+    }
+  },
+
+  watch: {
+    selectedNode(current: DeepNode | null) {
+      this.loadMatches(current)
     }
   },
 
@@ -119,7 +132,31 @@ export default defineComponent({
 
     deleteEntity(entityId: number): void {
       EntityService.deleteEntity(entityId).then(() => this.reloadTaxonomy())
-    }
+    },
+
+    loadMatches(node: DeepNode | null): void {
+      this.entityToName = {}
+      this.entityToMatches = {}
+
+      if (node) {
+        for (let entity of node.entities) {
+          MatchService.getMatches(entity.id).then((matches: Match[]) => {
+            this.entityToName[entity.id] = entity.name
+            this.entityToMatches[entity.id] = matches
+          })
+        }
+      }
+    },
+
+    loadMoreMatches(entityId: number): void {
+      const existingEntityMatches = this.entityToMatches[entityId]
+
+      MatchService.getMatches(entityId, existingEntityMatches.length).then((matches: Match[]) => {
+        const entityToMatches = this.entityToMatches
+        entityToMatches[entityId] = [...existingEntityMatches, ...matches]
+        this.entityToMatches = entityToMatches
+      })
+    },
   }
 })
 
