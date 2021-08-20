@@ -34,12 +34,14 @@ export default defineComponent({
   name: 'Matches',
 
   props: {
-    entityToName: {
-      type: Object as PropType<{ [key: number]: string }>,
-      required: true
-    },
-    entityToMatches: {
-      type: Object as PropType<{ [key: number]: Match[] }>,
+    entityToMatchesData: {
+      type: Object as PropType<{
+        [entity: number]: {
+          name: string,
+          matchesCount: number,
+          matches: Match[]
+        }
+      }>,
       required: true
     }
   },
