@@ -1,15 +1,21 @@
 <template>
-  NEW NODE
+  {{ parent }}
 </template>
 
 <!-- TypeScript -->
 
 <script lang="ts">
 
-import {defineComponent} from 'vue'
+import {defineComponent, PropType} from 'vue'
+
+import DeepNode from '@/models/node/DeepNode'
 
 export default defineComponent({
-  name: 'NewNode'
+  name: 'NewNode',
+
+  props: {
+    parent: Object as PropType<DeepNode>
+  }
 })
 
 </script>

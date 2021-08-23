@@ -16,11 +16,10 @@
                 :node="child"
                 :selected-node="selectedNode"
                 @select="$emit('select', $event)"
-                @create="$emit('create', $event)"/>
+                @createNode="$emit('createNode', $event)"/>
 
       <li>
-        <input placeholder="New Child Node"
-               @change="createNode($event)">
+        <button @click="$emit('createNode', node)">New Root Node</button>
       </li>
     </ul>
 
@@ -34,8 +33,6 @@
 import {defineComponent, PropType} from 'vue'
 
 import DeepNode from '@/models/node/DeepNode'
-import PostNode from '@/models/node/PostNode'
-import PostNodeEntity from '@/models/entity/PostNodeEntity'
 
 export default defineComponent({
   name: 'TreeItem',
@@ -59,24 +56,6 @@ export default defineComponent({
       this.extended = !this.extended
 
       this.$emit('select', this.node)
-    },
-
-    createNode(event: Event): void {
-      const input = event.target as HTMLInputElement
-
-      const entityNames = input.value.split(' | ')
-      const postNodeEntities = entityNames.map<PostNodeEntity>(name => {
-        return {name}
-      })
-
-      const postNode: PostNode = {
-        parentId: this.node.id,
-        entities: postNodeEntities
-      }
-
-      this.$emit('create', postNode)
-
-      input.value = ''
     }
   }
 })
