@@ -12,11 +12,11 @@
 
     <section class="grid-section grid-details">
       <h1 class="grid-header">Node Details</h1>
-      <Details class="grid-content"
-               :node="selectedNode"
-               @createEntity="createEntity($event)"
-               @deleteEntity="deleteEntity($event)"
-               @deleteNode="deleteNode($event)"/>
+      <NodeDetails class="grid-content"
+                   :node="selectedNode"
+                   @createEntity="createEntity($event)"
+                   @deleteEntity="deleteEntity($event)"
+                   @deleteNode="deleteNode($event)"/>
     </section>
 
     <section class="grid-section grid-matches">
@@ -35,7 +35,7 @@
 import {defineComponent} from 'vue'
 
 import DeepNode from '@/models/node/DeepNode'
-import Details from '@/components/Details.vue'
+import NodeDetails from '@/components/NodeDetails.vue'
 import EntityService from '@/services/EntityService'
 import Matches from '@/components/Matches.vue'
 import Node from '@/models/node/Node'
@@ -47,7 +47,7 @@ import Taxonomy from '@/components/Taxonomy.vue'
 export default defineComponent({
   name: 'TaxonomyView',
 
-  components: {Details, Matches, Taxonomy},
+  components: {NodeDetails, Matches, Taxonomy},
 
   data() {
     return {

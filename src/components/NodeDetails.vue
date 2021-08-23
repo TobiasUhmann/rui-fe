@@ -46,7 +46,7 @@ import DeepNode from '@/models/node/DeepNode'
 import PostEntity from '@/models/entity/PostEntity'
 
 export default defineComponent({
-  name: 'Details',
+  name: 'NodeDetails',
 
   props: {
     node: Object as PropType<DeepNode>
