@@ -7,13 +7,13 @@
                 :nodes="nodes"
                 :selected-node="selectedNode"
                 @select="selectNode($event)"
-                @createNode="createNode($event)"/>
+                @createNode="showCreateNode($event)"/>
     </section>
 
     <section v-if="state === State.NewNode"
              class="grid-section grid-top-right">
       <h1 class="grid-header">New Node</h1>
-      <NewNode :parent="newNodeParent"></NewNode>
+      <NewNode @createNode="createNode($event)"/>
     </section>
 
     <section v-if="state === State.NodeDetails"
@@ -51,6 +51,7 @@ import Node from '@/models/node/Node'
 import NodeService from '@/services/NodeService'
 import PostEntity from '@/models/entity/PostEntity'
 import Taxonomy from '@/components/Taxonomy.vue'
+import PostNode from "@/models/node/PostNode";
 
 enum State {
   Default,
@@ -123,10 +124,28 @@ export default defineComponent({
       this.state = State.NodeDetails
     },
 
-    createNode(node: DeepNode | null): void {
+    showCreateNode(node: DeepNode | null): void {
       this.selectedNode = null
       this.newNodeParent = node
       this.state = State.NewNode
+    },
+
+    createNode(entityNames: string[]) {
+      const postNodeEntities = entityNames.map(name => {
+        return {name}
+      })
+
+      const postNode: PostNode = {
+        parentId: this.newNodeParent ? this.newNodeParent.id : null,
+        entities: postNodeEntities
+      }
+
+      this.selectedNode = null
+      this.newNodeParent = null
+      this.state = State.Default
+
+      NodeService.postNode(postNode).then(() =>
+          this.reloadTaxonomy())
     },
 
     deleteNode(node: Node): void {
