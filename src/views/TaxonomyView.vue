@@ -6,17 +6,19 @@
       <Taxonomy class="grid-content"
                 :nodes="nodes"
                 :selected-node="selectedNode"
+                :new-node-parent-selected="newNodeParentSelected"
+                :new-node-parent="newNodeParent"
                 @select="selectNode($event)"
                 @createNode="showCreateNode($event)"/>
     </section>
 
-    <section v-if="state === State.NewNode"
+    <section v-if="newNodeParentSelected"
              class="grid-section grid-top-right">
       <h1 class="grid-header">New Node</h1>
       <NewNode @createNode="createNode($event)"/>
     </section>
 
-    <section v-if="state === State.NodeDetails"
+    <section v-if="selectedNode"
              class="grid-section grid-top-right">
       <h1 class="grid-header">Node Details</h1>
       <NodeDetails class="grid-content"
@@ -26,7 +28,7 @@
                    @deleteNode="deleteNode($event)"/>
     </section>
 
-    <section v-if="state === State.NodeDetails"
+    <section v-if="selectedNode"
              class="grid-section grid-bottom-right">
       <h1 class="grid-header">Matches</h1>
       <Matches class="grid-content"
@@ -50,14 +52,8 @@ import NewNode from '@/components/NewNode.vue'
 import Node from '@/models/node/Node'
 import NodeService from '@/services/NodeService'
 import PostEntity from '@/models/entity/PostEntity'
+import PostNode from '@/models/node/PostNode'
 import Taxonomy from '@/components/Taxonomy.vue'
-import PostNode from "@/models/node/PostNode";
-
-enum State {
-  Default,
-  NodeDetails,
-  NewNode
-}
 
 export default defineComponent({
   name: 'TaxonomyView',
@@ -67,11 +63,11 @@ export default defineComponent({
   data() {
     return {
       nodes: [] as DeepNode[],
-      state: State.Default,
-      selectedNode: null as DeepNode | null,
-      newNodeParent: null as DeepNode | null,
 
-      State
+      selectedNode: null as DeepNode | null,
+
+      newNodeParentSelected: false,
+      newNodeParent: null as DeepNode | null
     }
   },
 
@@ -120,14 +116,18 @@ export default defineComponent({
 
     selectNode(node: DeepNode): void {
       this.selectedNode = node
+
+      this.newNodeParentSelected = false
       this.newNodeParent = null
-      this.state = State.NodeDetails
     },
 
     showCreateNode(node: DeepNode | null): void {
       this.selectedNode = null
+
+      this.newNodeParentSelected = true
       this.newNodeParent = node
-      this.state = State.NewNode
+
+      console.log(this.newNodeParentSelected)
     },
 
     createNode(entityNames: string[]) {
@@ -141,8 +141,9 @@ export default defineComponent({
       }
 
       this.selectedNode = null
+
+      this.newNodeParentSelected = false
       this.newNodeParent = null
-      this.state = State.Default
 
       NodeService.postNode(postNode).then(() =>
           this.reloadTaxonomy())

@@ -4,11 +4,16 @@
       <TreeItem v-for="node in nodes" :key="node.id"
                 :node="node"
                 :selected-node="selectedNode"
+                :new-node-parent-selected="newNodeParentSelected"
+                :new-node-parent="newNodeParent"
                 @select="this.$emit('select', node)"
                 @createNode="$emit('createNode', $event)"/>
 
       <li>
-        <button @click="$emit('createNode', null)">New Root Node</button>
+        <button :class="{'new-node-parent': newNodeParentSelected && newNodeParent === null}"
+                @click="$emit('createNode', null)">
+          New Root Node
+        </button>
       </li>
     </ul>
   </div>
@@ -33,7 +38,11 @@ export default defineComponent({
       type: Array as PropType<Array<DeepNode>>,
       required: true
     },
-    selectedNode: Object as PropType<DeepNode>
+
+    selectedNode: Object as PropType<DeepNode>,
+
+    newNodeParentSelected: Boolean,
+    newNodeParent: Object as PropType<DeepNode>
   }
 })
 
@@ -49,6 +58,12 @@ ul {
 
 li {
   line-height: 1.5em;
+}
+
+/* Create Node Button */
+
+.new-node-parent {
+  font-weight: bold;
 }
 
 </style>
