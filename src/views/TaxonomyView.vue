@@ -126,8 +126,6 @@ export default defineComponent({
 
       this.newNodeParentSelected = true
       this.newNodeParent = node
-
-      console.log(this.newNodeParentSelected)
     },
 
     createNode(entityNames: string[]) {

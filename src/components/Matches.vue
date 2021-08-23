@@ -52,6 +52,15 @@ export default defineComponent({
     node: Object as PropType<DeepNode>
   },
 
+  watch: {
+    node: {
+      immediate: true,
+      handler(newNode: DeepNode | null) {
+        this.loadMatches(newNode)
+      }
+    }
+  },
+
   data() {
     return {
       entityToMatchesData: {} as {
@@ -61,12 +70,6 @@ export default defineComponent({
           matches: Match[]
         }
       }
-    }
-  },
-
-  watch: {
-    node(current: DeepNode | null) {
-      this.loadMatches(current)
     }
   },
 
