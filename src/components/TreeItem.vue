@@ -53,6 +53,18 @@ export default defineComponent({
     newNodeParent: Object as PropType<DeepNode>
   },
 
+  emits: {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    select(node: DeepNode) {
+      return true
+    },
+
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    createNode(node: DeepNode | null) {
+      return true
+    }
+  },
+
   data() {
     return {
       extended: false

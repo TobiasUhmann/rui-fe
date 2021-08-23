@@ -26,6 +26,7 @@
   <!-- Create Node Button -->
 
   <button class="create-node"
+          :disabled="entityNames.length === 0"
           @click="$emit('createNode', entityNames)">
     Create Node
   </button>
@@ -40,6 +41,12 @@ import {defineComponent} from 'vue'
 
 export default defineComponent({
   name: 'NewNode',
+
+  emits: {
+    createNode(entityNames: string[]) {
+      return entityNames.length > 0
+    }
+  },
 
   data() {
     return {

@@ -52,6 +52,23 @@ export default defineComponent({
     node: Object as PropType<DeepNode>
   },
 
+  emits: {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    deleteNode(node: DeepNode) {
+      return true
+    },
+
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    createEntity(postEntity: PostEntity) {
+      return true
+    },
+
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    deleteEntity(entityId: number) {
+      return true
+    }
+  },
+
   methods: {
     createEntity(event: Event) {
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
