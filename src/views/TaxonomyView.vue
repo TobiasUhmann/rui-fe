@@ -139,13 +139,13 @@ export default defineComponent({
         entities: postNodeEntities
       }
 
+      NodeService.postNode(postNode).then(() =>
+          this.reloadTaxonomy())
+
       this.selectedNode = null
 
       this.newNodeParentSelected = false
       this.newNodeParent = null
-
-      NodeService.postNode(postNode).then(() =>
-          this.reloadTaxonomy())
     },
 
     deleteNode(node: Node): void {
