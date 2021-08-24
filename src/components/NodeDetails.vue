@@ -1,15 +1,21 @@
 <template>
   <div v-if="node">
 
-    {{ node.entities.length }}
-    {{ node.entities.length === 1 ? 'Entity' : 'Entities' }}:
+    <p>
+      {{ shallowNodeMatches }} shallow matches, {{ deepNodeMatches }} deep matches
+    </p>
+
+    <p>
+      {{ node.entities.length }}
+      {{ node.entities.length === 1 ? 'Entity' : 'Entities' }}:
+    </p>
 
     <ul class="entity-list">
 
       <!-- Entities -->
 
       <li v-for="entity of node.entities" :key="entity.id">
-        {{ entity.name }}
+        {{ entity.name }}, {{ entity.matchesCount }} {{ entity.matchesCount === 1 ? 'match' : 'matches' }}
 
         <!-- Delete -->
 
@@ -43,6 +49,7 @@
 import {defineComponent, PropType} from 'vue'
 
 import DeepNode from '@/models/node/DeepNode'
+import Entity from '@/models/entity/Entity'
 import PostEntity from '@/models/entity/PostEntity'
 
 export default defineComponent({
@@ -50,6 +57,18 @@ export default defineComponent({
 
   props: {
     node: Object as PropType<DeepNode>
+  },
+
+  watch: {
+    node: {
+      immediate: true,
+      handler(node: DeepNode) {
+        const {shallowNodeMatches, deepNodeMatches} = this.countMatches(node)
+
+        this.shallowNodeMatches = shallowNodeMatches
+        this.deepNodeMatches = deepNodeMatches
+      }
+    }
   },
 
   emits: {
@@ -66,6 +85,13 @@ export default defineComponent({
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     deleteEntity(entityId: number) {
       return true
+    }
+  },
+
+  data() {
+    return {
+      shallowNodeMatches: undefined as number | undefined,
+      deepNodeMatches: undefined as number | undefined
     }
   },
 
@@ -93,6 +119,28 @@ export default defineComponent({
       if (node.entities.length > 1) {
         this.$emit('deleteEntity', entityId)
       }
+    },
+
+    countMatches(node: DeepNode): { shallowNodeMatches: number, deepNodeMatches: number } {
+      const shallowNodeMatches = this.countShallowNodeMatches(node)
+      const deepNodeMatches = this.countDeepNodeMatches(node)
+
+      return {shallowNodeMatches, deepNodeMatches}
+    },
+
+    countShallowNodeMatches(node: DeepNode): number {
+      return node.entities.reduce((nodeMatches: number, entity: Entity) =>
+          nodeMatches + entity.matchesCount, 0)
+    },
+
+    countDeepNodeMatches(node: DeepNode): number {
+      let deepMatches = this.countShallowNodeMatches(node)
+
+      for (let child of node.children) {
+        deepMatches += this.countDeepNodeMatches(child)
+      }
+
+      return deepMatches
     }
   }
 })
@@ -103,8 +151,12 @@ export default defineComponent({
 
 <style scoped>
 
+p {
+  padding-top: 8px;
+  padding-bottom: 8px;
+}
+
 .entity-list {
-  margin-top: 4px;
   padding-left: 1.5em;
 }
 
