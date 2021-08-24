@@ -1,36 +1,41 @@
 <template>
+  <div>
 
-  <ul class="entity-list">
+    {{ entityNames.length }}
+    {{ entityNames.length === 1 ? 'Entity' : 'Entities' }}:
 
-    <!-- Entities -->
+    <ul class="entity-list">
 
-    <li v-for="(entityName, index) of entityNames" :key="index">
-      {{ entityName }}
+      <!-- Entities -->
 
-      <!-- Delete Entity -->
+      <li v-for="(entityName, index) of entityNames" :key="index">
+        {{ entityName }}
 
-      <span class="delete-entity"
-            @click="entityNames.splice(index, 1)">
+        <!-- Delete Entity -->
+
+        <span class="delete-entity"
+              @click="entityNames.splice(index, 1)">
           (delete)
         </span>
-    </li>
+      </li>
 
-    <!-- Add Entity -->
+      <!-- Add Entity -->
 
-    <li>
-      <input @change="addEntityName($event)"
-             placeholder="New Entity">
-    </li>
-  </ul>
+      <li>
+        <input @change="addEntityName($event)"
+               placeholder="New Entity">
+      </li>
+    </ul>
 
-  <!-- Create Node Button -->
+    <!-- Create Node Button -->
 
-  <button class="create-node"
-          :disabled="entityNames.length === 0"
-          @click="$emit('createNode', entityNames)">
-    Create Node
-  </button>
+    <button class="create-node"
+            :disabled="entityNames.length === 0"
+            @click="$emit('createNode', entityNames)">
+      Create Node
+    </button>
 
+  </div>
 </template>
 
 <!-- TypeScript -->
@@ -71,6 +76,11 @@ export default defineComponent({
 <!-- Scoped CSS -->
 
 <style scoped>
+
+.entity-list {
+  margin-top: 4px;
+  padding-left: 1.5em;
+}
 
 /* Delete Entity Link */
 

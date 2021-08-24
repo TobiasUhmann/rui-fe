@@ -15,7 +15,8 @@
     <section v-if="newNodeParentSelected"
              class="grid-section grid-top-right">
       <h1 class="grid-header">New Node</h1>
-      <NewNode @createNode="createNode($event)"/>
+      <NewNode class="grid-content"
+               @createNode="createNode($event)"/>
     </section>
 
     <section v-if="selectedNode"
