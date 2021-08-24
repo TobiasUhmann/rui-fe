@@ -5,7 +5,6 @@
 
       <h2 class="name-header">
         {{ matchesData.name }}
-        ({{ matchesData.matches.length }} / {{ matchesData.matchesCount }})
       </h2>
 
       <!-- Contexts -->

@@ -50,7 +50,6 @@ import NodeDetails from '@/components/NodeDetails.vue'
 import EntityService from '@/services/EntityService'
 import Matches from '@/components/Matches.vue'
 import NewNode from '@/components/NewNode.vue'
-import Node from '@/models/node/Node'
 import NodeService from '@/services/NodeService'
 import PostEntity from '@/models/entity/PostEntity'
 import PostNode from '@/models/node/PostNode'
@@ -89,7 +88,7 @@ export default defineComponent({
       }
     },
 
-    reloadTaxonomyWithSelectedNode(selectedNode: Node): void {
+    reloadTaxonomyWithSelectedNode(selectedNode: DeepNode): void {
       const selectedNodeId = selectedNode.id
 
       function findNodeInNodes(nodes: DeepNode[], id: number): DeepNode | null {
@@ -148,7 +147,7 @@ export default defineComponent({
       this.newNodeParent = null
     },
 
-    deleteNode(node: Node): void {
+    deleteNode(node: DeepNode): void {
       NodeService.deleteNode(node.id).then(() => {
         if (this.selectedNode && node.id === this.selectedNode.id) {
           this.selectedNode = null
