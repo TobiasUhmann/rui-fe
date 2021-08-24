@@ -4,15 +4,9 @@
     <!-- Node name -->
 
     <span class="node-name"
-          :class="{selected: node.id === selectedNodeId}"
+          :class="{selected: node === selectedNode}"
           @click="toggleAndEmitSelect">
       {{ `${node.entities[0].name} (+${node.entities.length - 1})` }}
-    </span>
-
-    <!-- Delete -->
-
-    <span class="delete" @click="deleteNode">
-      (delete)
     </span>
 
     <!-- Child nodes & Input new child node-->
@@ -20,13 +14,16 @@
     <ul v-if="extended">
       <TreeItem v-for="(child, index) in node.children" :key="index"
                 :node="child"
-                :selected-node-id="selectedNodeId"
-                @update="$emit('update', $event)"
-                @select="$emit('select', $event)"/>
+                :selected-node="selectedNode"
+                :new-node-parent-selected="newNodeParentSelected"
+                :new-node-parent="newNodeParent"
+                @select="$emit('select', $event)"
+                @createNode="$emit('createNode', $event)"/>
 
       <li>
-        <input placeholder="New child node"
-               @change="createNode($event)">
+        <button
+            :class="{'new-node-parent': newNodeParentSelected && newNodeParent === node}"
+            @click="$emit('createNode', node)">New Child Node</button>
       </li>
     </ul>
 
@@ -40,9 +37,6 @@
 import {defineComponent, PropType} from 'vue'
 
 import DeepNode from '@/models/node/DeepNode'
-import NodeService from '@/services/NodeService'
-import PostNode from '@/models/node/PostNode'
-import PostNodeEntity from '@/models/entity/PostNodeEntity'
 
 export default defineComponent({
   name: 'TreeItem',
@@ -52,7 +46,23 @@ export default defineComponent({
       type: Object as PropType<DeepNode>,
       required: true
     },
-    selectedNodeId: Number
+
+    selectedNode: Object as PropType<DeepNode>,
+
+    newNodeParentSelected: Boolean,
+    newNodeParent: Object as PropType<DeepNode>
+  },
+
+  emits: {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    select(node: DeepNode) {
+      return true
+    },
+
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    createNode(node: DeepNode | null) {
+      return true
+    }
   },
 
   data() {
@@ -66,28 +76,6 @@ export default defineComponent({
       this.extended = !this.extended
 
       this.$emit('select', this.node)
-    },
-
-    createNode(event: Event): void {
-      const input = event.target as HTMLInputElement
-
-      const entityNames = input.value.split(' | ')
-      const postNodeEntities = entityNames.map<PostNodeEntity>(name => {
-        return {name}
-      })
-
-      const postNode: PostNode = {
-        parentId: this.node.id,
-        entities: postNodeEntities
-      }
-
-      NodeService.postNode(postNode)
-          .then(() => this.$emit('update'))
-    },
-
-    deleteNode(): void {
-      NodeService.deleteNode(this.node.id)
-          .then(() => this.$emit('update'))
     }
   }
 })
@@ -116,20 +104,15 @@ li.extended::marker {
   content: '-  ';
 }
 
-/* Edit, delete */
-
-.delete {
-  color: lightgrey;
-  cursor: pointer;
-}
-
-.delete:hover {
-  color: grey;
-}
-
 /* Selected */
 
 .selected {
+  font-weight: bold;
+}
+
+/* Create Node Button */
+
+.new-node-parent {
   font-weight: bold;
 }
 

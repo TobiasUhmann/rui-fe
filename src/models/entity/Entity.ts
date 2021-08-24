@@ -4,4 +4,5 @@ export default interface Entity {
     nodeId: number
 
     name: string
+    matchesCount: number
 }
