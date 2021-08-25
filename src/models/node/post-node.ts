@@ -1,4 +1,4 @@
-import PostNodeEntity from '@/models/entity/PostNodeEntity'
+import PostNodeEntity from '@/models/entity/post-node-entity'
 
 export default interface PostNode {
     parentId: null | number

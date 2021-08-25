@@ -1,13 +1,13 @@
 import {defineComponent} from 'vue'
 
-import DeepNode from '@/models/node/DeepNode'
-import NodeDetails from '@/components/node_details/node_details.vue'
-import EntityService from '@/services/EntityService'
+import DeepNode from '@/models/node/deep-node'
+import NodeDetails from '@/components/node-details/node-details.vue'
+import EntityService from '@/services/entity-service'
 import Matches from '@/components/matches/matches.vue'
-import NewNode from '@/components/new_node/new_node.vue'
-import NodeService from '@/services/NodeService'
-import PostEntity from '@/models/entity/PostEntity'
-import PostNode from '@/models/node/PostNode'
+import NewNode from '@/components/new-node/new-node.vue'
+import NodeService from '@/services/node-service'
+import PostEntity from '@/models/entity/post-entity'
+import PostNode from '@/models/node/post-node'
 import Taxonomy from '@/components/taxonomy/taxonomy.vue'
 
 export default defineComponent({

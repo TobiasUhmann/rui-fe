@@ -1,8 +1,8 @@
 import {defineComponent, PropType} from 'vue'
 
-import DeepNode from '@/models/node/DeepNode'
-import Match from '@/models/match/Match'
-import MatchService from '@/services/MatchService'
+import DeepNode from '@/models/node/deep-node'
+import Match from '@/models/match/match'
+import MatchService from '@/services/match-service'
 
 export default defineComponent({
     name: 'Matches',

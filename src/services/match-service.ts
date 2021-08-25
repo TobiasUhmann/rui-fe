@@ -1,4 +1,4 @@
-import Match from '@/models/match/Match'
+import Match from '@/models/match/match'
 
 export default {
 

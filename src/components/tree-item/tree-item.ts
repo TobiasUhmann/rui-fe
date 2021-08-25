@@ -1,6 +1,6 @@
 import {defineComponent, PropType} from 'vue'
 
-import DeepNode from '@/models/node/DeepNode'
+import DeepNode from '@/models/node/deep-node'
 
 export default defineComponent({
     name: 'TreeItem',

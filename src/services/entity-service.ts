@@ -1,4 +1,4 @@
-import PostEntity from '@/models/entity/PostEntity'
+import PostEntity from '@/models/entity/post-entity'
 
 export default {
 

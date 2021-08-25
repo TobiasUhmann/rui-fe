@@ -1,8 +1,8 @@
 import {defineComponent, PropType} from 'vue'
 
-import DeepNode from '@/models/node/DeepNode'
-import Entity from '@/models/entity/Entity'
-import PostEntity from '@/models/entity/PostEntity'
+import DeepNode from '@/models/node/deep-node'
+import Entity from '@/models/entity/entity'
+import PostEntity from '@/models/entity/post-entity'
 
 export default defineComponent({
     name: 'NodeDetails',

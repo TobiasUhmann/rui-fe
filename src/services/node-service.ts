@@ -1,6 +1,6 @@
-import DeepNode from '@/models/node/DeepNode'
-import PostNode from '@/models/node/PostNode'
-import NodePatch from "@/models/node/NodePatch";
+import DeepNode from '@/models/node/deep-node'
+import PostNode from '@/models/node/post-node'
+import NodePatch from "@/models/node/node-patch";
 
 export default {
 
