@@ -1,0 +1,29 @@
+.node-name {
+    cursor: pointer;
+}
+
+/* List bullets */
+
+ul {
+    list-style-type: initial;
+}
+
+li.collapsed::marker {
+    content: '+  ';
+}
+
+li.extended::marker {
+    content: '-  ';
+}
+
+/* Selected */
+
+.selected {
+    font-weight: bold;
+}
+
+/* Create Node Button */
+
+.new-node-parent {
+    font-weight: bold;
+}

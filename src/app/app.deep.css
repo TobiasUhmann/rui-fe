@@ -1,0 +1,20 @@
+* {
+    margin: 0;
+}
+
+.app {
+    font-family: Helvetica, Arial, sans-serif;
+}
+
+/* App Layout */
+
+.app {
+    display: flex;
+    flex-direction: column;
+
+    height: 100vh;
+}
+
+.app main {
+    flex-grow: 1;
+}

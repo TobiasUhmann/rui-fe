@@ -8,12 +8,12 @@ const routes: Array<RouteRecordRaw> = [
     {
         path: '/upload',
         name: 'Upload',
-        component: () => import(/* webpackChunkName: 'upload' */ '../views/UploadView.vue')
+        component: () => import(/* webpackChunkName: 'upload' */ '../views/upload_view/UploadView.vue')
     },
     {
         path: '/taxonomy',
         name: 'Taxonomy',
-        component: () => import(/* webpackChunkName: 'taxonomy' */ '../views/TaxonomyView.vue')
+        component: () => import(/* webpackChunkName: 'taxonomy' */ '../views/taxonomy_view/taxonomy_view.vue')
     }
 ]
 

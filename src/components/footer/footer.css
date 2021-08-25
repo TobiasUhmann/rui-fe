@@ -1,0 +1,17 @@
+/* Flex Layout */
+
+footer {
+    display: flex;
+    justify-content: space-between;
+}
+
+img {
+    height: 40px;
+}
+
+/* Padding and Border */
+
+footer {
+    padding: 16px;
+    border-top: 1px solid lightgrey;
+}

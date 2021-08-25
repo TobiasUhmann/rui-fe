@@ -1,0 +1,18 @@
+<div class="modal-background">
+
+    <div class="modal">
+        <header class="modal-header">
+            <h1>Caution</h1>
+            <div class="close-button" @click="onCancel">&times;</div>
+        </header>
+
+        <main class="modal-content">
+            <p class="message">Uploading will <b>overwrite</b> the existing taxonomy and matches!</p>
+            <div class="buttons">
+                <button class="button cancel" @click="onCancel">Cancel</button>
+                <button class="button continue" @click="onOverwrite">Overwrite</button>
+            </div>
+        </main>
+    </div>
+
+</div>

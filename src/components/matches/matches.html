@@ -1,0 +1,33 @@
+<div v-if="node">
+
+    <div v-for="(matchesData, entity) of entityToMatchesData" :key="entity">
+
+        <h2 class="name-header">
+            {{ matchesData.name }}
+        </h2>
+
+        <!-- Contexts -->
+
+        <template v-if="matchesData.matches.length > 0">
+            <p v-for="(match, index) of matchesData.matches" :key="index"
+               class="context"
+               v-html="getMarkedContext(match)">
+            </p>
+
+            <!-- Load More -->
+
+            <a v-if="matchesData.matches.length < matchesData.matchesCount"
+               class="load-more-matches"
+               @click="loadMoreMatches(entity)">
+                Load more
+            </a>
+        </template>
+
+        <!-- No Matches -->
+
+        <p v-else class="no-matches">
+            No matches for this name
+        </p>
+    </div>
+
+</div>

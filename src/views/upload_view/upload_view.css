@@ -1,0 +1,29 @@
+/* Upload Warning Modal */
+
+.d-none {
+    display: none;
+}
+
+.d-block {
+    display: block;
+}
+
+/* Form Position */
+
+.upload-form {
+    margin: 32px auto;
+}
+
+/* Form Layout */
+
+.upload-form {
+    display: grid;
+    grid-template-columns: 160px 1fr;
+    grid-gap: 16px;
+
+    width: 400px;
+}
+
+.upload-form-input {
+    grid-column: 2;
+}

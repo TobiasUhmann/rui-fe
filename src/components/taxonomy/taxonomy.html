@@ -1,0 +1,18 @@
+<div>
+    <ul>
+        <TreeItem v-for="node in nodes" :key="node.id"
+                  :node="node"
+                  :selected-node="selectedNode"
+                  :new-node-parent-selected="newNodeParentSelected"
+                  :new-node-parent="newNodeParent"
+                  @select="this.$emit('select', node)"
+                  @createNode="$emit('createNode', $event)"/>
+
+        <li>
+            <button :class="{'new-node-parent': newNodeParentSelected && newNodeParent === null}"
+                    @click="$emit('createNode', null)">
+                New Root Node
+            </button>
+        </li>
+    </ul>
+</div>

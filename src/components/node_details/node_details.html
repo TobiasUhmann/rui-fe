@@ -1,0 +1,41 @@
+<div v-if="node">
+
+    <p>
+        {{ shallowNodeMatches }} shallow matches, {{ deepNodeMatches }} deep matches
+    </p>
+
+    <p>
+        {{ node.entities.length }}
+        {{ node.entities.length === 1 ? 'Entity' : 'Entities' }}:
+    </p>
+
+    <ul class="entity-list">
+
+        <!-- Entities -->
+
+        <li v-for="entity of node.entities" :key="entity.id">
+            {{ entity.name }}, {{ entity.matchesCount }} {{ entity.matchesCount === 1 ? 'match' : 'matches' }}
+
+            <!-- Delete -->
+
+            <span class="delete-entity" @click="deleteEntity(entity.id)">
+          (delete)
+        </span>
+        </li>
+
+        <!-- New Entity -->
+
+        <li>
+            <input @change="createEntity($event)"
+                   placeholder="New Entity">
+        </li>
+    </ul>
+
+    <!-- Delete Node -->
+
+    <button class="delete-node"
+            @click="$emit('deleteNode', node)">
+        Delete Node
+    </button>
+
+</div>

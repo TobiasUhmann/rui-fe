@@ -1,0 +1,16 @@
+<UploadWarning :class="[showUploadWarning ? 'd-block' : 'd-none']"
+               @cancel="showUploadWarning = false"
+               @overwrite="uploadAndRedirect"/>
+
+<form class="upload-form"
+      ref="form"
+      @submit.prevent="showUploadWarning = true">
+
+    <label for="symptaxUploadZip">Symptax Upload ZIP</label>
+    <input id="symptaxUploadZip" class="upload-form-input"
+           type="file" name="symptaxUploadZip">
+
+    <input class="upload-form-input"
+           type="submit"
+           value="Upload"/>
+</form>

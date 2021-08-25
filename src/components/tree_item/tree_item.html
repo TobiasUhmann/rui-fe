@@ -1,0 +1,29 @@
+<li :class="[extended ? 'extended' : 'collapsed']">
+
+    <!-- Node name -->
+
+    <span class="node-name"
+          :class="{selected: node === selectedNode}"
+          @click="toggleAndEmitSelect">
+      {{ `${node.entities[0].name} (+${node.entities.length - 1})` }}
+    </span>
+
+    <!-- Child nodes & Input new child node-->
+
+    <ul v-if="extended">
+        <TreeItem v-for="(child, index) in node.children" :key="index"
+                  :node="child"
+                  :selected-node="selectedNode"
+                  :new-node-parent-selected="newNodeParentSelected"
+                  :new-node-parent="newNodeParent"
+                  @select="$emit('select', $event)"
+                  @createNode="$emit('createNode', $event)"></TreeItem>
+
+        <li>
+            <button
+                    :class="{'new-node-parent': newNodeParentSelected && newNodeParent === node}"
+                    @click="$emit('createNode', node)">New Child Node</button>
+        </li>
+    </ul>
+
+</li>

@@ -1,0 +1,23 @@
+.name-header {
+    margin: 12px 0;
+    font-size: 1.2em;
+}
+
+.context {
+    margin: 12px 0;
+}
+
+.context >>> .mention {
+    color: red;
+    font-weight: bold;
+}
+
+.no-matches {
+    color: grey;
+}
+
+.load-more-matches {
+    color: grey;
+    text-decoration: underline;
+    cursor: pointer;
+}
