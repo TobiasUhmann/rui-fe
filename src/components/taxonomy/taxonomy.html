@@ -5,7 +5,7 @@
                   :selected-node="selectedNode"
                   :new-node-parent-selected="newNodeParentSelected"
                   :new-node-parent="newNodeParent"
-                  @select="this.$emit('select', node)"
+                  @select="this.$emit('select', $event)"
                   @createNode="$emit('createNode', $event)"/>
 
         <li>
