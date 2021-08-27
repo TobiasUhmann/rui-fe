@@ -1,7 +1,7 @@
 import {defineComponent} from 'vue'
 
 import UploadWarning from '@/components/upload-warning/upload-warning.vue'
-import UploadService from "@/services/upload-service";
+import UploadService from '@/services/upload-service'
 
 export default defineComponent({
     name: 'UploadView',
