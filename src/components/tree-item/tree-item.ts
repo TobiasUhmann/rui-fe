@@ -27,6 +27,20 @@ export default defineComponent({
         }
     },
 
+    watch: {
+        selectedNode: {
+            immediate: true,
+            handler(selectedNode: DeepNode | null) {
+                if (selectedNode) {
+                    const contains = this.containsNode(this.node, selectedNode)
+                    if (contains) {
+                        this.extended = true
+                    }
+                }
+            }
+        }
+    },
+
     emits: {
         select(node: DeepNode) {
             return true
@@ -52,6 +66,21 @@ export default defineComponent({
             }
 
             this.$emit('select', this.node)
+        },
+
+        containsNode(checkNode: DeepNode, searchNode: DeepNode): boolean {
+            for (const child of checkNode.children) {
+                if (child === searchNode) {
+                    return true
+                }
+
+                const childContainsNode = this.containsNode(child, searchNode)
+                if (childContainsNode) {
+                    return true
+                }
+            }
+
+            return false
         }
     }
 })
