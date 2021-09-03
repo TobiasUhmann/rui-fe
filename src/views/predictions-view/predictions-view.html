@@ -3,8 +3,8 @@
         <h1 class="grid-header">Predicted Node</h1>
 
         <TreeItem v-for="rootNode in rootNodes" :key="rootNode.id"
-                  :showNewNodeButton="false"
-                  :node="rootNode"/>
+                  :node="rootNode"
+                  :showNewNodeButton="false"/>
     </section>
 
     <section v-if="newNodeParentSelected"

@@ -1,4 +1,4 @@
-<li :class="[extended ? 'extended' : 'collapsed']">
+<li :class="{extendable, extended}">
 
     <!-- Node name -->
 
@@ -13,9 +13,10 @@
     <ul v-if="extended">
         <TreeItem v-for="(child, index) in node.children" :key="index"
                   :node="child"
-                  :selected-node="selectedNode"
-                  :new-node-parent-selected="newNodeParentSelected"
-                  :new-node-parent="newNodeParent"
+                  :selectedNode="selectedNode"
+                  :newNodeParentSelected="newNodeParentSelected"
+                  :newNodeParent="newNodeParent"
+                  :showNewNodeButton="showNewNodeButton"
                   @select="$emit('select', $event)"
                   @createNode="$emit('createNode', $event)"></TreeItem>
 

@@ -37,8 +37,22 @@ export default defineComponent({
     methods: {
         loadRootNode(nodeId: number): void {
             NodeService.getNodes().then((rootNodes: DeepNode[]) => {
-                this.rootNodes = rootNodes.filter(node => node.id === nodeId)
+                this.rootNodes = rootNodes.filter(node => this.isNodeOrHasChildNode(node, nodeId))
             })
+        },
+
+        isNodeOrHasChildNode(node: DeepNode, nodeId: number): boolean {
+            if (node.id === nodeId) {
+                return true
+            }
+
+            for (const child of node.children) {
+                if (this.isNodeOrHasChildNode(child, nodeId)) {
+                    return true
+                }
+            }
+
+            return false
         }
     }
 })

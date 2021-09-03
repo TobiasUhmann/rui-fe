@@ -21,6 +21,12 @@ export default defineComponent({
         newNodeParent: Object as PropType<DeepNode>
     },
 
+    computed: {
+        extendable(): boolean {
+            return !this.extended && (this.node.children.length > 0 || this.showNewNodeButton)
+        }
+    },
+
     emits: {
         select(node: DeepNode) {
             return true
@@ -39,7 +45,11 @@ export default defineComponent({
 
     methods: {
         toggleAndEmitSelect(): void {
-            this.extended = !this.extended
+            if (this.extendable) {
+                this.extended = true
+            } else if (this.extended) {
+                this.extended = false
+            }
 
             this.$emit('select', this.node)
         }
