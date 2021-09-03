@@ -1,1 +1,14 @@
-PREDICTIONS
+<main class="grid">
+    <section class="grid-section grid-left">
+        <h1 class="grid-header">Predicted Node</h1>
+
+        <TreeItem v-for="rootNode in rootNodes" :key="rootNode.id"
+                  :node="rootNode"/>
+    </section>
+
+    <section v-if="newNodeParentSelected"
+             class="grid-section grid-top-right">
+        <h1 class="grid-header">Predictions</h1>
+        Predictions
+    </section>
+</main>

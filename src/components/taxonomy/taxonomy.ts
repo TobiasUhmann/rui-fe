@@ -9,7 +9,7 @@ export default defineComponent({
     components: {TreeItem},
 
     props: {
-        nodes: {
+        rootNodes: {
             type: Array as PropType<Array<DeepNode>>,
             required: true
         },

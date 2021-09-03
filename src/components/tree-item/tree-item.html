@@ -19,9 +19,8 @@
                   @select="$emit('select', $event)"
                   @createNode="$emit('createNode', $event)"></TreeItem>
 
-        <li>
-            <button
-                    :class="{'new-node-parent': newNodeParentSelected && newNodeParent === node}"
+        <li v-if="showNewNodeButton">
+            <button :class="{'new-node-parent': newNodeParentSelected && newNodeParent === node}"
                     @click="$emit('createNode', node)">New Child Node</button>
         </li>
     </ul>

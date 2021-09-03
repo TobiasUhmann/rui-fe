@@ -1,7 +1,7 @@
 <div>
     <ul>
-        <TreeItem v-for="node in nodes" :key="node.id"
-                  :node="node"
+        <TreeItem v-for="rootNode in rootNodes" :key="rootNode.id"
+                  :node="rootNode"
                   :selected-node="selectedNode"
                   :new-node-parent-selected="newNodeParentSelected"
                   :new-node-parent="newNodeParent"

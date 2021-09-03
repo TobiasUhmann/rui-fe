@@ -2,10 +2,10 @@
     <section class="grid-section grid-left">
         <h1 class="grid-header">Taxonomy</h1>
         <Taxonomy class="grid-content"
-                  :nodes="nodes"
-                  :selected-node="selectedNode"
-                  :new-node-parent-selected="newNodeParentSelected"
-                  :new-node-parent="newNodeParent"
+                  :rootNodes="rootNodes"
+                  :selectedNode="selectedNode"
+                  :newNodeParentSelected="newNodeParentSelected"
+                  :newNodeParent="newNodeParent"
                   @select="selectNode($event)"
                   @createNode="showCreateNode($event)"/>
     </section>

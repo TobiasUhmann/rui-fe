@@ -17,7 +17,7 @@ export default defineComponent({
 
     data() {
         return {
-            nodes: [] as DeepNode[],
+            rootNodes: [] as DeepNode[],
 
             selectedNode: null as DeepNode | null,
 
@@ -32,7 +32,7 @@ export default defineComponent({
 
     methods: {
         loadTaxonomy(): void {
-            NodeService.getNodes().then((nodes: DeepNode[]) => this.nodes = nodes)
+            NodeService.getNodes().then((rootNodes: DeepNode[]) => this.rootNodes = rootNodes)
         },
 
         reloadTaxonomy(): void {
@@ -63,7 +63,7 @@ export default defineComponent({
             }
 
             NodeService.getNodes().then((nodes: DeepNode[]) => {
-                this.nodes = nodes
+                this.rootNodes = nodes
 
                 this.selectedNode = findNodeInNodes(nodes, selectedNodeId)
             })

@@ -13,6 +13,10 @@ export default defineComponent({
 
         selectedNode: Object as PropType<DeepNode>,
 
+        showNewNodeButton: {
+            type: Boolean,
+            default: true
+        },
         newNodeParentSelected: Boolean,
         newNodeParent: Object as PropType<DeepNode>
     },
