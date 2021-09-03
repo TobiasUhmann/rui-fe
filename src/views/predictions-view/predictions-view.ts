@@ -9,6 +9,12 @@ export default defineComponent({
 
     components: {TreeItem},
 
+    watch: {
+        $route(to) {
+            console.log(to)
+        }
+    },
+
     data() {
         return {
             rootNodes: [] as DeepNode[]
@@ -16,13 +22,22 @@ export default defineComponent({
     },
 
     mounted() {
-        this.loadRootNode()
+        const nodeId = Number(this.$route.params.node)
+        this.loadRootNode(nodeId)
+
+        this.$watch(
+            () => this.$route.params,
+            () => {
+                const nodeId = Number(this.$route.params.node)
+                this.loadRootNode(nodeId)
+            }
+        )
     },
 
     methods: {
-        loadRootNode(): void {
+        loadRootNode(nodeId: number): void {
             NodeService.getNodes().then((rootNodes: DeepNode[]) => {
-                this.rootNodes = rootNodes
+                this.rootNodes = rootNodes.filter(node => node.id === nodeId)
             })
         }
     }
