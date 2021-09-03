@@ -2,8 +2,9 @@
     <section class="grid-section grid-left">
         <h1 class="grid-header">Predicted Node</h1>
 
-        <TreeItem v-for="rootNode in rootNodes" :key="rootNode.id"
+        <TreeItem v-if="rootNode"
                   :node="rootNode"
+                  :selectedNode="predictedNode"
                   :showNewNodeButton="false"/>
     </section>
 

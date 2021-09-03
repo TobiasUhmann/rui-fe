@@ -17,7 +17,8 @@ export default defineComponent({
 
     data() {
         return {
-            rootNodes: [] as DeepNode[]
+            rootNode: null as DeepNode | null,
+            predictedNode: null as DeepNode | null
         }
     },
 
@@ -37,22 +38,32 @@ export default defineComponent({
     methods: {
         loadRootNode(nodeId: number): void {
             NodeService.getNodes().then((rootNodes: DeepNode[]) => {
-                this.rootNodes = rootNodes.filter(node => this.isNodeOrHasChildNode(node, nodeId))
+                for (const rootNode of rootNodes) {
+                    const predictedNode = this.findNode(rootNode, nodeId)
+
+                    if (predictedNode) {
+                        this.rootNode = rootNode
+                        this.predictedNode = predictedNode
+                        break
+                    }
+                }
             })
         },
 
-        isNodeOrHasChildNode(node: DeepNode, nodeId: number): boolean {
+        findNode(node: DeepNode, nodeId: number): DeepNode | null {
             if (node.id === nodeId) {
-                return true
+                return node
             }
 
             for (const child of node.children) {
-                if (this.isNodeOrHasChildNode(child, nodeId)) {
-                    return true
+                const foundNode = this.findNode(child, nodeId)
+
+                if (foundNode) {
+                    return foundNode
                 }
             }
 
-            return false
+            return null
         }
     }
 })
