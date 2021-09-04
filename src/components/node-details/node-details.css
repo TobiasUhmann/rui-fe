@@ -1,7 +1,7 @@
 /* Sections */
 
 section:not(:first-child) {
-    margin-top: 16px;
+    margin-top: 24px;
 }
 
 /* Matches Table */
