@@ -4,64 +4,62 @@
 
     <section>
         <table>
-            <colgroup>
-                <col>
-                <col>
-            </colgroup>
-
-            <tbody>
-                <tr>
-                    <th>Matches</th>
-                    <td>{{ shallowNodeMatches }}</td>
-                </tr>
-                <tr>
-                    <th>Child Matches</th>
-                    <td>{{ shallowNodeMatches - deepNodeMatches }}</td>
-                </tr>
-            </tbody>
-            <tfoot>
+            <tr>
+                <th>Matches</th>
+                <td>{{ shallowNodeMatches }}</td>
+            </tr>
+            <tr>
+                <th>Child Matches</th>
+                <td>{{ shallowNodeMatches - deepNodeMatches }}</td>
+            </tr>
             <tr>
                 <th></th>
                 <td style="border-top: 1px solid grey">
                     {{ deepNodeMatches }}
                 </td>
             </tr>
-            </tfoot>
         </table>
     </section>
 
-    <p>
-        {{ node.entities.length }}
-        {{ node.entities.length === 1 ? 'Entity' : 'Entities' }}:
-    </p>
+    <!-- Entities -->
 
-    <ul class="entity-list">
+    <section>
+        Entities ({{ node.entities.length }})
 
-        <!-- Entities -->
+        <ul class="entity-list">
+            <li v-for="entity of node.entities" :key="entity.id">
+                {{ entity.name }}
 
-        <li v-for="entity of node.entities" :key="entity.id">
-            {{ entity.name }}, {{ entity.matchesCount }} {{ entity.matchesCount === 1 ? 'match' : 'matches' }}
+                <span>({{ entity.matchesCount }} {{ entity.matchesCount === 1 ? 'match' : 'matches' }})</span>
 
-            <!-- Delete -->
+                <button class="delete-button" @click="deleteEntity(entity.id)">
+                    Delete
+                </button>
+            </li>
 
-            <span class="delete-entity" @click="deleteEntity(entity.id)">
-          (delete)
-        </span>
-        </li>
+            <li>
+                <input @change="createEntity($event)"
+                       placeholder="New Entity">
 
-        <!-- New Entity -->
-
-        <li>
-            <input @change="createEntity($event)"
-                   placeholder="New Entity">
-        </li>
-    </ul>
+                <button class="create-button" @click="deleteEntity(entity.id)">
+                    Add
+                </button>
+            </li>
+        </ul>
+    </section>
 
     <!-- Delete Node -->
 
-    <button class="delete-node"
-            @click="$emit('deleteNode', node)">
-        Delete Node
-    </button>
+    <section>
+        <button class="delete-button"
+                @click="$emit('deleteNode', node)">
+            Delete Node
+        </button>
+
+        <button class="create-button"
+                @click="$emit('deleteNode', node)">
+            Add Child Node
+        </button>
+    </section>
 
 </div>

@@ -1,13 +1,27 @@
-p {
-    padding-top: 8px;
-    padding-bottom: 8px;
+/* Sections */
+
+section:not(:first-child) {
+    margin-top: 16px;
 }
 
-.entity-list {
-    padding-left: 1.5em;
+/* Matches Table */
+
+table {
+    border-collapse: collapse;
 }
 
-/* Delete Link */
+table th {
+    width: 160px;
+    font-weight: normal;
+    text-align: left;
+}
+
+table td {
+    width: 60px;
+    text-align: right;
+}
+
+/* Delete Entity */
 
 .delete-entity {
     color: lightgrey;
@@ -18,27 +32,22 @@ p {
     color: grey;
 }
 
-/* Delete Button */
+/* Buttons */
 
-.delete-node {
-    margin-top: 16px;
+.delete-button {
+    color: #b3010b;
+    background-color: inherit;
+    border: 1px solid #b3010b;
 }
 
-/* Table */
-
-table col:first-child {
-    width: 160px;
+.create-button {
+    color: #196b00;
+    background-color: inherit;
+    border: 1px solid #196b00;
 }
 
-table col:last-child {
-    width: 60px;
-}
+/* Node Buttons */
 
-table th {
-    font-weight: normal;
-    text-align: left;
-}
-
-table td {
-    text-align: right;
+button:not(:first-child) {
+    margin-left: 8px;
 }
