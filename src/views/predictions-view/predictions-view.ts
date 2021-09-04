@@ -2,12 +2,13 @@ import {defineComponent} from 'vue'
 
 import DeepNode from '@/models/node/deep-node'
 import NodeService from '@/services/node-service'
+import PredictionCard from '@/components/prediction-card/prediction-card'
 import TreeItem from '@/components/tree-item/tree-item.vue'
 
 export default defineComponent({
     name: 'PredictionsView',
 
-    components: {TreeItem},
+    components: {PredictionCard, TreeItem},
 
     watch: {
         $route(to) {

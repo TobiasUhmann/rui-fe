@@ -8,9 +8,10 @@
                   :showNewNodeButton="false"/>
     </section>
 
-    <section v-if="newNodeParentSelected"
+    <section v-if="rootNode"
              class="grid-section grid-top-right">
         <h1 class="grid-header">Predictions</h1>
-        Predictions
+
+        <PredictionCard></PredictionCard>
     </section>
 </main>

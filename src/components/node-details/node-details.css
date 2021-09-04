@@ -23,3 +23,22 @@ p {
 .delete-node {
     margin-top: 16px;
 }
+
+/* Table */
+
+table col:first-child {
+    width: 160px;
+}
+
+table col:last-child {
+    width: 60px;
+}
+
+table th {
+    font-weight: normal;
+    text-align: left;
+}
+
+table td {
+    text-align: right;
+}
