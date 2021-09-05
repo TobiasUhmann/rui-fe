@@ -1,7 +1,13 @@
-/* Sections */
+/* Grid */
 
-section:not(:first-child) {
-    margin-top: 24px;
+main {
+    display: grid;
+    grid-template-columns: 100px 1fr;
+    grid-gap: 24px;
+}
+
+main h1 {
+    font-size: 1em;
 }
 
 /* Matches Table */
@@ -21,14 +27,9 @@ table td {
     text-align: right;
 }
 
-/* Delete Entity */
+/* Entities */
 
-.delete-entity {
-    color: lightgrey;
-    cursor: pointer;
-}
-
-.delete-entity:hover {
+.matches-count {
     color: grey;
 }
 
@@ -46,8 +47,15 @@ table td {
     border: 1px solid #196b00;
 }
 
+/* Predictions Link */
+
+.predictions a {
+    display: block;
+    margin-top: 8px;
+}
+
 /* Node Buttons */
 
-button:not(:first-child) {
-    margin-left: 8px;
+.mt-24 {
+    margin-top: 24px;
 }

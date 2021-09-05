@@ -1,73 +1,81 @@
 <div v-if="node">
 
-    <!-- Matches -->
+    <main>
 
-    <section>
-        <table>
-            <tr>
-                <th>Matches</th>
-                <td>{{ shallowNodeMatches }}</td>
-            </tr>
-            <tr>
-                <th>Child Matches</th>
-                <td>{{ shallowNodeMatches - deepNodeMatches }}</td>
-            </tr>
-            <tr>
-                <th></th>
-                <td style="border-top: 1px solid grey">
-                    {{ deepNodeMatches }}
-                </td>
-            </tr>
-        </table>
-    </section>
+        <!-- Matches -->
 
-    <!-- Entities -->
+        <h1>Matches</h1>
+        <section>
+            <table>
+                <tr>
+                    <th>Direct</th>
+                    <td>{{ shallowNodeMatches }}</td>
+                </tr>
+                <tr>
+                    <th>Children</th>
+                    <td>{{ shallowNodeMatches - deepNodeMatches }}</td>
+                </tr>
+                <tr>
+                    <th></th>
+                    <td style="border-top: 1px solid grey">
+                        {{ deepNodeMatches }}
+                    </td>
+                </tr>
+            </table>
+        </section>
 
-    <section>
-        Entities ({{ node.entities.length }})
+        <!-- Entities -->
 
-        <ul class="entity-list">
-            <li v-for="entity of node.entities" :key="entity.id">
-                {{ entity.name }}
+        <h1>Entities ({{ node.entities.length }})</h1>
+        <section>
+            <ul>
+                <li v-for="entity of node.entities" :key="entity.id">
+                    {{ entity.name }}
 
-                <span>({{ entity.matchesCount }} {{ entity.matchesCount === 1 ? 'match' : 'matches' }})</span>
+                    <span class="matches-count">
+                        ({{ entity.matchesCount }}&nbsp;{{ entity.matchesCount === 1 ? 'match' : 'matches' }})
+                    </span>
 
-                <button class="delete-button" @click="deleteEntity(entity.id)">
-                    Delete
-                </button>
-            </li>
+                    <button class="delete-button" @click="deleteEntity(entity.id)">
+                        Delete
+                    </button>
+                </li>
 
-            <li>
-                <input @change="createEntity($event)"
-                       placeholder="New Entity">
+                <li>
+                    <input style="display: inline" @change="createEntity($event)"
+                           placeholder="New Entity"
 
-                <button class="create-button" @click="deleteEntity(entity.id)">
-                    Add
-                </button>
-            </li>
-        </ul>
-    </section>
+                    /> <button style="display: inline"  class="create-button" @click="deleteEntity(entity.id)">
+                        Add
+                    </button>
+                </li>
+            </ul>
+        </section>
 
-    <!-- Predictions -->
+        <!-- Predictions -->
 
-    <section>
-        Predicted
-        <table>
-            <tr>
-                <th>&nbsp;&nbsp;&nbsp;Synonyms</th>
-                <td>987</td>
-            </tr>
-            <tr>
-                <th>&nbsp;&nbsp;&nbsp;Children</th>
-                <td>1234</td>
-            </tr>
-        </table>
-        <a href="google.com">Show Predictions</a>
-    </section>
+        <h1>Predictions</h1>
+        <section class="predictions">
+            <table>
+                <tr>
+                    <th>Synonyms</th>
+                    <td>987</td>
+                </tr>
+                <tr>
+                    <th>Children</th>
+                    <td>1234</td>
+                </tr>
+            </table>
 
-    <!-- Delete Node -->
+            <router-link to="/predictions/{{ node.id }}">
+                Show Predictions
+            </router-link>
+        </section>
+    </main>
 
-    <section>
+    <!-- Node Buttons -->
+
+    <section class="mt-24">
         <button class="delete-button"
                 @click="$emit('deleteNode', node)">
             Delete Node
