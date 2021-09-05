@@ -7,12 +7,13 @@
         <Taxonomy class="grid-content"
                   :rootNodes="rootNodes"
                   :selectedNode="selectedNode"
-                  @select="selectNode($event)"/>
+                  @select="selectNode($event)"
+                  @createNode="showCreateRootNode"/>
     </section>
 
     <!-- New Node -->
 
-    <section v-if="newNodeParentSelected"
+    <section v-if="creatingNewNode"
              class="grid-section grid-top-right">
         <h1 class="grid-header">New Node</h1>
         <NewNode class="grid-content"
@@ -21,14 +22,14 @@
 
     <!-- Node Details -->
 
-    <section v-if="selectedNode"
+    <section v-if="!creatingNewNode && selectedNode"
              class="grid-section grid-top-right">
         <h1 class="grid-header">Node Details</h1>
         <NodeDetails class="grid-content"
                      :node="selectedNode"
                      @createEntity="createEntity($event)"
                      @deleteEntity="deleteEntity($event)"
-                     @createNode="showCreateNode($event)"
+                     @createNode="showCreateNode"
                      @deleteNode="deleteNode($event)"/>
     </section>
 

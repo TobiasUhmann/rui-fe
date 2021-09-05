@@ -6,8 +6,8 @@
                   @select="$emit('select', $event)"/>
 
         <li>
-            <button @click="$emit('createNode', null)">
-                New Root Node
+            <button class="create-button" @click="$emit('createNode')">
+                Add Root Node
             </button>
         </li>
     </ul>

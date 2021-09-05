@@ -22,7 +22,7 @@ export default defineComponent({
             return true
         },
 
-        createNode(node: DeepNode | null) {
+        createNode() {
             return true
         }
     }

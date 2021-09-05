@@ -49,20 +49,3 @@ ul li {
 .matches-count {
     color: grey;
 }
-
-/* Entity & Node Buttons */
-
-.delete-button, .create-button {
-    background-color: inherit;
-    cursor: pointer;
-}
-
-.delete-button {
-    color: #b3010b;
-    border: 1px solid #b3010b;
-}
-
-.create-button {
-    color: #196b00;
-    border: 1px solid #196b00;
-}
