@@ -27,35 +27,25 @@ table td {
     text-align: right;
 }
 
-/* Entities */
+/* Entities List */
 
 .matches-count {
     color: grey;
 }
 
-/* Buttons */
+/* Entity & Node Buttons */
+
+.delete-button, .create-button {
+    background-color: inherit;
+    cursor: pointer;
+}
 
 .delete-button {
     color: #b3010b;
-    background-color: inherit;
     border: 1px solid #b3010b;
 }
 
 .create-button {
     color: #196b00;
-    background-color: inherit;
     border: 1px solid #196b00;
-}
-
-/* Predictions Link */
-
-.predictions a {
-    display: block;
-    margin-top: 8px;
-}
-
-/* Node Buttons */
-
-.mt-24 {
-    margin-top: 24px;
 }

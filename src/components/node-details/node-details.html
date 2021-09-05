@@ -67,24 +67,26 @@
                 </tr>
             </table>
 
-            <router-link to="/predictions/{{ node.id }}">
+            <router-link class="d-inline-block mt-8"
+                         :to="`/predictions/${node.id}`">
                 Show Predictions
             </router-link>
         </section>
+
+        <!-- Node Buttons -->
+
+        <h1>Topology</h1>
+        <section>
+            <button class="delete-button"
+                    @click="$emit('deleteNode', node)">
+                Delete Node
+            </button>
+
+            <button class="create-button ml-8"
+                    @click="$emit('deleteNode', node)">
+                Add Child Node
+            </button>
+        </section>
     </main>
-
-    <!-- Node Buttons -->
-
-    <section class="mt-24">
-        <button class="delete-button"
-                @click="$emit('deleteNode', node)">
-            Delete Node
-        </button>
-
-        <button class="create-button"
-                @click="$emit('deleteNode', node)">
-            Add Child Node
-        </button>
-    </section>
 
 </div>

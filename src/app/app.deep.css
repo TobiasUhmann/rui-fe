@@ -57,3 +57,23 @@
     border-bottom: 1px solid grey;
     text-align: center;
 }
+
+/* Layout */
+
+.d-inline-block {
+    display: inline-block;
+}
+
+.mt-8 {
+    margin-top: 8px;
+}
+
+.ml-8 {
+    margin-left: 8px;
+}
+
+/* Links */
+
+a, a:visited {
+    color: blue;
+}
