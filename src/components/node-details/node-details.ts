@@ -24,6 +24,10 @@ export default defineComponent({
     },
 
     emits: {
+        createNode(parent: DeepNode) {
+            return true
+        },
+
         deleteNode(node: DeepNode) {
             return true
         },

@@ -14,10 +14,7 @@ export default defineComponent({
             required: true
         },
 
-        selectedNode: Object as PropType<DeepNode>,
-
-        newNodeParentSelected: Boolean,
-        newNodeParent: Object as PropType<DeepNode>
+        selectedNode: Object as PropType<DeepNode>
     },
 
     emits: {

@@ -14,16 +14,6 @@
         <TreeItem v-for="(child, index) in node.children" :key="index"
                   :node="child"
                   :selectedNode="selectedNode"
-                  :newNodeParentSelected="newNodeParentSelected"
-                  :newNodeParent="newNodeParent"
-                  :showNewNodeButton="showNewNodeButton"
-                  @select="$emit('select', $event)"
-                  @createNode="$emit('createNode', $event)"></TreeItem>
-
-        <li v-if="showNewNodeButton">
-            <button :class="{'new-node-parent': newNodeParentSelected && newNodeParent === node}"
-                    @click="$emit('createNode', node)">New Child Node</button>
-        </li>
+                  @select="$emit('select', $event)"></TreeItem>
     </ul>
-
 </li>

@@ -13,11 +13,11 @@
                 </tr>
                 <tr>
                     <th>Children</th>
-                    <td>{{ shallowNodeMatches - deepNodeMatches }}</td>
+                    <td>{{ deepNodeMatches - shallowNodeMatches }}</td>
                 </tr>
                 <tr>
                     <th></th>
-                    <td style="border-top: 1px solid grey">
+                    <td class="total">
                         {{ deepNodeMatches }}
                     </td>
                 </tr>
@@ -83,7 +83,7 @@
             </button>
 
             <button class="create-button ml-8"
-                    @click="$emit('deleteNode', node)">
+                    @click="$emit('createNode', node)">
                 Add Child Node
             </button>
         </section>

@@ -11,19 +11,12 @@ export default defineComponent({
             required: true
         },
 
-        selectedNode: Object as PropType<DeepNode>,
-
-        showNewNodeButton: {
-            type: Boolean,
-            default: true
-        },
-        newNodeParentSelected: Boolean,
-        newNodeParent: Object as PropType<DeepNode>
+        selectedNode: Object as PropType<DeepNode>
     },
 
     computed: {
         extendable(): boolean {
-            return !this.extended && (this.node.children.length > 0 || this.showNewNodeButton)
+            return !this.extended && this.node.children.length > 0
         }
     },
 
@@ -43,10 +36,6 @@ export default defineComponent({
 
     emits: {
         select(node: DeepNode) {
-            return true
-        },
-
-        createNode(node: DeepNode | null) {
             return true
         }
     },

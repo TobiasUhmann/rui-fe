@@ -1,14 +1,16 @@
 <main class="grid">
+
+    <!-- Taxonomy -->
+
     <section class="grid-section grid-left">
         <h1 class="grid-header">Taxonomy</h1>
         <Taxonomy class="grid-content"
                   :rootNodes="rootNodes"
                   :selectedNode="selectedNode"
-                  :newNodeParentSelected="newNodeParentSelected"
-                  :newNodeParent="newNodeParent"
-                  @select="selectNode($event)"
-                  @createNode="showCreateNode($event)"/>
+                  @select="selectNode($event)"/>
     </section>
+
+    <!-- New Node -->
 
     <section v-if="newNodeParentSelected"
              class="grid-section grid-top-right">
@@ -17,6 +19,8 @@
                  @createNode="createNode($event)"/>
     </section>
 
+    <!-- Node Details -->
+
     <section v-if="selectedNode"
              class="grid-section grid-top-right">
         <h1 class="grid-header">Node Details</h1>
@@ -24,8 +28,11 @@
                      :node="selectedNode"
                      @createEntity="createEntity($event)"
                      @deleteEntity="deleteEntity($event)"
+                     @createNode="showCreateNode($event)"
                      @deleteNode="deleteNode($event)"/>
     </section>
+
+    <!-- Matches -->
 
     <section v-if="selectedNode"
              class="grid-section grid-bottom-right">

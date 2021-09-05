@@ -25,9 +25,3 @@ li.extended::marker {
 .selected {
     font-weight: bold;
 }
-
-/* Create Node Button */
-
-.new-node-parent {
-    font-weight: bold;
-}

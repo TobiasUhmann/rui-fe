@@ -1,17 +1,24 @@
 <main class="grid">
+
+    <!-- Predicted Node -->
+
     <section class="grid-section grid-left">
         <h1 class="grid-header">Predicted Node</h1>
 
         <TreeItem v-if="rootNode"
+                  class="grid-content"
                   :node="rootNode"
-                  :selectedNode="predictedNode"
-                  :showNewNodeButton="false"/>
+                  :selectedNode="predictedNode"/>
     </section>
+
+    <!-- Predictions -->
 
     <section v-if="rootNode"
              class="grid-section grid-top-right">
+
         <h1 class="grid-header">Predictions</h1>
 
-        <PredictionCard></PredictionCard>
+        <PredictionCard class="grid-content">
+        </PredictionCard>
     </section>
 </main>
