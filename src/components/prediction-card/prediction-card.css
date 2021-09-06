@@ -1,3 +1,28 @@
-div {
-    border: 1px solid black;
+/* Flex Layout */
+
+.flex {
+    display: flex;
+    justify-content: space-between;
+
+    border: 1px solid grey;
+}
+
+.flex > div {
+    padding: 8px;
+}
+
+.predictions {
+    flex: 0 0 160px;
+
+    border-left: 1px solid grey;
+}
+
+/* List */
+
+h1 {
+    font-size: 1em;
+}
+
+ol {
+    list-style: none;
 }

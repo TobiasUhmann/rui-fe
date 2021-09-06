@@ -2,26 +2,21 @@ import {defineComponent} from 'vue'
 
 import DeepNode from '@/models/node/deep-node'
 import NodeService from '@/services/node-service'
-import PredictionCard from '@/components/prediction-card/prediction-card'
+import Prediction from '@/models/prediction/prediction'
+import PredictionCard from '@/components/prediction-card/prediction-card.vue'
 import PredictionService from '@/services/prediction-service'
 import TreeItem from '@/components/tree-item/tree-item.vue'
-import Prediction from "@/models/prediction/prediction";
 
 export default defineComponent({
     name: 'PredictionsView',
 
     components: {PredictionCard, TreeItem},
 
-    watch: {
-        $route(to) {
-            console.log(to)
-        }
-    },
-
     data() {
         return {
             rootNode: null as DeepNode | null,
-            predictedNode: null as DeepNode | null
+            predictedNode: null as DeepNode | null,
+            predictions: null as Prediction[] | null
         }
     },
 
@@ -44,7 +39,7 @@ export default defineComponent({
                 this.findRootNode(rootNodes, nodeId)
 
                 PredictionService.getPredictions(nodeId).then((predictions: Prediction[]) => {
-                    console.log(predictions)
+                    this.predictions = predictions
                 })
             })
         },
