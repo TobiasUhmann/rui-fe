@@ -5,17 +5,21 @@
 
     <div class="predictions">
         <h1>Parents</h1>
-        <ol>
-            <li v-for="(parentPrediction, index) of parentPredictions" :key="index">
-                {{ parentPrediction }}
-            </li>
-        </ol>
+        <table v-if="parentPredictions.length > 0">
+            <tr v-for="(parentPrediction, index) of parentPredictions" :key="index">
+                <td>{{ parentPrediction.score.toFixed(2) }}</td>
+                <td>{{ parentPrediction.nodeId }}</td>
+            </tr>
+        </table>
+        <span v-else>None</span>
 
         <h1 class="mt-8">Synonyms</h1>
-        <ol>
-            <li v-for="(synonymPrediction, index) of synonymPredictions" :key="index">
-                {{ synonymPrediction }}
-            </li>
-        </ol>
+        <table v-if="synonymPredictions.length > 0">
+            <tr v-for="(synonymPrediction, index) of synonymPredictions" :key="index">
+                <td>{{ synonymPrediction.score.toFixed(2) }}</td>
+                <td>{{ synonymPrediction.nodeId }}</td>
+            </tr>
+        </table>
+        <span v-else>None</span>
     </div>
 </div>

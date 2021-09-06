@@ -1,6 +1,6 @@
 import {defineComponent, PropType} from 'vue'
 
-import DeepNode from '@/models/node/deep-node'
+import Prediction from '@/models/prediction/prediction'
 
 export default defineComponent({
     name: 'PredictionCard',
@@ -12,12 +12,12 @@ export default defineComponent({
         },
 
         parentPredictions: {
-            type: Array as PropType<Array<{score: number, node: DeepNode}>>,
+            type: Array as PropType<Prediction[]>,
             required: true
         },
 
         synonymPredictions: {
-            type: Array as PropType<Array<{score: number, node: DeepNode}>>,
+            type: Array as PropType<Prediction[]>,
             required: true
         }
     }
