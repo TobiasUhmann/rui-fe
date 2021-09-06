@@ -1,6 +1,6 @@
 import {defineComponent, PropType} from 'vue'
 
-import Prediction from '@/models/prediction/prediction'
+import {PredictionInfo} from '@/components/prediction-card/prediction-info'
 
 export default defineComponent({
     name: 'PredictionCard',
@@ -12,12 +12,12 @@ export default defineComponent({
         },
 
         parentPredictions: {
-            type: Array as PropType<Prediction[]>,
+            type: Array as PropType<PredictionInfo[]>,
             required: true
         },
 
         synonymPredictions: {
-            type: Array as PropType<Prediction[]>,
+            type: Array as PropType<PredictionInfo[]>,
             required: true
         }
     }

@@ -6,7 +6,8 @@ import Prediction from '@/models/prediction/prediction'
 import PredictionCard from '@/components/prediction-card/prediction-card.vue'
 import PredictionService from '@/services/prediction-service'
 import TreeItem from '@/components/tree-item/tree-item.vue'
-import {Relation} from "@/models/prediction/relation";
+import {PredictionInfo} from '@/components/prediction-card/prediction-info'
+import {Relation} from '@/models/prediction/relation'
 
 export default defineComponent({
     name: 'PredictionsView',
@@ -18,8 +19,8 @@ export default defineComponent({
             rootNode: null as DeepNode | null,
             predictedNode: null as DeepNode | null,
             predictions: null as Map<string, {
-                parentPredictions: Prediction[],
-                synonymPredictions: Prediction[]
+                parentPredictions: PredictionInfo[],
+                synonymPredictions: PredictionInfo[]
             }> | null
         }
     },
@@ -78,8 +79,8 @@ export default defineComponent({
 
         fillPredictions(predictions: Prediction[]): void {
             this.predictions = new Map<string, {
-                parentPredictions: Prediction[],
-                synonymPredictions: Prediction[]
+                parentPredictions: PredictionInfo[],
+                synonymPredictions: PredictionInfo[]
             }>()
 
             for (const prediction of predictions) {
@@ -90,13 +91,18 @@ export default defineComponent({
                     })
                 }
 
+                const predictionInfo = {
+                    score: prediction.score,
+                    nodeName: prediction.node.entities[0].name
+                }
+
                 const candidatePredictions = this.predictions.get(prediction.candidate)!
 
                 if (prediction.relation === Relation.Parent) {
-                    candidatePredictions.parentPredictions.push(prediction)
+                    candidatePredictions.parentPredictions.push(predictionInfo)
                     candidatePredictions.parentPredictions.sort((a, b) => a.score - b.score)
                 } else if (prediction.relation === Relation.Synonym) {
-                    candidatePredictions.synonymPredictions.push(prediction)
+                    candidatePredictions.synonymPredictions.push(predictionInfo)
                     candidatePredictions.synonymPredictions.sort((a, b) => a.score - b.score)
                 }
             }
