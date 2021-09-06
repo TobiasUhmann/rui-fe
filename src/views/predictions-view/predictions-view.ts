@@ -3,7 +3,9 @@ import {defineComponent} from 'vue'
 import DeepNode from '@/models/node/deep-node'
 import NodeService from '@/services/node-service'
 import PredictionCard from '@/components/prediction-card/prediction-card'
+import PredictionService from '@/services/prediction-service'
 import TreeItem from '@/components/tree-item/tree-item.vue'
+import Prediction from "@/models/prediction/prediction";
 
 export default defineComponent({
     name: 'PredictionsView',
@@ -39,16 +41,24 @@ export default defineComponent({
     methods: {
         loadRootNode(nodeId: number): void {
             NodeService.getNodes().then((rootNodes: DeepNode[]) => {
-                for (const rootNode of rootNodes) {
-                    const predictedNode = this.findNode(rootNode, nodeId)
+                this.findRootNode(rootNodes, nodeId)
 
-                    if (predictedNode) {
-                        this.rootNode = rootNode
-                        this.predictedNode = predictedNode
-                        break
-                    }
-                }
+                PredictionService.getPredictions(nodeId).then((predictions: Prediction[]) => {
+                    console.log(predictions)
+                })
             })
+        },
+
+        findRootNode(rootNodes: DeepNode[], nodeId: number): void {
+            for (const rootNode of rootNodes) {
+                const predictedNode = this.findNode(rootNode, nodeId)
+
+                if (predictedNode) {
+                    this.rootNode = rootNode
+                    this.predictedNode = predictedNode
+                    break
+                }
+            }
         },
 
         findNode(node: DeepNode, nodeId: number): DeepNode | null {

@@ -18,7 +18,8 @@
             <input @change="addEntityName($event)"
                    placeholder="New Entity"
 
-            /> <button style="display: inline"  class="create-button" @click="deleteEntity(entity.id)">
+            /> <button class="create-button d-inline-block"
+                       @click="addEntityName(entity.id)">
                 Add
             </button>
         </li>
