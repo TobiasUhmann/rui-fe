@@ -6,6 +6,7 @@ import Prediction from '@/models/prediction/prediction'
 import PredictionCard from '@/components/prediction-card/prediction-card.vue'
 import PredictionService from '@/services/prediction-service'
 import TreeItem from '@/components/tree-item/tree-item.vue'
+import {Relation} from "@/models/prediction/relation";
 
 export default defineComponent({
     name: 'PredictionsView',
@@ -16,7 +17,10 @@ export default defineComponent({
         return {
             rootNode: null as DeepNode | null,
             predictedNode: null as DeepNode | null,
-            predictions: null as Prediction[] | null
+            predictions: null as Map<string, {
+                parentPredictions: Prediction[],
+                synonymPredictions: Prediction[]
+            }> | null
         }
     },
 
@@ -39,7 +43,7 @@ export default defineComponent({
                 this.findRootNode(rootNodes, nodeId)
 
                 PredictionService.getPredictions(nodeId).then((predictions: Prediction[]) => {
-                    this.predictions = predictions
+                    this.fillPredictions(predictions)
                 })
             })
         },
@@ -70,6 +74,32 @@ export default defineComponent({
             }
 
             return null
+        },
+
+        fillPredictions(predictions: Prediction[]): void {
+            this.predictions = new Map<string, {
+                parentPredictions: Prediction[],
+                synonymPredictions: Prediction[]
+            }>()
+
+            for (const prediction of predictions) {
+                if (!this.predictions.get(prediction.candidate)) {
+                    this.predictions.set(prediction.candidate, {
+                        parentPredictions: [],
+                        synonymPredictions: []
+                    })
+                }
+
+                const candidatePredictions = this.predictions.get(prediction.candidate)!
+
+                if (prediction.relation === Relation.Parent) {
+                    candidatePredictions.parentPredictions.push(prediction)
+                    candidatePredictions.parentPredictions.sort((a, b) => a.score - b.score)
+                } else if (prediction.relation === Relation.Synonym) {
+                    candidatePredictions.synonymPredictions.push(prediction)
+                    candidatePredictions.synonymPredictions.sort((a, b) => a.score - b.score)
+                }
+            }
         }
     }
 })

@@ -1,4 +1,4 @@
 export enum Relation {
-    Parent,
-    Synonym
+    Parent = 'PARENT',
+    Synonym = 'SYNONYM'
 }

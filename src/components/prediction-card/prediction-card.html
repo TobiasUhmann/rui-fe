@@ -6,14 +6,16 @@
     <div class="predictions">
         <h1>Parents</h1>
         <ol>
-            <li>Parent 1</li>
-            <li>Parent 2</li>
+            <li v-for="(parentPrediction, index) of parentPredictions" :key="index">
+                {{ parentPrediction }}
+            </li>
         </ol>
 
         <h1 class="mt-8">Synonyms</h1>
         <ol>
-            <li>Synonym 1</li>
-            <li>Synonym 2</li>
+            <li v-for="(synonymPrediction, index) of synonymPredictions" :key="index">
+                {{ synonymPrediction }}
+            </li>
         </ol>
     </div>
 </div>

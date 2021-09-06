@@ -18,11 +18,11 @@
 
         <h1 class="grid-header">Predictions</h1>
         <section class="grid-content">
-            <PredictionCard v-for="(prediction, index) of predictions" :key="index"
+            <PredictionCard v-for="[candidate, prediction] of predictions" :key="candidate"
                             class="prediction-card"
-                            :candidate="prediction.candidate"
-                            :parent-predictions="[]"
-                            :synonym-predictions="[]">
+                            :candidate="candidate"
+                            :parentPredictions="prediction.parentPredictions"
+                            :synonymPredictions="prediction.synonymPredictions">
             </PredictionCard>
         </section>
     </section>
