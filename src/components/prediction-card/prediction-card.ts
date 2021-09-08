@@ -1,6 +1,7 @@
 import {defineComponent, PropType} from 'vue'
 
 import CandidateWithPredictions from '@/models/prediction/candidate-with-predictions'
+import {getNodeName} from '@/models/node/node'
 
 export default defineComponent({
     name: 'PredictionCard',
@@ -9,6 +10,12 @@ export default defineComponent({
         candidateWithPredictions: {
             type: Object as PropType<CandidateWithPredictions>,
             required: true
+        }
+    },
+
+    data() {
+        return {
+            getNodeName: getNodeName
         }
     }
 })

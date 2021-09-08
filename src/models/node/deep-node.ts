@@ -1,10 +1,5 @@
-import Entity from '@/models/entity/entity'
+import Node from '@/models/node/node'
 
-export default interface DeepNode {
-    id: number
-
-    parentId: number
-
-    entities: Entity[]
+export default interface DeepNode extends Node {
     children: DeepNode[]
 }

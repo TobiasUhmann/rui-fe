@@ -5,7 +5,7 @@
     <span class="node-name"
           :class="{selected: node === selectedNode}"
           @click="toggleAndEmitSelect">
-      {{ `${node.entities[0].name} (+${node.entities.length - 1})` }}
+      {{ getNodeName(node) }}
     </span>
 
     <!-- Child nodes & Input new child node-->
