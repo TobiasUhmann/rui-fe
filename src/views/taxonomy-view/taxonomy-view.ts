@@ -1,14 +1,14 @@
 import {defineComponent} from 'vue'
 
-import DeepNode from '@/models/node/deep-node'
-import NodeDetails from '@/components/node-details/node-details.vue'
-import EntityService from '@/services/entity-service'
 import Matches from '@/components/matches/matches.vue'
 import NewNode from '@/components/new-node/new-node.vue'
-import NodeService from '@/services/node-service'
-import PostEntity from '@/models/entity/post-entity'
-import PostNode from '@/models/node/post-node'
+import NodeDetails from '@/components/node-details/node-details.vue'
 import Taxonomy from '@/components/taxonomy/taxonomy.vue'
+import {DeepNode} from '@/models/node/deep-node'
+import {EntityService} from '@/services/entity-service'
+import {NodeService} from '@/services/node-service'
+import {PostEntity} from '@/models/entity/post-entity'
+import {PostNode} from '@/models/node/post-node'
 
 export default defineComponent({
     name: 'TaxonomyView',

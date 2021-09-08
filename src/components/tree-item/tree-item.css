@@ -24,4 +24,5 @@ li.extended::marker {
 
 .selected {
     font-weight: bold;
+    color: #b3010b;
 }

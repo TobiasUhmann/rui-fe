@@ -1,4 +1,4 @@
-export default interface PostEntity {
+export interface PostEntity {
     nodeId: number
 
     name: string

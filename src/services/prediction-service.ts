@@ -1,6 +1,6 @@
-import CandidateWithPredictions from '@/models/prediction/candidate-with-predictions'
+import {CandidateWithPredictions} from '@/models/prediction/candidate-with-predictions'
 
-export default {
+export const PredictionService = {
 
     getPredictions(nodeId: number, offset = 0, limit = 3): Promise<CandidateWithPredictions[]> {
         return fetch(`${process.env.VUE_APP_API_URL}/nodes/${nodeId}/predictions?offset=${offset}&limit=${limit}`)

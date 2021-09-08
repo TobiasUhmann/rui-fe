@@ -1,6 +1,6 @@
-import Node from '@/models/node/node'
+import {Node} from '@/models/node/node'
 
-export default interface CandidatePrediction {
+export interface CandidatePrediction {
     score: number
     node: Node
 }

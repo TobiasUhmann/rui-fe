@@ -20,7 +20,8 @@
         <section class="grid-content">
             <PredictionCard v-for="(candidateWithPredictions, index) of candidateWithPredictionsList" :key="index"
                             class="prediction-card"
-                            :candidateWithPredictions="candidateWithPredictions">
+                            :candidateWithPredictions="candidateWithPredictions"
+                            :selectedNodeId="predictedNode.id">
             </PredictionCard>
         </section>
     </section>

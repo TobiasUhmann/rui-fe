@@ -1,6 +1,6 @@
 import {defineComponent, PropType} from 'vue'
 
-import DeepNode from '@/models/node/deep-node'
+import {DeepNode} from '@/models/node/deep-node'
 import {getNodeName} from '@/models/node/node'
 
 export default defineComponent({

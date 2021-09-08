@@ -36,3 +36,10 @@ table * {
 table td:not(:first-child) {
     padding-left: 8px;
 }
+
+/* Selected Node */
+
+.selected {
+    font-weight: bold;
+    color: #b3010b;
+}

@@ -1,5 +1,5 @@
-import Node from '@/models/node/node'
+import {Node} from '@/models/node/node'
 
-export default interface DeepNode extends Node {
+export interface DeepNode extends Node {
     children: DeepNode[]
 }

@@ -1,11 +1,11 @@
 import {defineComponent} from 'vue'
 
-import DeepNode from '@/models/node/deep-node'
-import NodeService from '@/services/node-service'
-import CandidateWithPredictions from '@/models/prediction/candidate-with-predictions'
 import PredictionCard from '@/components/prediction-card/prediction-card.vue'
-import PredictionService from '@/services/prediction-service'
 import TreeItem from '@/components/tree-item/tree-item.vue'
+import {CandidateWithPredictions} from '@/models/prediction/candidate-with-predictions'
+import {DeepNode} from '@/models/node/deep-node'
+import {NodeService} from '@/services/node-service'
+import {PredictionService} from '@/services/prediction-service'
 
 export default defineComponent({
     name: 'PredictionsView',

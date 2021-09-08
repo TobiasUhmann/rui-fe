@@ -1,6 +1,6 @@
-import Entity from '@/models/entity/entity'
+import {Entity} from '@/models/entity/entity'
 
-export default interface Node {
+export interface Node {
     id: number
 
     parentId: number

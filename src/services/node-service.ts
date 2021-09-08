@@ -1,8 +1,8 @@
-import DeepNode from '@/models/node/deep-node'
-import NodePatch from '@/models/node/node-patch'
-import PostNode from '@/models/node/post-node'
+import {DeepNode} from '@/models/node/deep-node'
+import {NodePatch} from '@/models/node/node-patch'
+import {PostNode} from '@/models/node/post-node'
 
-export default {
+export const NodeService = {
 
     getNodes(): Promise<DeepNode[]> {
         return fetch(`${process.env.VUE_APP_API_URL}/nodes`)

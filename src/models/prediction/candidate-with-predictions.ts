@@ -1,6 +1,6 @@
-import CandidatePrediction from '@/models/prediction/candidate-prediction'
+import {CandidatePrediction} from '@/models/prediction/candidate-prediction'
 
-export default interface CandidateWithPredictions {
+export interface CandidateWithPredictions {
     candidate: string
 
     parentPredictions: CandidatePrediction[]

@@ -8,8 +8,12 @@
         <table v-if="candidateWithPredictions.parentPredictions.length > 0"
                class="mt-4">
             <tr v-for="(parentPrediction, index) of candidateWithPredictions.parentPredictions" :key="index">
-                <td>{{ parentPrediction.score.toFixed(2) }}</td>
-                <td>{{ getNodeName(parentPrediction.node) }}</td>
+                <td :class="{selected: parentPrediction.node.id === selectedNodeId}">
+                    {{ parentPrediction.score.toFixed(2) }}
+                </td>
+                <td :class="{selected: parentPrediction.node.id === selectedNodeId}">
+                    {{ getNodeName(parentPrediction.node) }}
+                </td>
             </tr>
         </table>
         <span v-else>None</span>
@@ -18,8 +22,12 @@
         <table v-if="candidateWithPredictions.synonymPredictions.length > 0"
                class="mt-4">
             <tr v-for="(synonymPrediction, index) of candidateWithPredictions.synonymPredictions" :key="index">
-                <td>{{ synonymPrediction.score.toFixed(2) }}</td>
-                <td>{{ getNodeName(synonymPrediction.node) }}</td>
+                <td :class="{selected: synonymPrediction.node.id === selectedNodeId}">
+                    {{ synonymPrediction.score.toFixed(2) }}
+                </td>
+                <td :class="{selected: synonymPrediction.node.id === selectedNodeId}">
+                    {{ getNodeName(synonymPrediction.node) }}
+                </td>
             </tr>
         </table>
         <span v-else>None</span>

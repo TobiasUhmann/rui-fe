@@ -1,7 +1,7 @@
 import {defineComponent, PropType} from 'vue'
 
-import DeepNode from '@/models/node/deep-node'
 import TreeItem from '@/components/tree-item/tree-item.vue'
+import {DeepNode} from '@/models/node/deep-node'
 
 export default defineComponent({
     name: 'Taxonomy',
