@@ -38,7 +38,7 @@ export default defineComponent({
             NodeService.getNodes().then((rootNodes: DeepNode[]) => {
                 this.findRootNode(rootNodes, nodeId)
 
-                PredictionService.getPredictions(nodeId)
+                PredictionService.getPredictions(nodeId, 0, 10)
                     .then((candidateWithPredictionsList: CandidateWithPredictions[]) => {
                         this.candidateWithPredictionsList = candidateWithPredictionsList
                     })

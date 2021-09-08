@@ -1,23 +1,13 @@
 import {defineComponent, PropType} from 'vue'
 
-import {PredictionInfo} from '@/components/prediction-card/prediction-info'
+import CandidateWithPredictions from '@/models/prediction/candidate-with-predictions'
 
 export default defineComponent({
     name: 'PredictionCard',
 
     props: {
-        candidate: {
-            type: String,
-            required: true
-        },
-
-        parentPredictions: {
-            type: Array as PropType<PredictionInfo[]>,
-            required: true
-        },
-
-        synonymPredictions: {
-            type: Array as PropType<PredictionInfo[]>,
+        candidateWithPredictions: {
+            type: Object as PropType<CandidateWithPredictions>,
             required: true
         }
     }

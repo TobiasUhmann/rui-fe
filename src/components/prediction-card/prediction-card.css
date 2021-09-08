@@ -16,17 +16,19 @@
 }
 
 .predictions {
-    flex: 0 0 160px;
+    flex: 0 0 200px;
 
     border-left: 1px solid grey;
 }
 
-/* List */
+/* Headers */
 
 h1 {
     font-size: 1em;
 }
 
-ol {
-    list-style: none;
+/* Table */
+
+table * {
+    vertical-align: top;
 }

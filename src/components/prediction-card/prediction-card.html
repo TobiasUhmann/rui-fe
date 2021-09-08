@@ -1,23 +1,23 @@
 <div class="flex">
     <div class="candidate">
-        {{ candidate }}
+        {{ candidateWithPredictions.candidate }}
     </div>
 
     <div class="predictions">
-        <h1>Parents</h1>
-        <table v-if="parentPredictions.length > 0">
-            <tr v-for="(parentPrediction, index) of parentPredictions" :key="index">
+        <h1>Has Parent</h1>
+        <table v-if="candidateWithPredictions.parentPredictions.length > 0">
+            <tr v-for="(parentPrediction, index) of candidateWithPredictions.parentPredictions" :key="index">
                 <td>{{ parentPrediction.score.toFixed(2) }}</td>
-                <td>{{ parentPrediction.nodeName }}</td>
+                <td>{{ parentPrediction.node.entities[0].name }}</td>
             </tr>
         </table>
         <span v-else>None</span>
 
-        <h1 class="mt-8">Synonyms</h1>
-        <table v-if="synonymPredictions.length > 0">
-            <tr v-for="(synonymPrediction, index) of synonymPredictions" :key="index">
+        <h1 class="mt-8">Synonym of</h1>
+        <table v-if="candidateWithPredictions.synonymPredictions.length > 0">
+            <tr v-for="(synonymPrediction, index) of candidateWithPredictions.synonymPredictions" :key="index">
                 <td>{{ synonymPrediction.score.toFixed(2) }}</td>
-                <td>{{ synonymPrediction.nodeName }}</td>
+                <td>{{ synonymPrediction.node.entities[0].name }}</td>
             </tr>
         </table>
         <span v-else>None</span>
