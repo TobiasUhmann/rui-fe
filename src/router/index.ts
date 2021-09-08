@@ -22,7 +22,7 @@ const routes: Array<RouteRecordRaw> = [
     }
 ]
 
-export const router = createRouter({
+export default createRouter({
     history: createWebHistory(process.env.BASE_URL),
     routes
 })

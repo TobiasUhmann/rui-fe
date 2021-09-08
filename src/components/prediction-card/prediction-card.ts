@@ -3,7 +3,7 @@ import {defineComponent, PropType} from 'vue'
 import {CandidateWithPredictions} from '@/models/prediction/candidate-with-predictions'
 import {getNodeName} from '@/models/node/node'
 
-export const PredictionCard = defineComponent({
+export default defineComponent({
     name: 'PredictionCard',
 
     props: {
