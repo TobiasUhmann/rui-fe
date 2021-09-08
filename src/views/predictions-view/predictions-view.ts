@@ -1,5 +1,6 @@
 import {defineComponent} from 'vue'
 
+import PaginationBar from '@/components/pagination-bar/pagination-bar.vue'
 import PredictionCard from '@/components/prediction-card/prediction-card.vue'
 import TreeItem from '@/components/tree-item/tree-item.vue'
 import {CandidateWithPredictions} from '@/models/prediction/candidate-with-predictions'
@@ -10,7 +11,7 @@ import {PredictionService} from '@/services/prediction-service'
 export default defineComponent({
     name: 'PredictionsView',
 
-    components: {PredictionCard, TreeItem},
+    components: {PaginationBar, PredictionCard, TreeItem},
 
     data() {
         return {
@@ -38,7 +39,7 @@ export default defineComponent({
             NodeService.getNodes().then((rootNodes: DeepNode[]) => {
                 this.findRootNode(rootNodes, nodeId)
 
-                PredictionService.getPredictions(nodeId, 0, 10)
+                PredictionService.getPredictions(nodeId)
                     .then((candidateWithPredictionsList: CandidateWithPredictions[]) => {
                         this.candidateWithPredictionsList = candidateWithPredictionsList
                     })
