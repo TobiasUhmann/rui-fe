@@ -17,6 +17,9 @@
              class="grid-section grid-top-right">
 
         <h1 class="grid-header">Predictions</h1>
+
+        <!-- Predictions -->
+
         <section class="grid-content">
             <PredictionCard v-for="(candidateWithPredictions, index) of candidateWithPredictionsList" :key="index"
                             class="prediction-card"
@@ -28,7 +31,8 @@
         <!-- Pagination -->
 
         <PaginationBar class="mx-auto"
-                       :numberOfPages="7">
+                       :numberOfPages="numberOfPages"
+                       @input="loadPredictions(nodeId, $event * 3, 3)">
         </PaginationBar>
     </section>
 </main>

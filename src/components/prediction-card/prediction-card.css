@@ -13,10 +13,12 @@
 
 .candidate {
     flex-grow: 1;
+    overflow-y: auto;
 }
 
 .predictions {
     flex: 0 0 200px;
+    overflow-y: auto;
 
     border-left: 1px solid grey;
 }

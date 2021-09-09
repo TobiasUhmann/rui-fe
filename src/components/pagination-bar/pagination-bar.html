@@ -10,7 +10,7 @@
 
     <input class="ml-24"
            type="number" :min="1" :max="numberOfPages"
-           v-model="currentPage"/>
+           v-model.lazy="currentPage"/>
 
     <div class="ml-8">
         / {{ numberOfPages }}

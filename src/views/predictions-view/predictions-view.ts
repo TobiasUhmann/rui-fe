@@ -7,6 +7,7 @@ import {CandidateWithPredictions} from '@/models/prediction/candidate-with-predi
 import {DeepNode} from '@/models/node/deep-node'
 import {NodeService} from '@/services/node-service'
 import {PredictionService} from '@/services/prediction-service'
+import {PredictionResponse} from "@/models/prediction/prediction-response";
 
 export default defineComponent({
     name: 'PredictionsView',
@@ -15,21 +16,25 @@ export default defineComponent({
 
     data() {
         return {
+            nodeId: null as number | null,
             rootNode: null as DeepNode | null,
             predictedNode: null as DeepNode | null,
-            candidateWithPredictionsList: null as CandidateWithPredictions[] | null
+
+            candidateWithPredictionsList: null as CandidateWithPredictions[] | null,
+            numberOfPages: null as number | null,
+            offset: 0
         }
     },
 
     mounted() {
-        const nodeId = Number(this.$route.params.node)
-        this.loadRootNode(nodeId)
+        this.nodeId = Number(this.$route.params.node)
+        this.loadRootNode(this.nodeId)
 
         this.$watch(
             () => this.$route.params,
             () => {
-                const nodeId = Number(this.$route.params.node)
-                this.loadRootNode(nodeId)
+                this.nodeId = Number(this.$route.params.node)
+                this.loadRootNode(this.nodeId)
             }
         )
     },
@@ -39,10 +44,14 @@ export default defineComponent({
             NodeService.getNodes().then((rootNodes: DeepNode[]) => {
                 this.findRootNode(rootNodes, nodeId)
 
-                PredictionService.getPredictions(nodeId)
-                    .then((candidateWithPredictionsList: CandidateWithPredictions[]) => {
-                        this.candidateWithPredictionsList = candidateWithPredictionsList
-                    })
+                this.loadPredictions(nodeId, this.offset, 3)
+            })
+        },
+
+        loadPredictions(nodeId: number, offset: number, limit: number): void {
+            PredictionService.getPredictions(nodeId, offset, limit).then((predictionResponse: PredictionResponse) => {
+                this.candidateWithPredictionsList = predictionResponse.predictions
+                this.numberOfPages = Math.ceil(predictionResponse.totalPredictions / 3)
             })
         },
 
