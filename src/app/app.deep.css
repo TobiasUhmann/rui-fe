@@ -107,10 +107,12 @@ a, a:visited {
 
 .delete-button {
     color: #b3010b;
+    background-color: white;
     border: 1px solid #b3010b;
 }
 
 .create-button {
     color: #196b00;
+    background-color: white;
     border: 1px solid #196b00;
 }

@@ -18,7 +18,7 @@ export default defineComponent({
 
     data() {
         return {
-            currentPage: 1
+            currentPage: 0
         }
     },
 

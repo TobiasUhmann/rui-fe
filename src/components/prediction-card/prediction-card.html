@@ -1,35 +1,49 @@
-<div class="flex">
-    <div class="candidate">
-        {{ candidateWithPredictions.candidate }}
+<div class="prediction-card">
+    <div class="flex">
+        <div class="candidate">
+            {{ candidateWithPredictions.candidate }}
+        </div>
+
+        <div class="predictions">
+            <h1>Has Parent</h1>
+            <table v-if="candidateWithPredictions.parentPredictions.length > 0"
+                   class="mt-4">
+                <tr v-for="(parentPrediction, index) of candidateWithPredictions.parentPredictions" :key="index">
+                    <td :class="{selected: parentPrediction.node.id === selectedNodeId}">
+                        {{ parentPrediction.score.toFixed(2) }}
+                    </td>
+                    <td :class="{selected: parentPrediction.node.id === selectedNodeId}">
+                        {{ getNodeName(parentPrediction.node) }}
+                    </td>
+                </tr>
+            </table>
+            <span v-else>None</span>
+
+            <h1 class="mt-8">Synonym of</h1>
+            <table v-if="candidateWithPredictions.synonymPredictions.length > 0"
+                   class="mt-4">
+                <tr v-for="(synonymPrediction, index) of candidateWithPredictions.synonymPredictions" :key="index">
+                    <td :class="{selected: synonymPrediction.node.id === selectedNodeId}">
+                        {{ synonymPrediction.score.toFixed(2) }}
+                    </td>
+                    <td :class="{selected: synonymPrediction.node.id === selectedNodeId}">
+                        {{ getNodeName(synonymPrediction.node) }}
+                    </td>
+                </tr>
+            </table>
+            <span v-else>None</span>
+        </div>
     </div>
 
-    <div class="predictions">
-        <h1>Has Parent</h1>
-        <table v-if="candidateWithPredictions.parentPredictions.length > 0"
-               class="mt-4">
-            <tr v-for="(parentPrediction, index) of candidateWithPredictions.parentPredictions" :key="index">
-                <td :class="{selected: parentPrediction.node.id === selectedNodeId}">
-                    {{ parentPrediction.score.toFixed(2) }}
-                </td>
-                <td :class="{selected: parentPrediction.node.id === selectedNodeId}">
-                    {{ getNodeName(parentPrediction.node) }}
-                </td>
-            </tr>
-        </table>
-        <span v-else>None</span>
+    <!-- Buttons -->
 
-        <h1 class="mt-8">Synonym of</h1>
-        <table v-if="candidateWithPredictions.synonymPredictions.length > 0"
-               class="mt-4">
-            <tr v-for="(synonymPrediction, index) of candidateWithPredictions.synonymPredictions" :key="index">
-                <td :class="{selected: synonymPrediction.node.id === selectedNodeId}">
-                    {{ synonymPrediction.score.toFixed(2) }}
-                </td>
-                <td :class="{selected: synonymPrediction.node.id === selectedNodeId}">
-                    {{ getNodeName(synonymPrediction.node) }}
-                </td>
-            </tr>
-        </table>
-        <span v-else>None</span>
+    <div class="buttons">
+        <button class="delete-button">
+            Dismiss
+        </button>
+
+        <button class="create-button ml-8">
+            Annotate
+        </button>
     </div>
 </div>

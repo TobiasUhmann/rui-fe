@@ -25,18 +25,6 @@ export const NodeService = {
             .catch(error => console.error(error))
     },
 
-    patchNode(nodePatch: NodePatch): Promise<void> {
-        const fetchOptions = {
-            method: 'PATCH',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify(nodePatch)
-        }
-
-        return fetch(`${process.env.VUE_APP_API_URL}/nodes`, fetchOptions)
-            .then(response => console.debug(response))
-            .catch(error => console.error(error))
-    },
-
     deleteNode(nodeId: number): Promise<void> {
         const fetchOptions = {
             method: 'DELETE'
