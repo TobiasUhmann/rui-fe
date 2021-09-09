@@ -1,3 +1,28 @@
-<div>
-    PAGINATION BAR
+<div class="pagination-bar">
+    <button @click="currentPage = 1">
+        &lt;&lt;
+    </button>
+
+    <button class="ml-8"
+            @click="currentPage = (currentPage === 1) ? 1 : currentPage - 1">
+        &lt;
+    </button>
+
+    <input class="ml-24"
+           type="number" :min="1" :max="numberOfPages"
+           v-model="currentPage"/>
+
+    <div class="ml-8">
+        / {{ numberOfPages }}
+    </div>
+
+    <button class="ml-24"
+            @click="currentPage = (currentPage === numberOfPages) ? numberOfPages : currentPage + 1">
+        &gt;
+    </button>
+
+    <button class="ml-8"
+            @click="currentPage = numberOfPages">
+        &gt;&gt;
+    </button>
 </div>

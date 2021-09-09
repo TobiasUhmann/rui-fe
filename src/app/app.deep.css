@@ -64,6 +64,10 @@
     display: inline-block;
 }
 
+.mx-auto {
+    margin: auto;
+}
+
 .mt-4 {
     margin-top: 4px;
 }
@@ -78,6 +82,14 @@
 
 .ml-8 {
     margin-left: 8px;
+}
+
+.ml-24 {
+    margin-left: 24px;
+}
+
+.mr-24 {
+    margin-right: 24px;
 }
 
 /* Links */
