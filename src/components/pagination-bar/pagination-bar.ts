@@ -30,4 +30,15 @@ export default defineComponent({
             }
         }
     },
+
+    methods: {
+        setCurrentPage(event: Event) {
+            const inputElement = event.target as HTMLInputElement
+            const inputValue = Number(inputElement.value)
+            const newCurrentPage = inputValue - 1
+
+            this.currentPage = Math.min(Math.max(newCurrentPage, 0), this.numberOfPages - 1)
+            this.$forceUpdate()
+        }
+    }
 })
