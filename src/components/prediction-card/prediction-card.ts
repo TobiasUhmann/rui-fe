@@ -18,6 +18,12 @@ export default defineComponent({
         }
     },
 
+    emits: {
+        dismiss() {
+            return true
+        }
+    },
+
     data() {
         return {
             getNodeName: getNodeName

@@ -24,7 +24,8 @@
             <PredictionCard v-for="(candidateWithPredictions, index) of candidateWithPredictionsList" :key="index"
                             class="prediction-card"
                             :candidateWithPredictions="candidateWithPredictions"
-                            :selectedNodeId="predictedNode.id">
+                            :selectedNodeId="predictedNode.id"
+                            @dismiss="dismissCandidateWithPredictions(candidateWithPredictions.candidate)">
             </PredictionCard>
         </section>
 

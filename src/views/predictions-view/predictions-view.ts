@@ -49,7 +49,9 @@ export default defineComponent({
         },
 
         loadPredictions(nodeId: number, offset: number, limit: number): void {
-            PredictionService.getPredictions(nodeId, offset, limit).then((predictionResponse: PredictionResponse) => {
+            this.offset = offset
+
+            PredictionService.getPredictions(nodeId, this.offset, limit).then((predictionResponse: PredictionResponse) => {
                 this.candidateWithPredictionsList = predictionResponse.predictions
                 this.numberOfPages = Math.ceil(predictionResponse.totalPredictions / 3)
             })
@@ -81,6 +83,12 @@ export default defineComponent({
             }
 
             return null
+        },
+
+        dismissCandidateWithPredictions(candidate: string): void {
+            PredictionService.patchPrediction(candidate, {dismissed: true}).then(() => {
+                this.loadPredictions(this.nodeId!, this.offset, 3)
+            })
         }
     }
 })
