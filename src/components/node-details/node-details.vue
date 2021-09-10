@@ -1,3 +1,3 @@
 <template src="./node-details.html"></template>
-<script src="./node-details.ts"></script>
-<style scoped src="./node-details.css"></style>
+<script lang="ts" src="./node-details.ts"></script>
+<style scoped lang="scss" src="./node-details.scss"></style>

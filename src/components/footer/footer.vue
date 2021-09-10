@@ -1,3 +1,3 @@
 <template src="./footer.html"></template>
-<script src="./footer.ts"></script>
-<style scoped src="./footer.css"></style>
+<script lang="ts" src="./footer.ts"></script>
+<style scoped lang="scss" src="./footer.scss"></style>

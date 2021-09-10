@@ -1,3 +1,5 @@
+@import "src/assets/styles/_variables.scss";
+
 * {
     margin: 0;
 }
@@ -53,8 +55,8 @@
 
 .grid-header {
     padding: 16px;
-    color: grey;
-    border-bottom: 1px solid grey;
+    color: $grey;
+    border-bottom: 1px solid $grey;
     text-align: center;
 }
 
@@ -95,7 +97,7 @@
 /* Links */
 
 a, a:visited {
-    color: blue;
+    color: $blue;
 }
 
 /* Create & Delete Buttons */
@@ -106,13 +108,13 @@ a, a:visited {
 }
 
 .delete-button {
-    color: #b3010b;
-    background-color: white;
-    border: 1px solid #b3010b;
+    color: $red;
+    background-color: $white;
+    border: 1px solid $red;
 }
 
 .create-button {
-    color: #196b00;
-    background-color: white;
-    border: 1px solid #196b00;
+    color: $green;
+    background-color: $white;
+    border: 1px solid $green;
 }

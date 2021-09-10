@@ -1,3 +1,3 @@
 <template src="./matches.html"></template>
-<script src="./matches.ts"></script>
-<style scoped src="./matches.css"></style>
+<script lang="ts" src="./matches.ts"></script>
+<style scoped lang="scss" src="./matches.scss"></style>

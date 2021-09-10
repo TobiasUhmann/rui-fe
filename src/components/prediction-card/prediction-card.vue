@@ -1,3 +1,3 @@
 <template src="./prediction-card.html"></template>
-<script src="./prediction-card.ts"></script>
-<style scoped src="./prediction-card.css"></style>
+<script lang="ts" src="./prediction-card.ts"></script>
+<style scoped lang="scss" src="./prediction-card.scss"></style>

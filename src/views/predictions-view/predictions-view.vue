@@ -1,3 +1,3 @@
 <template src="./predictions-view.html"></template>
-<script src="./predictions-view.ts"></script>
-<style scoped src="./predictions-view.css"></style>
+<script lang="ts" src="./predictions-view.ts"></script>
+<style scoped lang="scss" src="./predictions-view.scss"></style>
