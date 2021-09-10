@@ -1,9 +1,8 @@
-import {expect} from 'chai'
 import {shallowMount} from '@vue/test-utils'
 
 import PaginationBar from '@/components/pagination-bar/pagination-bar.vue'
 
-describe('PaginationBar', () => {
+describe('PaginationBar.vue', () => {
     it('renders /', () => {
         const numberOfPages = 7
 
@@ -11,6 +10,6 @@ describe('PaginationBar', () => {
             props: {numberOfPages}
         })
 
-        expect(wrapper.text()).to.include(numberOfPages)
+        expect(wrapper.text()).toContain('/ 7')
     })
 })
