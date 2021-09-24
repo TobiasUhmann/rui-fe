@@ -1,0 +1,355 @@
+exports[`Upload Page > toMatchSnapshot - HTML #0`] = `
+<body>
+  <noscript
+    ><strong
+      >We're sorry but rui-fe doesn't work properly without JavaScript enabled.
+      Please enable it to continue.</strong
+    ></noscript
+  >
+  <div id="app" data-v-app="">
+    <div class="app">
+      <header data-v-47d8dfc0="">
+        <div class="title" data-v-47d8dfc0="">
+          <h1 data-v-47d8dfc0="">RUI</h1>
+          <h2 data-v-47d8dfc0="">Hunting<br data-v-47d8dfc0="" />Entities</h2>
+        </div>
+        <nav data-v-47d8dfc0="">
+          <a
+            href="/upload"
+            class="router-link-active router-link-exact-active"
+            data-v-47d8dfc0=""
+            aria-current="page"
+            >Upload</a
+          ><a href="/taxonomy" class="" data-v-47d8dfc0="">Taxonomy</a>
+        </nav>
+        <div class="logo" data-v-47d8dfc0="">
+          <img
+            src="/img/logo-lavis.2cfaf679.svg"
+            alt="LAVIS Logo"
+            data-v-47d8dfc0=""
+          />
+        </div>
+      </header>
+      <main>
+        <div
+          class="modal-background d-none"
+          data-v-6020d849=""
+          data-v-8d0f9738=""
+        >
+          <div class="modal" data-v-6020d849="">
+            <header class="modal-header" data-v-6020d849="">
+              <h1 data-v-6020d849="">Caution</h1>
+              <div class="close-button" data-v-6020d849="">×</div>
+            </header>
+            <main class="modal-content" data-v-6020d849="">
+              <p class="message" data-v-6020d849="">
+                Uploading will <b data-v-6020d849="">overwrite</b> the existing
+                taxonomy and matches!
+              </p>
+              <div class="buttons" data-v-6020d849="">
+                <button class="button cancel" data-v-6020d849="">Cancel</button
+                ><button class="button continue" data-v-6020d849="">
+                  Overwrite
+                </button>
+              </div>
+            </main>
+          </div>
+        </div>
+        <form class="upload-form" data-v-8d0f9738="">
+          <label for="symptaxUploadZip" data-v-8d0f9738=""
+            >Symptax Upload ZIP</label
+          ><input
+            id="symptaxUploadZip"
+            class="upload-form-input"
+            type="file"
+            name="symptaxUploadZip"
+            data-v-8d0f9738=""
+          /><input
+            class="upload-form-input"
+            type="submit"
+            value="Upload"
+            data-v-8d0f9738=""
+          />
+        </form>
+      </main>
+      <footer data-v-a28185ec="">
+        <img
+          src="/img/logo-empolis.0a2277d8.png"
+          alt="Empolis Logo"
+          data-v-a28185ec=""
+        /><img
+          src="/img/logo-hsrm.2a007289.svg"
+          alt="HSRM Logo"
+          data-v-a28185ec=""
+        />
+      </footer>
+    </div>
+  </div>
+  <script src="/js/chunk-vendors.8faaf858.js"></script>
+  <script src="/js/app.9d6f2ea9.js"></script>
+</body>
+`;
+
+exports[`Upload Page > Load page #0`] = `
+<body>
+  <noscript
+    ><strong
+      >We're sorry but rui-fe doesn't work properly without JavaScript enabled.
+      Please enable it to continue.</strong
+    ></noscript
+  >
+  <div id="app" data-v-app="">
+    <div class="app">
+      <header data-v-47d8dfc0="">
+        <div class="title" data-v-47d8dfc0="">
+          <h1 data-v-47d8dfc0="">RUI</h1>
+          <h2 data-v-47d8dfc0="">Hunting<br data-v-47d8dfc0="" />Entities</h2>
+        </div>
+        <nav data-v-47d8dfc0="">
+          <a
+            href="/upload"
+            class="router-link-active router-link-exact-active"
+            data-v-47d8dfc0=""
+            aria-current="page"
+            >Upload</a
+          ><a href="/taxonomy" class="" data-v-47d8dfc0="">Taxonomy</a>
+        </nav>
+        <div class="logo" data-v-47d8dfc0="">
+          <img
+            src="/img/logo-lavis.2cfaf679.svg"
+            alt="LAVIS Logo"
+            data-v-47d8dfc0=""
+          />
+        </div>
+      </header>
+      <main>
+        <div
+          class="modal-background d-none"
+          data-v-6020d849=""
+          data-v-8d0f9738=""
+        >
+          <div class="modal" data-v-6020d849="">
+            <header class="modal-header" data-v-6020d849="">
+              <h1 data-v-6020d849="">Caution</h1>
+              <div class="close-button" data-v-6020d849="">×</div>
+            </header>
+            <main class="modal-content" data-v-6020d849="">
+              <p class="message" data-v-6020d849="">
+                Uploading will <b data-v-6020d849="">overwrite</b> the existing
+                taxonomy and matches!
+              </p>
+              <div class="buttons" data-v-6020d849="">
+                <button class="button cancel" data-v-6020d849="">Cancel</button
+                ><button class="button continue" data-v-6020d849="">
+                  Overwrite
+                </button>
+              </div>
+            </main>
+          </div>
+        </div>
+        <form class="upload-form" data-v-8d0f9738="">
+          <label for="symptaxUploadZip" data-v-8d0f9738=""
+            >Symptax Upload ZIP</label
+          ><input
+            id="symptaxUploadZip"
+            class="upload-form-input"
+            type="file"
+            name="symptaxUploadZip"
+            data-v-8d0f9738=""
+          /><input
+            class="upload-form-input"
+            type="submit"
+            value="Upload"
+            data-v-8d0f9738=""
+          />
+        </form>
+      </main>
+      <footer data-v-a28185ec="">
+        <img
+          src="/img/logo-empolis.0a2277d8.png"
+          alt="Empolis Logo"
+          data-v-a28185ec=""
+        /><img
+          src="/img/logo-hsrm.2a007289.svg"
+          alt="HSRM Logo"
+          data-v-a28185ec=""
+        />
+      </footer>
+    </div>
+  </div>
+  <script src="/js/chunk-vendors.8faaf858.js"></script>
+  <script src="/js/app.9d6f2ea9.js"></script>
+</body>
+`;
+
+exports[`Upload Page > Load page via root URL #0`] = `
+<body>
+  <noscript
+    ><strong
+      >We're sorry but rui-fe doesn't work properly without JavaScript enabled.
+      Please enable it to continue.</strong
+    ></noscript
+  >
+  <div id="app" data-v-app="">
+    <div class="app">
+      <header data-v-47d8dfc0="">
+        <div class="title" data-v-47d8dfc0="">
+          <h1 data-v-47d8dfc0="">RUI</h1>
+          <h2 data-v-47d8dfc0="">Hunting<br data-v-47d8dfc0="" />Entities</h2>
+        </div>
+        <nav data-v-47d8dfc0="">
+          <a
+            href="/upload"
+            class="router-link-active router-link-exact-active"
+            data-v-47d8dfc0=""
+            aria-current="page"
+            >Upload</a
+          ><a href="/taxonomy" class="" data-v-47d8dfc0="">Taxonomy</a>
+        </nav>
+        <div class="logo" data-v-47d8dfc0="">
+          <img
+            src="/img/logo-lavis.2cfaf679.svg"
+            alt="LAVIS Logo"
+            data-v-47d8dfc0=""
+          />
+        </div>
+      </header>
+      <main>
+        <div
+          class="modal-background d-none"
+          data-v-6020d849=""
+          data-v-8d0f9738=""
+        >
+          <div class="modal" data-v-6020d849="">
+            <header class="modal-header" data-v-6020d849="">
+              <h1 data-v-6020d849="">Caution</h1>
+              <div class="close-button" data-v-6020d849="">×</div>
+            </header>
+            <main class="modal-content" data-v-6020d849="">
+              <p class="message" data-v-6020d849="">
+                Uploading will <b data-v-6020d849="">overwrite</b> the existing
+                taxonomy and matches!
+              </p>
+              <div class="buttons" data-v-6020d849="">
+                <button class="button cancel" data-v-6020d849="">Cancel</button
+                ><button class="button continue" data-v-6020d849="">
+                  Overwrite
+                </button>
+              </div>
+            </main>
+          </div>
+        </div>
+        <form class="upload-form" data-v-8d0f9738="">
+          <label for="symptaxUploadZip" data-v-8d0f9738=""
+            >Symptax Upload ZIP</label
+          ><input
+            id="symptaxUploadZip"
+            class="upload-form-input"
+            type="file"
+            name="symptaxUploadZip"
+            data-v-8d0f9738=""
+          /><input
+            class="upload-form-input"
+            type="submit"
+            value="Upload"
+            data-v-8d0f9738=""
+          />
+        </form>
+      </main>
+      <footer data-v-a28185ec="">
+        <img
+          src="/img/logo-empolis.0a2277d8.png"
+          alt="Empolis Logo"
+          data-v-a28185ec=""
+        /><img
+          src="/img/logo-hsrm.2a007289.svg"
+          alt="HSRM Logo"
+          data-v-a28185ec=""
+        />
+      </footer>
+    </div>
+  </div>
+  <script src="/js/chunk-vendors.8faaf858.js"></script>
+  <script src="/js/app.9d6f2ea9.js"></script>
+</body>
+`;
+
+exports[`Upload Page > Upload valid ZIP #0`] = `
+<body>
+  <noscript
+    ><strong
+      >We're sorry but rui-fe doesn't work properly without JavaScript enabled.
+      Please enable it to continue.</strong
+    ></noscript
+  >
+  <div id="app" data-v-app="">
+    <div class="app">
+      <header data-v-47d8dfc0="">
+        <div class="title" data-v-47d8dfc0="">
+          <h1 data-v-47d8dfc0="">RUI</h1>
+          <h2 data-v-47d8dfc0="">Hunting<br data-v-47d8dfc0="" />Entities</h2>
+        </div>
+        <nav data-v-47d8dfc0="">
+          <a href="/upload" class="" data-v-47d8dfc0="">Upload</a
+          ><a
+            href="/taxonomy"
+            class="router-link-active router-link-exact-active"
+            data-v-47d8dfc0=""
+            aria-current="page"
+            >Taxonomy</a
+          >
+        </nav>
+        <div class="logo" data-v-47d8dfc0="">
+          <img
+            src="/img/logo-lavis.2cfaf679.svg"
+            alt="LAVIS Logo"
+            data-v-47d8dfc0=""
+          />
+        </div>
+      </header>
+      <main>
+        <main class="grid" data-v-43bd4af4="">
+          <section class="grid-section grid-left" data-v-43bd4af4="">
+            <h1 class="grid-header" data-v-43bd4af4="">Taxonomy</h1>
+            <div class="grid-content" data-v-25caf12c="" data-v-43bd4af4="">
+              <ul data-v-25caf12c="">
+                <li class="extendable" data-v-31cb8309="" data-v-25caf12c="">
+                  <span class="node-name" data-v-31cb8309="">A-1 (+0)</span
+                  ><!---->
+                </li>
+                <li class="extendable" data-v-31cb8309="" data-v-25caf12c="">
+                  <span class="node-name" data-v-31cb8309="">B-1 (+0)</span
+                  ><!---->
+                </li>
+                <li class="" data-v-31cb8309="" data-v-25caf12c="">
+                  <span class="node-name" data-v-31cb8309="">C-1 (+0)</span
+                  ><!---->
+                </li>
+                <li data-v-25caf12c="">
+                  <button class="create-button" data-v-25caf12c="">
+                    Add Root Node
+                  </button>
+                </li>
+              </ul>
+            </div>
+          </section>
+          <!----><!----><!---->
+        </main>
+      </main>
+      <footer data-v-a28185ec="">
+        <img
+          src="/img/logo-empolis.0a2277d8.png"
+          alt="Empolis Logo"
+          data-v-a28185ec=""
+        /><img
+          src="/img/logo-hsrm.2a007289.svg"
+          alt="HSRM Logo"
+          data-v-a28185ec=""
+        />
+      </footer>
+    </div>
+  </div>
+  <script src="/js/chunk-vendors.8faaf858.js"></script>
+  <script src="/js/app.9d6f2ea9.js"></script>
+</body>
+`;
