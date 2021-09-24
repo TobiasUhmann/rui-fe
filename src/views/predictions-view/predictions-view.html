@@ -1,0 +1,39 @@
+<main class="grid">
+
+    <!-- Predicted Node -->
+
+    <section class="grid-section grid-left">
+        <h1 class="grid-header">Predicted Node</h1>
+
+        <TreeItem v-if="rootNode"
+                  class="grid-content"
+                  :node="rootNode"
+                  :selectedNode="predictedNode"/>
+    </section>
+
+    <!-- Predictions -->
+
+    <section v-if="rootNode"
+             class="grid-section grid-top-right">
+
+        <h1 class="grid-header">Predictions</h1>
+
+        <!-- Predictions -->
+
+        <section class="grid-content">
+            <PredictionCard v-for="(candidateWithPredictions, index) of candidateWithPredictionsList" :key="index"
+                            class="prediction-card"
+                            :candidateWithPredictions="candidateWithPredictions"
+                            :selectedNodeId="predictedNode.id"
+                            @dismiss="dismissCandidateWithPredictions(candidateWithPredictions.candidate)">
+            </PredictionCard>
+        </section>
+
+        <!-- Pagination -->
+
+        <PaginationBar class="mx-auto"
+                       :numberOfPages="numberOfPages"
+                       @input="loadPredictions(nodeId, $event * 3, 3)">
+        </PaginationBar>
+    </section>
+</main>

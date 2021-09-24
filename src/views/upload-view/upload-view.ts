@@ -1,7 +1,7 @@
 import {defineComponent} from 'vue'
 
 import UploadWarning from '@/components/upload-warning/upload-warning.vue'
-import UploadService from "@/services/upload-service";
+import {UploadService} from '@/services/upload-service'
 
 export default defineComponent({
     name: 'UploadView',
@@ -23,7 +23,7 @@ export default defineComponent({
 
             const formData = new FormData(form)
             UploadService.putUpload(formData)
-                .then(() => this.$router.push('Taxonomy'))
+                .then(() => this.$router.push('/taxonomy'))
 
             this.showUploadWarning = false
 

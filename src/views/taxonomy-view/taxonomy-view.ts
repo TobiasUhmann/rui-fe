@@ -1,14 +1,14 @@
 import {defineComponent} from 'vue'
 
-import DeepNode from '@/models/node/deep-node'
-import NodeDetails from '@/components/node-details/node-details.vue'
-import EntityService from '@/services/entity-service'
 import Matches from '@/components/matches/matches.vue'
 import NewNode from '@/components/new-node/new-node.vue'
-import NodeService from '@/services/node-service'
-import PostEntity from '@/models/entity/post-entity'
-import PostNode from '@/models/node/post-node'
+import NodeDetails from '@/components/node-details/node-details.vue'
 import Taxonomy from '@/components/taxonomy/taxonomy.vue'
+import {DeepNode} from '@/models/node/deep-node'
+import {EntityService} from '@/services/entity-service'
+import {NodeService} from '@/services/node-service'
+import {PostEntity} from '@/models/entity/post-entity'
+import {PostNode} from '@/models/node/post-node'
 
 export default defineComponent({
     name: 'TaxonomyView',
@@ -17,12 +17,11 @@ export default defineComponent({
 
     data() {
         return {
-            nodes: [] as DeepNode[],
+            rootNodes: [] as DeepNode[],
 
             selectedNode: null as DeepNode | null,
 
-            newNodeParentSelected: false,
-            newNodeParent: null as DeepNode | null
+            creatingNewNode: false
         }
     },
 
@@ -32,7 +31,7 @@ export default defineComponent({
 
     methods: {
         loadTaxonomy(): void {
-            NodeService.getNodes().then((nodes: DeepNode[]) => this.nodes = nodes)
+            NodeService.getNodes().then((rootNodes: DeepNode[]) => this.rootNodes = rootNodes)
         },
 
         reloadTaxonomy(): void {
@@ -63,7 +62,7 @@ export default defineComponent({
             }
 
             NodeService.getNodes().then((nodes: DeepNode[]) => {
-                this.nodes = nodes
+                this.rootNodes = nodes
 
                 this.selectedNode = findNodeInNodes(nodes, selectedNodeId)
             })
@@ -71,16 +70,16 @@ export default defineComponent({
 
         selectNode(node: DeepNode): void {
             this.selectedNode = node
-
-            this.newNodeParentSelected = false
-            this.newNodeParent = null
+            this.creatingNewNode = false
         },
 
-        showCreateNode(node: DeepNode | null): void {
+        showCreateRootNode(): void {
             this.selectedNode = null
+            this.creatingNewNode = true
+        },
 
-            this.newNodeParentSelected = true
-            this.newNodeParent = node
+        showCreateNode(): void {
+            this.creatingNewNode = true
         },
 
         createNode(entityNames: string[]) {
@@ -89,17 +88,14 @@ export default defineComponent({
             })
 
             const postNode: PostNode = {
-                parentId: this.newNodeParent ? this.newNodeParent.id : null,
+                parentId: this.selectedNode ? this.selectedNode.id : null,
                 entities: postNodeEntities
             }
 
             NodeService.postNode(postNode).then(() =>
                 this.reloadTaxonomy())
 
-            this.selectedNode = null
-
-            this.newNodeParentSelected = false
-            this.newNodeParent = null
+            this.creatingNewNode = false
         },
 
         deleteNode(node: DeepNode): void {

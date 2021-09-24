@@ -1,4 +1,4 @@
-export default interface Match {
+export interface Match {
     entityId: number
 
     ticket: number

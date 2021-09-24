@@ -1,4 +1,4 @@
-export default interface Entity {
+export interface Entity {
     id: number
 
     nodeId: number

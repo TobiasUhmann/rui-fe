@@ -1,6 +1,7 @@
 import {defineComponent, PropType} from 'vue'
 
-import DeepNode from '@/models/node/deep-node'
+import {DeepNode} from '@/models/node/deep-node'
+import {getNodeName} from '@/models/node/node'
 
 export default defineComponent({
     name: 'TreeItem',
@@ -11,33 +12,66 @@ export default defineComponent({
             required: true
         },
 
-        selectedNode: Object as PropType<DeepNode>,
+        selectedNode: Object as PropType<DeepNode>
+    },
 
-        newNodeParentSelected: Boolean,
-        newNodeParent: Object as PropType<DeepNode>
+    computed: {
+        extendable(): boolean {
+            return !this.extended && this.node.children.length > 0
+        }
+    },
+
+    watch: {
+        selectedNode: {
+            immediate: true,
+            handler(selectedNode: DeepNode | null) {
+                if (selectedNode) {
+                    const contains = this.containsNode(this.node, selectedNode)
+                    if (contains) {
+                        this.extended = true
+                    }
+                }
+            }
+        }
     },
 
     emits: {
         select(node: DeepNode) {
-            return true
-        },
-
-        createNode(node: DeepNode | null) {
             return true
         }
     },
 
     data() {
         return {
-            extended: false
+            extended: false,
+            getNodeName: getNodeName
         }
     },
 
     methods: {
         toggleAndEmitSelect(): void {
-            this.extended = !this.extended
+            if (this.extendable) {
+                this.extended = true
+            } else if (this.extended) {
+                this.extended = false
+            }
 
             this.$emit('select', this.node)
+        },
+
+        containsNode(checkNode: DeepNode, searchNode: DeepNode): boolean {
+            for (const child of checkNode.children) {
+                if (child === searchNode) {
+                    return true
+                }
+
+                const childContainsNode = this.containsNode(child, searchNode)
+                if (childContainsNode) {
+                    return true
+                }
+            }
+
+            return false
         }
     }
 })

@@ -1,3 +1,3 @@
 <template src="./upload-warning.html"></template>
-<script src="./upload-warning.ts"></script>
-<style scoped src="./upload-warning.css"></style>
+<script lang="ts" src="./upload-warning.ts"></script>
+<style scoped lang="scss" src="./upload-warning.scss"></style>

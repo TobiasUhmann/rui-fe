@@ -1,0 +1,29 @@
+<div class="pagination-bar">
+    <button @click="currentPage = 0">
+        &lt;&lt;
+    </button>
+
+    <button class="ml-8"
+            @click="currentPage = (currentPage === 0) ? 0 : currentPage - 1">
+        &lt;
+    </button>
+
+    <input class="ml-24"
+           type="number" :min="1" :max="numberOfPages"
+           :value="currentPage + 1"
+           @change="setCurrentPage($event)"/>
+
+    <div class="ml-8">
+        / {{ numberOfPages }}
+    </div>
+
+    <button class="ml-24"
+            @click="currentPage = (currentPage === numberOfPages - 1) ? numberOfPages - 1 : currentPage + 1">
+        &gt;
+    </button>
+
+    <button class="ml-8"
+            @click="currentPage = numberOfPages - 1">
+        &gt;&gt;
+    </button>
+</div>

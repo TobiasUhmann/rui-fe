@@ -1,6 +1,6 @@
-import PostEntity from '@/models/entity/post-entity'
+import {PostEntity} from '@/models/entity/post-entity'
 
-export default {
+export const EntityService = {
 
     postEntity(postEntity: PostEntity): Promise<void> {
         const fetchOptions = {

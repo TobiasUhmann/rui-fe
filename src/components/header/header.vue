@@ -1,3 +1,3 @@
 <template src="./header.html"></template>
-<script src="./header.ts"></script>
-<style scoped src="./header.css"></style>
+<script lang="ts" src="./header.ts"></script>
+<style scoped lang="scss" src="./header.scss"></style>

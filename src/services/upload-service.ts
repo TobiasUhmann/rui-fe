@@ -1,4 +1,4 @@
-export default {
+export const UploadService = {
 
     putUpload(formData: FormData): Promise<void> {
         const fetchOptions = {

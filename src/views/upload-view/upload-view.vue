@@ -1,3 +1,3 @@
 <template src="./upload-view.html"></template>
-<script src="./upload-view.ts"></script>
-<style scoped src="./upload-view.css"></style>
+<script lang="ts" src="./upload-view.ts"></script>
+<style scoped lang="scss" src="./upload-view.scss"></style>

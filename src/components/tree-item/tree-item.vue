@@ -1,3 +1,3 @@
 <template src="./tree-item.html"></template>
-<script src="./tree-item.ts"></script>
-<style scoped src="./tree-item.css"></style>
+<script lang="ts" src="./tree-item.ts"></script>
+<style scoped lang="scss" src="./tree-item.scss"></style>

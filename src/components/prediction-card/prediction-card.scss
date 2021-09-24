@@ -1,0 +1,61 @@
+.prediction-card {
+    border: 1px solid grey;
+}
+
+/* Flex Layout */
+
+.flex {
+    display: flex;
+    justify-content: space-between;
+}
+
+.flex > div {
+    padding: 8px;
+}
+
+.candidate {
+    flex-grow: 1;
+    overflow-y: auto;
+}
+
+.predictions {
+    flex: 0 0 200px;
+    overflow-y: auto;
+
+    border-left: 1px solid grey;
+}
+
+/* Headers */
+
+h1 {
+    font-size: 1em;
+}
+
+/* Table */
+
+table * {
+    vertical-align: top;
+}
+
+table td:not(:first-child) {
+    padding-left: 8px;
+}
+
+/* Selected Node */
+
+.selected {
+    font-weight: bold;
+    color: #F3790CFF;
+}
+
+/* Buttons */
+
+.buttons {
+    display: flex;
+    justify-content: right;
+
+    padding: 6px;
+
+    background-color: #efefef;
+    border-top: 1px solid grey;
+}

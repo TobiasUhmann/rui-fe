@@ -1,0 +1,120 @@
+@import "src/assets/styles/_variables.scss";
+
+* {
+    margin: 0;
+}
+
+.app {
+    font-family: Helvetica, Arial, sans-serif;
+}
+
+/* App Layout */
+
+.app {
+    display: flex;
+    flex-direction: column;
+
+    height: 100vh;
+}
+
+.app main {
+    flex-grow: 1;
+}
+
+/* Grid */
+
+.grid {
+    display: grid;
+    grid-template-areas:
+    "left top-right"
+    "left bottom-right";
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto 1fr;
+    grid-column-gap: 32px;
+
+    max-width: 1000px;
+    margin: auto;
+    padding: 16px;
+}
+
+.grid-content {
+    padding: 16px;
+}
+
+.grid-left {
+    grid-area: left;
+}
+
+.grid-top-right {
+    grid-area: top-right;
+}
+
+.grid-bottom-right {
+    grid-area: bottom-right;
+}
+
+.grid-header {
+    padding: 16px;
+    color: $grey;
+    border-bottom: 1px solid $grey;
+    text-align: center;
+}
+
+/* Layout */
+
+.d-inline-block {
+    display: inline-block;
+}
+
+.mx-auto {
+    margin: auto;
+}
+
+.mt-4 {
+    margin-top: 4px;
+}
+
+.mt-8 {
+    margin-top: 8px;
+}
+
+.mt-16 {
+    margin-top: 16px;
+}
+
+.ml-8 {
+    margin-left: 8px;
+}
+
+.ml-24 {
+    margin-left: 24px;
+}
+
+.mr-24 {
+    margin-right: 24px;
+}
+
+/* Links */
+
+a, a:visited {
+    color: $blue;
+}
+
+/* Create & Delete Buttons */
+
+.delete-button, .create-button {
+    background-color: inherit;
+    cursor: pointer;
+}
+
+.delete-button {
+    color: $red;
+    background-color: $white;
+    border: 1px solid $red;
+}
+
+.create-button {
+    color: $green;
+    background-color: $white;
+    border: 1px solid $green;
+}

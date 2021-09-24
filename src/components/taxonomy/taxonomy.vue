@@ -1,3 +1,3 @@
 <template src="./taxonomy.html"></template>
-<script src="./taxonomy.ts"></script>
-<style src="./taxonomy.deep.css"></style>
+<script lang="ts" src="./taxonomy.ts"></script>
+<style scoped lang="scss" src="./taxonomy.scss"></style>

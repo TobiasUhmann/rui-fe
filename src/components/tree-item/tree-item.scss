@@ -8,7 +8,11 @@ ul {
     list-style-type: initial;
 }
 
-li.collapsed::marker {
+li::marker {
+    content: '•  ';
+}
+
+li.extendable::marker {
     content: '+  ';
 }
 
@@ -20,10 +24,5 @@ li.extended::marker {
 
 .selected {
     font-weight: bold;
-}
-
-/* Create Node Button */
-
-.new-node-parent {
-    font-weight: bold;
+    color: #F3790CFF;
 }

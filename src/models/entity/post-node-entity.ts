@@ -1,3 +1,3 @@
-export default interface PostNodeEntity {
+export interface PostNodeEntity {
     name: string
 }

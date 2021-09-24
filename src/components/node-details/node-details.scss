@@ -1,0 +1,51 @@
+/* Grid */
+
+main {
+    display: grid;
+    grid-template-columns: 100px 1fr;
+    grid-gap: 24px;
+}
+
+main h1 {
+    font-size: 1em;
+}
+
+/* Matches Table */
+
+table {
+    border-collapse: collapse;
+}
+
+table td {
+    padding: 2px;
+}
+
+table th {
+    width: 160px;
+    font-weight: normal;
+    text-align: left;
+}
+
+table td {
+    width: 60px;
+    text-align: right;
+}
+
+table .total {
+    padding-top: 4px;
+    border-top: 1px solid grey;
+}
+
+/* Entities List */
+
+ul {
+    padding-left: 1.5em;
+}
+
+ul li {
+    line-height: 1.5em;
+}
+
+.matches-count {
+    color: grey;
+}

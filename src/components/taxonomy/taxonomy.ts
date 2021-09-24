@@ -1,7 +1,7 @@
 import {defineComponent, PropType} from 'vue'
 
-import DeepNode from '@/models/node/deep-node'
 import TreeItem from '@/components/tree-item/tree-item.vue'
+import {DeepNode} from '@/models/node/deep-node'
 
 export default defineComponent({
     name: 'Taxonomy',
@@ -9,15 +9,12 @@ export default defineComponent({
     components: {TreeItem},
 
     props: {
-        nodes: {
+        rootNodes: {
             type: Array as PropType<Array<DeepNode>>,
             required: true
         },
 
-        selectedNode: Object as PropType<DeepNode>,
-
-        newNodeParentSelected: Boolean,
-        newNodeParent: Object as PropType<DeepNode>
+        selectedNode: Object as PropType<DeepNode>
     },
 
     emits: {
@@ -25,7 +22,7 @@ export default defineComponent({
             return true
         },
 
-        createNode(node: DeepNode | null) {
+        createNode() {
             return true
         }
     }

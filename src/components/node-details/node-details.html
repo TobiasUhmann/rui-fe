@@ -1,41 +1,93 @@
 <div v-if="node">
 
-    <p>
-        {{ shallowNodeMatches }} shallow matches, {{ deepNodeMatches }} deep matches
-    </p>
+    <main>
 
-    <p>
-        {{ node.entities.length }}
-        {{ node.entities.length === 1 ? 'Entity' : 'Entities' }}:
-    </p>
+        <!-- Matches -->
 
-    <ul class="entity-list">
+        <h1>Matches</h1>
+        <section>
+            <table>
+                <tr>
+                    <th>Direct</th>
+                    <td>{{ shallowNodeMatches }}</td>
+                </tr>
+                <tr>
+                    <th>Children</th>
+                    <td>{{ deepNodeMatches - shallowNodeMatches }}</td>
+                </tr>
+                <tr>
+                    <th></th>
+                    <td class="total">
+                        {{ deepNodeMatches }}
+                    </td>
+                </tr>
+            </table>
+        </section>
 
         <!-- Entities -->
 
-        <li v-for="entity of node.entities" :key="entity.id">
-            {{ entity.name }}, {{ entity.matchesCount }} {{ entity.matchesCount === 1 ? 'match' : 'matches' }}
+        <h1>Entities ({{ node.entities.length }})</h1>
+        <section>
+            <ul>
+                <li v-for="entity of node.entities" :key="entity.id">
+                    {{ entity.name }}
 
-            <!-- Delete -->
+                    <span class="matches-count">
+                        ({{ entity.matchesCount }}&nbsp;{{ entity.matchesCount === 1 ? 'match' : 'matches' }})
+                    </span>
 
-            <span class="delete-entity" @click="deleteEntity(entity.id)">
-          (delete)
-        </span>
-        </li>
+                    <button class="delete-button" @click="deleteEntity(entity.id)">
+                        Delete
+                    </button>
+                </li>
 
-        <!-- New Entity -->
+                <li>
+                    <input style="display: inline" @change="createEntity($event)"
+                           placeholder="New Entity"
 
-        <li>
-            <input @change="createEntity($event)"
-                   placeholder="New Entity">
-        </li>
-    </ul>
+                    /> <button class="create-button d-inline-block"
+                               @click="createEntity(entity.id)">
+                        Add
+                    </button>
+                </li>
+            </ul>
+        </section>
 
-    <!-- Delete Node -->
+        <!-- Predictions -->
 
-    <button class="delete-node"
-            @click="$emit('deleteNode', node)">
-        Delete Node
-    </button>
+        <h1>Predictions</h1>
+        <section class="predictions">
+            <table>
+                <tr>
+                    <th>Synonyms</th>
+                    <td>987</td>
+                </tr>
+                <tr>
+                    <th>Children</th>
+                    <td>1234</td>
+                </tr>
+            </table>
+
+            <router-link class="d-inline-block mt-8"
+                         :to="`/predictions/${node.id}`">
+                Show Predictions
+            </router-link>
+        </section>
+
+        <!-- Node Buttons -->
+
+        <h1>Topology</h1>
+        <section>
+            <button class="delete-button"
+                    @click="$emit('deleteNode', node)">
+                Delete Node
+            </button>
+
+            <button class="create-button ml-8"
+                    @click="$emit('createNode', node)">
+                Add Child Node
+            </button>
+        </section>
+    </main>
 
 </div>

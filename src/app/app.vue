@@ -1,3 +1,3 @@
 <template src="./app.html"></template>
-<script src="./app.ts"></script>
-<style src="./app.deep.css"></style>
+<script lang="ts" src="./app.ts"></script>
+<style lang="scss" src="./app.deep.scss"></style>

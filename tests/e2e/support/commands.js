@@ -23,3 +23,21 @@
 //
 // -- This is will overwrite an existing command --
 // Cypress.Commands.overwrite("visit", (originalFn, url, options) => { ... })
+
+import 'cypress-file-upload'
+
+Cypress.Commands.add('checkHeaderAndFooter', () => {
+
+    // "RUI - HUNTING ENTITIES" logo should be shown
+    cy.contains('RUI').should('be.visible')
+    cy.contains('Hunting').contains('Entities').should('be.visible')
+
+    // LAVIS, EMPOLIS, and HSRM logos should be shown
+    cy.get('[src*="logo-lavis"]').should('be.visible')
+    cy.get('[src*="logo-empolis"]').should('be.visible')
+    cy.get('[src*="logo-hsrm"]').should('be.visible')
+
+    // Nav links should be shown
+    cy.contains('Upload').get('[href="/upload"]').should('be.visible')
+    cy.contains('Taxonomy').get('[href="/taxonomy"]').should('be.visible')
+})

@@ -1,37 +1,35 @@
 <div>
 
+    <!-- Entities -->
+
     {{ entityNames.length }}
     {{ entityNames.length === 1 ? 'Entity' : 'Entities' }}:
 
     <ul class="entity-list">
-
-        <!-- Entities -->
-
         <li v-for="(entityName, index) of entityNames" :key="index">
             {{ entityName }}
 
-            <!-- Delete Entity -->
-
-            <span class="delete-entity"
-                  @click="entityNames.splice(index, 1)">
-          (delete)
-        </span>
+            <button class="delete-button" @click="entityNames.splice(index, 1)">
+                Delete
+            </button>
         </li>
-
-        <!-- Add Entity -->
 
         <li>
             <input @change="addEntityName($event)"
-                   placeholder="New Entity">
+                   placeholder="New Entity"
+
+            /> <button class="create-button d-inline-block"
+                       @click="addEntityName(entity.id)">
+                Add
+            </button>
         </li>
     </ul>
 
     <!-- Create Node Button -->
 
-    <button class="create-node"
+    <button class="create-button mt-16"
             :disabled="entityNames.length === 0"
             @click="$emit('createNode', entityNames)">
         Create Node
     </button>
-
 </div>

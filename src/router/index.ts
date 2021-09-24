@@ -6,6 +6,11 @@ const routes: Array<RouteRecordRaw> = [
         redirect: '/upload'
     },
     {
+        path: '/predictions/:node',
+        name: 'Predictions',
+        component: () => import(/* webpackChunkName: 'predictions' */ '../views/predictions-view/predictions-view.vue')
+    },
+    {
         path: '/upload',
         name: 'Upload',
         component: () => import(/* webpackChunkName: 'upload' */ '../views/upload-view/upload-view.vue')
@@ -17,9 +22,7 @@ const routes: Array<RouteRecordRaw> = [
     }
 ]
 
-const router = createRouter({
+export default createRouter({
     history: createWebHistory(process.env.BASE_URL),
     routes
 })
-
-export default router
