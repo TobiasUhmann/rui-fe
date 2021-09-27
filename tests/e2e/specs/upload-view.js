@@ -3,7 +3,7 @@ describe('Upload Page', () => {
     it('Load page', () => {
         cy.visit('/upload')
 
-        cy.get('body').toMatchSnapshot()
+        cy.get('html').toMatchSnapshot()
     })
 
     it('Load page via root URL', () => {
@@ -12,7 +12,7 @@ describe('Upload Page', () => {
         // should lead to Upload Page
         cy.url().should('contain', '/upload')
 
-        cy.get('body').toMatchSnapshot()
+        cy.get('html').toMatchSnapshot()
     })
 
     it('Upload valid ZIP', () => {
@@ -32,7 +32,7 @@ describe('Upload Page', () => {
             cy.url().should('contain', '/taxonomy')
 
             cy.get('.node-name').should('contain', 'C-1')
-            cy.get('body').toMatchSnapshot()
+            cy.get('html').toMatchSnapshot()
         })
     })
 })
