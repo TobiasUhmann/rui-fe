@@ -19,6 +19,8 @@ export default defineComponent({
 
                 this.shallowNodeMatches = shallowNodeMatches
                 this.deepNodeMatches = deepNodeMatches
+
+                console.log(node)
             }
         }
     },
@@ -44,7 +46,10 @@ export default defineComponent({
     data() {
         return {
             shallowNodeMatches: undefined as number | undefined,
-            deepNodeMatches: undefined as number | undefined
+            deepNodeMatches: undefined as number | undefined,
+
+            synonymPredictions: null as number | null,
+            childPredictions: null as number | null
         }
     },
 
