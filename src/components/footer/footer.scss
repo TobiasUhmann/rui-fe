@@ -1,8 +1,11 @@
+@import "src/assets/styles/_variables.scss";
+
 /* Flex Layout */
 
 footer {
     display: flex;
     justify-content: space-between;
+    align-items: center;
 }
 
 img {
@@ -14,4 +17,12 @@ img {
 footer {
     padding: 16px;
     border-top: 1px solid lightgrey;
+}
+
+/* Symptax Version */
+
+.symptax-version {
+    color: $red;
+    font-size: smaller;
+    text-align: center;
 }

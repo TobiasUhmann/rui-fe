@@ -1,6 +1,6 @@
 {
   "name": "rui-fe",
-  "version": "0.12.0",
+  "version": "0.13.0",
   "private": true,
   "scripts": {
     "build": "vue-cli-service build",
@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "core-js": "^3.6.5",
+    "cypress-plugin-snapshots": "^1.4.4",
     "http-server": "^0.12.3",
     "vue": "^3.0.0",
     "vue-router": "^4.0.0-0"
