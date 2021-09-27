@@ -1,3 +1,5 @@
+@import "src/assets/styles/_variables.scss";
+
 /* Header Flex Layout */
 
 header {
@@ -36,10 +38,10 @@ h2 {
 
 /* Nav Links */
 
-a {
+nav a {
     margin: 8px;
 
-    color: black;
+    color: $red;
     font-size: 1.2em;
     text-decoration: none;
 }
