@@ -3,6 +3,8 @@ import {defineComponent, PropType} from 'vue'
 import {DeepNode} from '@/models/node/deep-node'
 import {Entity} from '@/models/entity/entity'
 import {PostEntity} from '@/models/entity/post-entity'
+import {PredictionResponse} from "@/models/prediction/prediction-response";
+import {PredictionService} from "@/services/prediction-service";
 
 export default defineComponent({
     name: 'NodeDetails',
@@ -20,7 +22,10 @@ export default defineComponent({
                 this.shallowNodeMatches = shallowNodeMatches
                 this.deepNodeMatches = deepNodeMatches
 
-                console.log(node)
+                this.synonymPredictions = null
+                this.childPredictions = null
+
+                this.countPredictions(node)
             }
         }
     },
@@ -99,6 +104,21 @@ export default defineComponent({
             }
 
             return deepMatches
+        },
+
+        countPredictions(node: DeepNode) {
+            PredictionService.getPredictions(node.id, 0, null).then((predictionResponse: PredictionResponse) => {
+                const synonymPredictions = []
+                const parentPredictions = []
+
+                for (const prediction of predictionResponse.predictions) {
+                    synonymPredictions.push(...prediction.synonymPredictions)
+                    parentPredictions.push(...prediction.parentPredictions)
+                }
+
+                this.synonymPredictions = synonymPredictions.length
+                this.childPredictions = parentPredictions.length
+            })
         }
     }
 })

@@ -3,8 +3,12 @@ import {PredictionPatch} from '@/models/prediction/prediction-patch'
 
 export const PredictionService = {
 
-    getPredictions(nodeId: number, offset = 0, limit = 3): Promise<PredictionResponse> {
-        return fetch(`${process.env.VUE_APP_API_URL}/nodes/${nodeId}/predictions?offset=${offset}&limit=${limit}`)
+    getPredictions(nodeId: number, offset = 0, limit: number | null = 3): Promise<PredictionResponse> {
+        const url = limit === null
+            ? `${process.env.VUE_APP_API_URL}/nodes/${nodeId}/predictions?offset=${offset}`
+            : `${process.env.VUE_APP_API_URL}/nodes/${nodeId}/predictions?offset=${offset}&limit=${limit}`
+
+        return fetch(url)
             .then(response => {
                 console.debug(response)
                 return response.json()
