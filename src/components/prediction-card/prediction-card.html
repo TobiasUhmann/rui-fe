@@ -5,21 +5,7 @@
         </div>
 
         <div class="predictions">
-            <h1>Has Parent</h1>
-            <table v-if="candidateWithPredictions.parentPredictions.length > 0"
-                   class="mt-4">
-                <tr v-for="(parentPrediction, index) of candidateWithPredictions.parentPredictions" :key="index">
-                    <td :class="{selected: parentPrediction.node.id === selectedNodeId}">
-                        {{ parentPrediction.score.toFixed(2) }}
-                    </td>
-                    <td :class="{selected: parentPrediction.node.id === selectedNodeId}">
-                        {{ getNodeName(parentPrediction.node) }}
-                    </td>
-                </tr>
-            </table>
-            <span v-else>None</span>
-
-            <h1 class="mt-8">Synonym of</h1>
+            <h1>Is Synonym of</h1>
             <table v-if="candidateWithPredictions.synonymPredictions.length > 0"
                    class="mt-4">
                 <tr v-for="(synonymPrediction, index) of candidateWithPredictions.synonymPredictions" :key="index">
@@ -28,6 +14,20 @@
                     </td>
                     <td :class="{selected: synonymPrediction.node.id === selectedNodeId}">
                         {{ getNodeName(synonymPrediction.node) }}
+                    </td>
+                </tr>
+            </table>
+            <span v-else>None</span>
+
+            <h1 class="mt-8">Is Child of</h1>
+            <table v-if="candidateWithPredictions.parentPredictions.length > 0"
+                   class="mt-4">
+                <tr v-for="(parentPrediction, index) of candidateWithPredictions.parentPredictions" :key="index">
+                    <td :class="{selected: parentPrediction.node.id === selectedNodeId}">
+                        {{ parentPrediction.score.toFixed(2) }}
+                    </td>
+                    <td :class="{selected: parentPrediction.node.id === selectedNodeId}">
+                        {{ getNodeName(parentPrediction.node) }}
                     </td>
                 </tr>
             </table>

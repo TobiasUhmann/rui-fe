@@ -3,6 +3,8 @@ import {defineComponent, PropType} from 'vue'
 import {DeepNode} from '@/models/node/deep-node'
 import {Entity} from '@/models/entity/entity'
 import {PostEntity} from '@/models/entity/post-entity'
+import {PredictionResponse} from "@/models/prediction/prediction-response";
+import {PredictionService} from "@/services/prediction-service";
 
 export default defineComponent({
     name: 'NodeDetails',
@@ -15,10 +17,14 @@ export default defineComponent({
         node: {
             immediate: true,
             handler(node: DeepNode) {
+                this.resetNodeData()
+
                 const {shallowNodeMatches, deepNodeMatches} = this.countMatches(node)
 
                 this.shallowNodeMatches = shallowNodeMatches
                 this.deepNodeMatches = deepNodeMatches
+
+                this.countPredictions(node)
             }
         }
     },
@@ -43,12 +49,23 @@ export default defineComponent({
 
     data() {
         return {
-            shallowNodeMatches: undefined as number | undefined,
-            deepNodeMatches: undefined as number | undefined
+            shallowNodeMatches: null as number | null,
+            deepNodeMatches: null as number | null,
+
+            synonymPredictions: null as number | null,
+            childPredictions: null as number | null
         }
     },
 
     methods: {
+        resetNodeData() {
+            this.shallowNodeMatches = null
+            this.deepNodeMatches = null
+
+            this.synonymPredictions = null
+            this.childPredictions = null
+        },
+
         createEntity(event: Event) {
             // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
             const node = this.node!
@@ -94,6 +111,30 @@ export default defineComponent({
             }
 
             return deepMatches
+        },
+
+        countPredictions(node: DeepNode) {
+            PredictionService.getPredictions(node.id, 0, null).then((predictionResponse: PredictionResponse) => {
+                let synonymPredictions = 0
+                let parentPredictions = 0
+
+                for (const prediction of predictionResponse.predictions) {
+                    for (const synonymPrediction of prediction.synonymPredictions) {
+                        if (synonymPrediction.node.id === this.node!.id) {
+                            synonymPredictions++
+                        }
+                    }
+
+                    for (const parentPrediction of prediction.parentPredictions) {
+                        if (parentPrediction.node.id === this.node!.id) {
+                            parentPredictions++
+                        }
+                    }
+                }
+
+                this.synonymPredictions = synonymPredictions
+                this.childPredictions = parentPredictions
+            })
         }
     }
 })
