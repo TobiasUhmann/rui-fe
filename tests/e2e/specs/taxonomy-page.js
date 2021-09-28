@@ -1,38 +1,48 @@
 describe('Taxonomy Page', () => {
 
     it('Load page', () => {
+
+        //
+        // Upload ZIP
+        // Should lead to taxonomy page
+        //
+
+        cy.visit('/upload')
+
+        cy.fixture('symptax_upload_v7_random.zip').then(fileContent => {
+            cy.get('input[type="file"]').attachFile({
+                fileContent: fileContent,
+                fileName: 'symptax_upload_v7_random.zip'
+            })
+
+            // click "Upload"
+            cy.get('[type="submit"]').click()
+            cy.get('.continue').click()
+
+            cy.url().should('contain', '/taxonomy')
+            cy.get('html').should('contain', 'C-1')
+
+            cy.get('html').toMatchSnapshot()
+
+            //
+            // Expand root node
+            // Should show node details
+            //
+
+            cy.get(':nth-child(1) > .node-name').click()
+
+            cy.get('.predictions > table > :nth-child(1) > td').should('contain', 2)
+
+            cy.get('html').toMatchSnapshot()
+        })
+    })
+
+    it.skip('Select collapsed root node', () => {
         cy.visit('/taxonomy')
 
-        // Header and Footer should be shown
-        cy.checkHeaderAndFooter()
+        cy.get(':nth-child(1) > .node-name').click()
 
-        // "Upload" nav link should be highlighted
-        cy.get('.router-link-active').should('contain.text', 'Taxonomy')
-    })
-
-    it.skip('Load page w/o data', () => {
-
-        // TODO "Taxonomy" section should be shown with "Add Root Node" button only
-
-        // TODO "Add Node", "Node Details", and "Matches" sections should not be shown
-    })
-
-    it.skip('Load page with data', () => {
-
-        // TODO "Taxonomy" section should be shown with data and "Add Root Node" button
-
-        // TODO "Add Node", "Node Details", and "Matches" sections should not be shown
-    })
-
-    it.skip('Select collapsed node', () => {
-
-        // TODO selected node should be highlighted and expanded
-
-        // TODO node details should be shown
-
-        // TODO node matches should be shown
-
-        // TODO "Add Node" section should not be shown
+        cy.get('html').toMatchSnapshot()
     })
 
     it.skip('Select expanded node', () => {

@@ -1,0 +1,585 @@
+exports[`Taxonomy Page > Load page without data #0`] = `
+<html lang="">
+  <head>
+    <script type="text/javascript">
+      document.domain = "localhost";
+      var Cypress = (window.Cypress = parent.Cypress);
+      if (!Cypress) {
+        throw new Error(
+          "Something went terribly wrong and we cannot proceed. We expected to find the global Cypress in the parent window but it is missing!. This should never happen and likely is a bug. Please open an issue!"
+        );
+      }
+      Cypress.action("app:window:before:load", window);
+    </script>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <link rel="icon" href="/favicon.ico" />
+    <title>RUI</title>
+    <link href="/css/predictions.6b9f84fd.css" rel="prefetch" />
+    <link href="/css/predictions~taxonomy.2f7104ec.css" rel="prefetch" />
+    <link href="/css/taxonomy.ab43e5fe.css" rel="prefetch" />
+    <link href="/css/upload.30e252e9.css" rel="prefetch" />
+    <link href="/js/predictions.065baa01.js" rel="prefetch" />
+    <link href="/js/predictions~taxonomy.f2530c2a.js" rel="prefetch" />
+    <link href="/js/taxonomy.317ef7dc.js" rel="prefetch" />
+    <link href="/js/upload.ae3f84e4.js" rel="prefetch" />
+    <link href="/css/app.db1f0341.css" rel="preload" as="style" />
+    <link href="/js/app.8538a54c.js" rel="preload" as="script" />
+    <link href="/js/chunk-vendors.8faaf858.js" rel="preload" as="script" />
+    <link href="/css/app.db1f0341.css" rel="stylesheet" />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="/css/predictions~taxonomy.2f7104ec.css"
+    />
+    <script charset="utf-8" src="/js/predictions~taxonomy.f2530c2a.js"></script>
+    <link rel="stylesheet" type="text/css" href="/css/taxonomy.ab43e5fe.css" />
+    <script charset="utf-8" src="/js/taxonomy.317ef7dc.js"></script>
+  </head>
+  <body>
+    <noscript
+      ><strong
+        >We're sorry but rui-fe doesn't work properly without JavaScript
+        enabled. Please enable it to continue.</strong
+      ></noscript
+    >
+    <div id="app" data-v-app="">
+      <div class="app">
+        <header data-v-47d8dfc0="">
+          <div class="title" data-v-47d8dfc0="">
+            <h1 data-v-47d8dfc0="">RUI</h1>
+            <h2 data-v-47d8dfc0="">Hunting<br data-v-47d8dfc0="" />Entities</h2>
+          </div>
+          <nav data-v-47d8dfc0="">
+            <a href="/upload" class="" data-v-47d8dfc0="">Upload</a
+            ><a
+              href="/taxonomy"
+              class="router-link-active router-link-exact-active"
+              data-v-47d8dfc0=""
+              aria-current="page"
+              >Taxonomy</a
+            >
+          </nav>
+          <div class="logo" data-v-47d8dfc0="">
+            <img
+              src="/img/logo-lavis.2cfaf679.svg"
+              alt="LAVIS Logo"
+              data-v-47d8dfc0=""
+            />
+          </div>
+        </header>
+        <main>
+          <main class="grid" data-v-43bd4af4="">
+            <section class="grid-section grid-left" data-v-43bd4af4="">
+              <h1 class="grid-header" data-v-43bd4af4="">Taxonomy</h1>
+              <div class="grid-content" data-v-25caf12c="" data-v-43bd4af4="">
+                <ul data-v-25caf12c="">
+                  <li data-v-25caf12c="">
+                    <button class="create-button" data-v-25caf12c="">
+                      Add Root Node
+                    </button>
+                  </li>
+                </ul>
+              </div>
+            </section>
+            <!----><!----><!---->
+          </main>
+        </main>
+        <footer data-v-a28185ec="">
+          <img
+            src="/img/logo-empolis.0a2277d8.png"
+            alt="Empolis Logo"
+            data-v-a28185ec=""
+          />
+          <div class="symptax-version" data-v-a28185ec="">
+            RUI 0.13.1 <br data-v-a28185ec="" />
+            (symptax v7)
+          </div>
+          <img
+            src="/img/logo-hsrm.2a007289.svg"
+            alt="HSRM Logo"
+            data-v-a28185ec=""
+          />
+        </footer>
+      </div>
+    </div>
+    <script src="/js/chunk-vendors.8faaf858.js"></script>
+    <script src="/js/app.8538a54c.js"></script>
+  </body>
+</html>
+`;
+
+exports[`Taxonomy Page > Load page #0`] = `
+<html lang="">
+  <head>
+    <script type="text/javascript">
+      document.domain = "localhost";
+      var Cypress = (window.Cypress = parent.Cypress);
+      if (!Cypress) {
+        throw new Error(
+          "Something went terribly wrong and we cannot proceed. We expected to find the global Cypress in the parent window but it is missing!. This should never happen and likely is a bug. Please open an issue!"
+        );
+      }
+      Cypress.action("app:window:before:load", window);
+    </script>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <link rel="icon" href="/favicon.ico" />
+    <title>RUI</title>
+    <link href="/css/predictions.6b9f84fd.css" rel="prefetch" />
+    <link href="/css/predictions~taxonomy.2f7104ec.css" rel="prefetch" />
+    <link href="/css/taxonomy.ab43e5fe.css" rel="prefetch" />
+    <link href="/css/upload.30e252e9.css" rel="prefetch" />
+    <link href="/js/predictions.065baa01.js" rel="prefetch" />
+    <link href="/js/predictions~taxonomy.f2530c2a.js" rel="prefetch" />
+    <link href="/js/taxonomy.317ef7dc.js" rel="prefetch" />
+    <link href="/js/upload.ae3f84e4.js" rel="prefetch" />
+    <link href="/css/app.db1f0341.css" rel="preload" as="style" />
+    <link href="/js/app.8538a54c.js" rel="preload" as="script" />
+    <link href="/js/chunk-vendors.8faaf858.js" rel="preload" as="script" />
+    <link href="/css/app.db1f0341.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="/css/upload.30e252e9.css" />
+    <script charset="utf-8" src="/js/upload.ae3f84e4.js"></script>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="/css/predictions~taxonomy.2f7104ec.css"
+    />
+    <script charset="utf-8" src="/js/predictions~taxonomy.f2530c2a.js"></script>
+    <link rel="stylesheet" type="text/css" href="/css/taxonomy.ab43e5fe.css" />
+    <script charset="utf-8" src="/js/taxonomy.317ef7dc.js"></script>
+  </head>
+  <body>
+    <noscript
+      ><strong
+        >We're sorry but rui-fe doesn't work properly without JavaScript
+        enabled. Please enable it to continue.</strong
+      ></noscript
+    >
+    <div id="app" data-v-app="">
+      <div class="app">
+        <header data-v-47d8dfc0="">
+          <div class="title" data-v-47d8dfc0="">
+            <h1 data-v-47d8dfc0="">RUI</h1>
+            <h2 data-v-47d8dfc0="">Hunting<br data-v-47d8dfc0="" />Entities</h2>
+          </div>
+          <nav data-v-47d8dfc0="">
+            <a href="/upload" class="" data-v-47d8dfc0="">Upload</a
+            ><a
+              href="/taxonomy"
+              class="router-link-active router-link-exact-active"
+              data-v-47d8dfc0=""
+              aria-current="page"
+              >Taxonomy</a
+            >
+          </nav>
+          <div class="logo" data-v-47d8dfc0="">
+            <img
+              src="/img/logo-lavis.2cfaf679.svg"
+              alt="LAVIS Logo"
+              data-v-47d8dfc0=""
+            />
+          </div>
+        </header>
+        <main>
+          <main class="grid" data-v-43bd4af4="">
+            <section class="grid-section grid-left" data-v-43bd4af4="">
+              <h1 class="grid-header" data-v-43bd4af4="">Taxonomy</h1>
+              <div class="grid-content" data-v-25caf12c="" data-v-43bd4af4="">
+                <ul data-v-25caf12c="">
+                  <li class="extendable" data-v-31cb8309="" data-v-25caf12c="">
+                    <span class="node-name" data-v-31cb8309="">A-1 (+0)</span
+                    ><!---->
+                  </li>
+                  <li class="extendable" data-v-31cb8309="" data-v-25caf12c="">
+                    <span class="node-name" data-v-31cb8309="">B-1 (+0)</span
+                    ><!---->
+                  </li>
+                  <li class="" data-v-31cb8309="" data-v-25caf12c="">
+                    <span class="node-name" data-v-31cb8309="">C-1 (+0)</span
+                    ><!---->
+                  </li>
+                  <li data-v-25caf12c="">
+                    <button class="create-button" data-v-25caf12c="">
+                      Add Root Node
+                    </button>
+                  </li>
+                </ul>
+              </div>
+            </section>
+            <!----><!----><!---->
+          </main>
+        </main>
+        <footer data-v-a28185ec="">
+          <img
+            src="/img/logo-empolis.0a2277d8.png"
+            alt="Empolis Logo"
+            data-v-a28185ec=""
+          />
+          <div class="symptax-version" data-v-a28185ec="">
+            RUI 0.13.1 <br data-v-a28185ec="" />
+            (symptax v7)
+          </div>
+          <img
+            src="/img/logo-hsrm.2a007289.svg"
+            alt="HSRM Logo"
+            data-v-a28185ec=""
+          />
+        </footer>
+      </div>
+    </div>
+    <script src="/js/chunk-vendors.8faaf858.js"></script>
+    <script src="/js/app.8538a54c.js"></script>
+  </body>
+</html>
+`;
+
+exports[`Taxonomy Page > Select collapsed root node #0`] = `
+<html lang="">
+  <head>
+    <script type="text/javascript">
+      document.domain = "localhost";
+      var Cypress = (window.Cypress = parent.Cypress);
+      if (!Cypress) {
+        throw new Error(
+          "Something went terribly wrong and we cannot proceed. We expected to find the global Cypress in the parent window but it is missing!. This should never happen and likely is a bug. Please open an issue!"
+        );
+      }
+      Cypress.action("app:window:before:load", window);
+    </script>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <link rel="icon" href="/favicon.ico" />
+    <title>RUI</title>
+    <link href="/css/predictions.6b9f84fd.css" rel="prefetch" />
+    <link href="/css/predictions~taxonomy.2f7104ec.css" rel="prefetch" />
+    <link href="/css/taxonomy.ab43e5fe.css" rel="prefetch" />
+    <link href="/css/upload.30e252e9.css" rel="prefetch" />
+    <link href="/js/predictions.065baa01.js" rel="prefetch" />
+    <link href="/js/predictions~taxonomy.f2530c2a.js" rel="prefetch" />
+    <link href="/js/taxonomy.317ef7dc.js" rel="prefetch" />
+    <link href="/js/upload.ae3f84e4.js" rel="prefetch" />
+    <link href="/css/app.db1f0341.css" rel="preload" as="style" />
+    <link href="/js/app.8538a54c.js" rel="preload" as="script" />
+    <link href="/js/chunk-vendors.8faaf858.js" rel="preload" as="script" />
+    <link href="/css/app.db1f0341.css" rel="stylesheet" />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="/css/predictions~taxonomy.2f7104ec.css"
+    />
+    <script charset="utf-8" src="/js/predictions~taxonomy.f2530c2a.js"></script>
+    <link rel="stylesheet" type="text/css" href="/css/taxonomy.ab43e5fe.css" />
+    <script charset="utf-8" src="/js/taxonomy.317ef7dc.js"></script>
+  </head>
+  <body>
+    <noscript
+      ><strong
+        >We're sorry but rui-fe doesn't work properly without JavaScript
+        enabled. Please enable it to continue.</strong
+      ></noscript
+    >
+    <div id="app" data-v-app="">
+      <div class="app">
+        <header data-v-47d8dfc0="">
+          <div class="title" data-v-47d8dfc0="">
+            <h1 data-v-47d8dfc0="">RUI</h1>
+            <h2 data-v-47d8dfc0="">Hunting<br data-v-47d8dfc0="" />Entities</h2>
+          </div>
+          <nav data-v-47d8dfc0="">
+            <a href="/upload" class="" data-v-47d8dfc0="">Upload</a
+            ><a
+              href="/taxonomy"
+              class="router-link-active router-link-exact-active"
+              data-v-47d8dfc0=""
+              aria-current="page"
+              >Taxonomy</a
+            >
+          </nav>
+          <div class="logo" data-v-47d8dfc0="">
+            <img
+              src="/img/logo-lavis.2cfaf679.svg"
+              alt="LAVIS Logo"
+              data-v-47d8dfc0=""
+            />
+          </div>
+        </header>
+        <main>
+          <main class="grid" data-v-43bd4af4="">
+            <section class="grid-section grid-left" data-v-43bd4af4="">
+              <h1 class="grid-header" data-v-43bd4af4="">Taxonomy</h1>
+              <div class="grid-content" data-v-25caf12c="" data-v-43bd4af4="">
+                <ul data-v-25caf12c="">
+                  <li data-v-25caf12c="">
+                    <button class="create-button" data-v-25caf12c="">
+                      Add Root Node
+                    </button>
+                  </li>
+                </ul>
+              </div>
+            </section>
+            <!----><!----><!---->
+          </main>
+        </main>
+        <footer data-v-a28185ec="">
+          <img
+            src="/img/logo-empolis.0a2277d8.png"
+            alt="Empolis Logo"
+            data-v-a28185ec=""
+          />
+          <div class="symptax-version" data-v-a28185ec="">
+            RUI 0.13.1 <br data-v-a28185ec="" />
+            (symptax v7)
+          </div>
+          <img
+            src="/img/logo-hsrm.2a007289.svg"
+            alt="HSRM Logo"
+            data-v-a28185ec=""
+          />
+        </footer>
+      </div>
+    </div>
+    <script src="/js/chunk-vendors.8faaf858.js"></script>
+    <script src="/js/app.8538a54c.js"></script>
+  </body>
+</html>
+`;
+
+exports[`Taxonomy Page > Load page #1`] = `
+<html lang="">
+  <head>
+    <script type="text/javascript">
+      document.domain = "localhost";
+      var Cypress = (window.Cypress = parent.Cypress);
+      if (!Cypress) {
+        throw new Error(
+          "Something went terribly wrong and we cannot proceed. We expected to find the global Cypress in the parent window but it is missing!. This should never happen and likely is a bug. Please open an issue!"
+        );
+      }
+      Cypress.action("app:window:before:load", window);
+    </script>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <link rel="icon" href="/favicon.ico" />
+    <title>RUI</title>
+    <link href="/css/predictions.6b9f84fd.css" rel="prefetch" />
+    <link href="/css/predictions~taxonomy.2f7104ec.css" rel="prefetch" />
+    <link href="/css/taxonomy.ab43e5fe.css" rel="prefetch" />
+    <link href="/css/upload.30e252e9.css" rel="prefetch" />
+    <link href="/js/predictions.065baa01.js" rel="prefetch" />
+    <link href="/js/predictions~taxonomy.f2530c2a.js" rel="prefetch" />
+    <link href="/js/taxonomy.317ef7dc.js" rel="prefetch" />
+    <link href="/js/upload.ae3f84e4.js" rel="prefetch" />
+    <link href="/css/app.db1f0341.css" rel="preload" as="style" />
+    <link href="/js/app.8538a54c.js" rel="preload" as="script" />
+    <link href="/js/chunk-vendors.8faaf858.js" rel="preload" as="script" />
+    <link href="/css/app.db1f0341.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="/css/upload.30e252e9.css" />
+    <script charset="utf-8" src="/js/upload.ae3f84e4.js"></script>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="/css/predictions~taxonomy.2f7104ec.css"
+    />
+    <script charset="utf-8" src="/js/predictions~taxonomy.f2530c2a.js"></script>
+    <link rel="stylesheet" type="text/css" href="/css/taxonomy.ab43e5fe.css" />
+    <script charset="utf-8" src="/js/taxonomy.317ef7dc.js"></script>
+  </head>
+  <body>
+    <noscript
+      ><strong
+        >We're sorry but rui-fe doesn't work properly without JavaScript
+        enabled. Please enable it to continue.</strong
+      ></noscript
+    >
+    <div id="app" data-v-app="">
+      <div class="app">
+        <header data-v-47d8dfc0="">
+          <div class="title" data-v-47d8dfc0="">
+            <h1 data-v-47d8dfc0="">RUI</h1>
+            <h2 data-v-47d8dfc0="">Hunting<br data-v-47d8dfc0="" />Entities</h2>
+          </div>
+          <nav data-v-47d8dfc0="">
+            <a href="/upload" class="" data-v-47d8dfc0="">Upload</a
+            ><a
+              href="/taxonomy"
+              class="router-link-active router-link-exact-active"
+              data-v-47d8dfc0=""
+              aria-current="page"
+              >Taxonomy</a
+            >
+          </nav>
+          <div class="logo" data-v-47d8dfc0="">
+            <img
+              src="/img/logo-lavis.2cfaf679.svg"
+              alt="LAVIS Logo"
+              data-v-47d8dfc0=""
+            />
+          </div>
+        </header>
+        <main>
+          <main class="grid" data-v-43bd4af4="">
+            <section class="grid-section grid-left" data-v-43bd4af4="">
+              <h1 class="grid-header" data-v-43bd4af4="">Taxonomy</h1>
+              <div class="grid-content" data-v-25caf12c="" data-v-43bd4af4="">
+                <ul data-v-25caf12c="">
+                  <li class="extended" data-v-31cb8309="" data-v-25caf12c="">
+                    <span class="node-name selected" data-v-31cb8309=""
+                      >A-1 (+0)</span
+                    >
+                    <ul data-v-31cb8309="">
+                      <li class="" data-v-31cb8309="">
+                        <span class="node-name" data-v-31cb8309=""
+                          >Aa-1 (+0)</span
+                        ><!---->
+                      </li>
+                      <li class="" data-v-31cb8309="">
+                        <span class="node-name" data-v-31cb8309=""
+                          >Ab-1 (+0)</span
+                        ><!---->
+                      </li>
+                    </ul>
+                  </li>
+                  <li class="extendable" data-v-31cb8309="" data-v-25caf12c="">
+                    <span class="node-name" data-v-31cb8309="">B-1 (+0)</span
+                    ><!---->
+                  </li>
+                  <li class="" data-v-31cb8309="" data-v-25caf12c="">
+                    <span class="node-name" data-v-31cb8309="">C-1 (+0)</span
+                    ><!---->
+                  </li>
+                  <li data-v-25caf12c="">
+                    <button class="create-button" data-v-25caf12c="">
+                      Add Root Node
+                    </button>
+                  </li>
+                </ul>
+              </div>
+            </section>
+            <!---->
+            <section class="grid-section grid-top-right" data-v-43bd4af4="">
+              <h1 class="grid-header" data-v-43bd4af4="">Node Details</h1>
+              <div class="grid-content" data-v-0ded95de="" data-v-43bd4af4="">
+                <main data-v-0ded95de="">
+                  <h1 data-v-0ded95de="">Entities (1)</h1>
+                  <section data-v-0ded95de="">
+                    <ul data-v-0ded95de="">
+                      <li data-v-0ded95de="">
+                        A-1
+                        <span class="matches-count" data-v-0ded95de="">
+                          (2&nbsp;matches) </span
+                        ><button class="delete-button" data-v-0ded95de="">
+                          Delete
+                        </button>
+                      </li>
+                      <li data-v-0ded95de="">
+                        <input
+                          placeholder="New Entity"
+                          data-v-0ded95de=""
+                          style="display: inline;"
+                        />
+                        <button
+                          class="create-button d-inline-block"
+                          data-v-0ded95de=""
+                        >
+                          Add
+                        </button>
+                      </li>
+                    </ul>
+                  </section>
+                  <h1 data-v-0ded95de="">Matches</h1>
+                  <section data-v-0ded95de="">
+                    <table data-v-0ded95de="">
+                      <tr data-v-0ded95de="">
+                        <th data-v-0ded95de="">Direct</th>
+                        <td data-v-0ded95de="">2</td>
+                      </tr>
+                      <tr data-v-0ded95de="">
+                        <th data-v-0ded95de="">Children</th>
+                        <td data-v-0ded95de="">4</td>
+                      </tr>
+                      <tr data-v-0ded95de="">
+                        <th data-v-0ded95de=""></th>
+                        <td class="total" data-v-0ded95de="">6</td>
+                      </tr>
+                    </table>
+                  </section>
+                  <h1 data-v-0ded95de="">Predictions</h1>
+                  <section class="predictions" data-v-0ded95de="">
+                    <table data-v-0ded95de="">
+                      <tr data-v-0ded95de="">
+                        <th data-v-0ded95de="">Synonyms</th>
+                        <td data-v-0ded95de="">2</td>
+                      </tr>
+                      <tr data-v-0ded95de="">
+                        <th data-v-0ded95de="">Children</th>
+                        <td data-v-0ded95de="">1</td>
+                      </tr>
+                    </table>
+                    <a
+                      href="/predictions/0"
+                      class="d-inline-block mt-8"
+                      data-v-0ded95de=""
+                    >
+                      Show Predictions
+                    </a>
+                  </section>
+                  <h1 data-v-0ded95de="">Topology</h1>
+                  <section data-v-0ded95de="">
+                    <button class="delete-button" data-v-0ded95de="">
+                      Delete Node</button
+                    ><button class="create-button ml-8" data-v-0ded95de="">
+                      Add Child Node
+                    </button>
+                  </section>
+                </main>
+              </div>
+            </section>
+            <section class="grid-section grid-bottom-right" data-v-43bd4af4="">
+              <h1 class="grid-header" data-v-43bd4af4="">Matches</h1>
+              <div class="grid-content" data-v-e08cca50="" data-v-43bd4af4="">
+                <div data-v-e08cca50="">
+                  <h2 class="name-header" data-v-e08cca50="">A-1</h2>
+                  <p class="context" data-v-e08cca50="">
+                    Lorem ipsum <span class="mention">dolor</span> sit amet,
+                    consectetur adipiscing elit, sed do eiusmod tempor
+                    incididunt ut labore et dolore magna aliqua .
+                  </p>
+                  <p class="context" data-v-e08cca50="">
+                    Viverra tellus in hac
+                    <span class="mention">habitasse</span>
+                    <span class="mention">platea</span> dictumst .
+                  </p>
+                  <!---->
+                </div>
+              </div>
+            </section>
+          </main>
+        </main>
+        <footer data-v-a28185ec="">
+          <img
+            src="/img/logo-empolis.0a2277d8.png"
+            alt="Empolis Logo"
+            data-v-a28185ec=""
+          />
+          <div class="symptax-version" data-v-a28185ec="">
+            RUI 0.13.1 <br data-v-a28185ec="" />
+            (symptax v7)
+          </div>
+          <img
+            src="/img/logo-hsrm.2a007289.svg"
+            alt="HSRM Logo"
+            data-v-a28185ec=""
+          />
+        </footer>
+      </div>
+    </div>
+    <script src="/js/chunk-vendors.8faaf858.js"></script>
+    <script src="/js/app.8538a54c.js"></script>
+  </body>
+</html>
+`;
