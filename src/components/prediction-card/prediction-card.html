@@ -19,7 +19,7 @@
             </table>
             <span v-else>None</span>
 
-            <h1 class="mt-8">Synonym of</h1>
+            <h1 class="mt-8">Is Synonym of</h1>
             <table v-if="candidateWithPredictions.synonymPredictions.length > 0"
                    class="mt-4">
                 <tr v-for="(synonymPrediction, index) of candidateWithPredictions.synonymPredictions" :key="index">
