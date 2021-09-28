@@ -2,28 +2,6 @@
 
     <main>
 
-        <!-- Matches -->
-
-        <h1>Matches</h1>
-        <section>
-            <table>
-                <tr>
-                    <th>Direct</th>
-                    <td>{{ shallowNodeMatches }}</td>
-                </tr>
-                <tr>
-                    <th>Children</th>
-                    <td>{{ deepNodeMatches - shallowNodeMatches }}</td>
-                </tr>
-                <tr>
-                    <th></th>
-                    <td class="total">
-                        {{ deepNodeMatches }}
-                    </td>
-                </tr>
-            </table>
-        </section>
-
         <!-- Entities -->
 
         <h1>Entities ({{ node.entities.length }})</h1>
@@ -47,10 +25,32 @@
 
                     /> <button class="create-button d-inline-block"
                                @click="createEntity(entity.id)">
-                        Add
-                    </button>
+                    Add
+                </button>
                 </li>
             </ul>
+        </section>
+
+        <!-- Matches -->
+
+        <h1>Matches</h1>
+        <section>
+            <table>
+                <tr>
+                    <th>Direct</th>
+                    <td>{{ shallowNodeMatches }}</td>
+                </tr>
+                <tr>
+                    <th>Children</th>
+                    <td>{{ deepNodeMatches - shallowNodeMatches }}</td>
+                </tr>
+                <tr>
+                    <th></th>
+                    <td class="total">
+                        {{ deepNodeMatches }}
+                    </td>
+                </tr>
+            </table>
         </section>
 
         <!-- Predictions -->
