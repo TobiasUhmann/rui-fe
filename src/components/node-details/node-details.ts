@@ -17,13 +17,12 @@ export default defineComponent({
         node: {
             immediate: true,
             handler(node: DeepNode) {
+                this.resetNodeData()
+
                 const {shallowNodeMatches, deepNodeMatches} = this.countMatches(node)
 
                 this.shallowNodeMatches = shallowNodeMatches
                 this.deepNodeMatches = deepNodeMatches
-
-                this.synonymPredictions = null
-                this.childPredictions = null
 
                 this.countPredictions(node)
             }
@@ -50,8 +49,8 @@ export default defineComponent({
 
     data() {
         return {
-            shallowNodeMatches: undefined as number | undefined,
-            deepNodeMatches: undefined as number | undefined,
+            shallowNodeMatches: null as number | null,
+            deepNodeMatches: null as number | null,
 
             synonymPredictions: null as number | null,
             childPredictions: null as number | null
@@ -59,6 +58,14 @@ export default defineComponent({
     },
 
     methods: {
+        resetNodeData() {
+            this.shallowNodeMatches = null
+            this.deepNodeMatches = null
+
+            this.synonymPredictions = null
+            this.childPredictions = null
+        },
+
         createEntity(event: Event) {
             // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
             const node = this.node!
@@ -108,16 +115,25 @@ export default defineComponent({
 
         countPredictions(node: DeepNode) {
             PredictionService.getPredictions(node.id, 0, null).then((predictionResponse: PredictionResponse) => {
-                const synonymPredictions = []
-                const parentPredictions = []
+                let synonymPredictions = 0
+                let parentPredictions = 0
 
                 for (const prediction of predictionResponse.predictions) {
-                    synonymPredictions.push(...prediction.synonymPredictions)
-                    parentPredictions.push(...prediction.parentPredictions)
+                    for (const synonymPrediction of prediction.synonymPredictions) {
+                        if (synonymPrediction.node.id === this.node!.id) {
+                            synonymPredictions++
+                        }
+                    }
+
+                    for (const parentPrediction of prediction.parentPredictions) {
+                        if (parentPrediction.node.id === this.node!.id) {
+                            parentPredictions++
+                        }
+                    }
                 }
 
-                this.synonymPredictions = synonymPredictions.length
-                this.childPredictions = parentPredictions.length
+                this.synonymPredictions = synonymPredictions
+                this.childPredictions = parentPredictions
             })
         }
     }
