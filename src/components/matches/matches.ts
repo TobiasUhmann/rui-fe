@@ -76,7 +76,7 @@ export default defineComponent({
             for (let i = 0; i < contextTokens.length; i++) {
 
                 if (markTokens.indexOf(i) !== -1) {
-                    htmlTokens.push('<span class="mention">' + contextTokens[i] + '</span>')
+                    htmlTokens.push('<span style="color: #f3790c; font-weight: bold">' + contextTokens[i] + '</span>')
                 } else {
                     htmlTokens.push(contextTokens[i])
                 }
