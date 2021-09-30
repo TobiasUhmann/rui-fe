@@ -10,7 +10,7 @@ describe('Taxonomy Page', () => {
         cy.visit('/upload')
 
         cy.get('input[type="file"]').attachFile('symptax_upload_v7_random.zip')
-        
+
         // click "Upload"
         cy.get('[type="submit"]').click()
         cy.get('.continue').click()
@@ -18,7 +18,7 @@ describe('Taxonomy Page', () => {
         cy.url().should('contain', '/taxonomy')
         cy.get('html').should('contain', 'C-1')
 
-        cy.get('html').toMatchSnapshot()
+        cy.get('html').toMatchImageSnapshot()
 
         //
         // Expand root node
@@ -29,7 +29,7 @@ describe('Taxonomy Page', () => {
 
         cy.get('.predictions > table > :nth-child(1) > td').should('contain', 2)
 
-        cy.get('html').toMatchSnapshot()
+        cy.get('html').toMatchImageSnapshot()
     })
 
     it.skip('Select collapsed root node', () => {
