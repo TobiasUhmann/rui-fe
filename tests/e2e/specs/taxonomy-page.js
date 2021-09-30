@@ -9,32 +9,27 @@ describe('Taxonomy Page', () => {
 
         cy.visit('/upload')
 
-        cy.fixture('symptax_upload_v7_random.zip').then(fileContent => {
-            cy.get('input[type="file"]').attachFile({
-                fileContent: fileContent,
-                fileName: 'symptax_upload_v7_random.zip'
-            })
+        cy.get('input[type="file"]').attachFile('symptax_upload_v7_random.zip')
+        
+        // click "Upload"
+        cy.get('[type="submit"]').click()
+        cy.get('.continue').click()
 
-            // click "Upload"
-            cy.get('[type="submit"]').click()
-            cy.get('.continue').click()
+        cy.url().should('contain', '/taxonomy')
+        cy.get('html').should('contain', 'C-1')
 
-            cy.url().should('contain', '/taxonomy')
-            cy.get('html').should('contain', 'C-1')
+        cy.get('html').toMatchSnapshot()
 
-            cy.get('html').toMatchSnapshot()
+        //
+        // Expand root node
+        // Should show node details
+        //
 
-            //
-            // Expand root node
-            // Should show node details
-            //
+        cy.get(':nth-child(1) > .node-name').click()
 
-            cy.get(':nth-child(1) > .node-name').click()
+        cy.get('.predictions > table > :nth-child(1) > td').should('contain', 2)
 
-            cy.get('.predictions > table > :nth-child(1) > td').should('contain', 2)
-
-            cy.get('html').toMatchSnapshot()
-        })
+        cy.get('html').toMatchSnapshot()
     })
 
     it.skip('Select collapsed root node', () => {

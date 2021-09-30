@@ -130,14 +130,14 @@ exports[`Taxonomy Page > Load page #0`] = `
     <title>RUI</title>
     <link href="/css/predictions.6b9f84fd.css" rel="prefetch" />
     <link href="/css/predictions~taxonomy.2f7104ec.css" rel="prefetch" />
-    <link href="/css/taxonomy.ab43e5fe.css" rel="prefetch" />
+    <link href="/css/taxonomy.371198dc.css" rel="prefetch" />
     <link href="/css/upload.30e252e9.css" rel="prefetch" />
     <link href="/js/predictions.065baa01.js" rel="prefetch" />
     <link href="/js/predictions~taxonomy.f2530c2a.js" rel="prefetch" />
-    <link href="/js/taxonomy.317ef7dc.js" rel="prefetch" />
+    <link href="/js/taxonomy.225049e0.js" rel="prefetch" />
     <link href="/js/upload.ae3f84e4.js" rel="prefetch" />
     <link href="/css/app.db1f0341.css" rel="preload" as="style" />
-    <link href="/js/app.8538a54c.js" rel="preload" as="script" />
+    <link href="/js/app.a0a0df6c.js" rel="preload" as="script" />
     <link href="/js/chunk-vendors.8faaf858.js" rel="preload" as="script" />
     <link href="/css/app.db1f0341.css" rel="stylesheet" />
     <link rel="stylesheet" type="text/css" href="/css/upload.30e252e9.css" />
@@ -148,8 +148,8 @@ exports[`Taxonomy Page > Load page #0`] = `
       href="/css/predictions~taxonomy.2f7104ec.css"
     />
     <script charset="utf-8" src="/js/predictions~taxonomy.f2530c2a.js"></script>
-    <link rel="stylesheet" type="text/css" href="/css/taxonomy.ab43e5fe.css" />
-    <script charset="utf-8" src="/js/taxonomy.317ef7dc.js"></script>
+    <link rel="stylesheet" type="text/css" href="/css/taxonomy.371198dc.css" />
+    <script charset="utf-8" src="/js/taxonomy.225049e0.js"></script>
   </head>
   <body>
     <noscript
@@ -219,7 +219,7 @@ exports[`Taxonomy Page > Load page #0`] = `
             data-v-a28185ec=""
           />
           <div class="symptax-version" data-v-a28185ec="">
-            RUI 0.13.1 <br data-v-a28185ec="" />
+            RUI 0.13.2 <br data-v-a28185ec="" />
             (symptax v7)
           </div>
           <img
@@ -231,7 +231,7 @@ exports[`Taxonomy Page > Load page #0`] = `
       </div>
     </div>
     <script src="/js/chunk-vendors.8faaf858.js"></script>
-    <script src="/js/app.8538a54c.js"></script>
+    <script src="/js/app.a0a0df6c.js"></script>
   </body>
 </html>
 `;
@@ -368,14 +368,14 @@ exports[`Taxonomy Page > Load page #1`] = `
     <title>RUI</title>
     <link href="/css/predictions.6b9f84fd.css" rel="prefetch" />
     <link href="/css/predictions~taxonomy.2f7104ec.css" rel="prefetch" />
-    <link href="/css/taxonomy.ab43e5fe.css" rel="prefetch" />
+    <link href="/css/taxonomy.371198dc.css" rel="prefetch" />
     <link href="/css/upload.30e252e9.css" rel="prefetch" />
     <link href="/js/predictions.065baa01.js" rel="prefetch" />
     <link href="/js/predictions~taxonomy.f2530c2a.js" rel="prefetch" />
-    <link href="/js/taxonomy.317ef7dc.js" rel="prefetch" />
+    <link href="/js/taxonomy.225049e0.js" rel="prefetch" />
     <link href="/js/upload.ae3f84e4.js" rel="prefetch" />
     <link href="/css/app.db1f0341.css" rel="preload" as="style" />
-    <link href="/js/app.8538a54c.js" rel="preload" as="script" />
+    <link href="/js/app.a0a0df6c.js" rel="preload" as="script" />
     <link href="/js/chunk-vendors.8faaf858.js" rel="preload" as="script" />
     <link href="/css/app.db1f0341.css" rel="stylesheet" />
     <link rel="stylesheet" type="text/css" href="/css/upload.30e252e9.css" />
@@ -386,8 +386,8 @@ exports[`Taxonomy Page > Load page #1`] = `
       href="/css/predictions~taxonomy.2f7104ec.css"
     />
     <script charset="utf-8" src="/js/predictions~taxonomy.f2530c2a.js"></script>
-    <link rel="stylesheet" type="text/css" href="/css/taxonomy.ab43e5fe.css" />
-    <script charset="utf-8" src="/js/taxonomy.317ef7dc.js"></script>
+    <link rel="stylesheet" type="text/css" href="/css/taxonomy.371198dc.css" />
+    <script charset="utf-8" src="/js/taxonomy.225049e0.js"></script>
   </head>
   <body>
     <noscript
@@ -545,14 +545,20 @@ exports[`Taxonomy Page > Load page #1`] = `
                 <div data-v-e08cca50="">
                   <h2 class="name-header" data-v-e08cca50="">A-1</h2>
                   <p class="context" data-v-e08cca50="">
-                    Lorem ipsum <span class="mention">dolor</span> sit amet,
-                    consectetur adipiscing elit, sed do eiusmod tempor
+                    Lorem ipsum
+                    <span style="color: #f3790c; font-weight: bold">dolor</span>
+                    sit amet, consectetur adipiscing elit, sed do eiusmod tempor
                     incididunt ut labore et dolore magna aliqua .
                   </p>
                   <p class="context" data-v-e08cca50="">
                     Viverra tellus in hac
-                    <span class="mention">habitasse</span>
-                    <span class="mention">platea</span> dictumst .
+                    <span style="color: #f3790c; font-weight: bold"
+                      >habitasse</span
+                    >
+                    <span style="color: #f3790c; font-weight: bold"
+                      >platea</span
+                    >
+                    dictumst .
                   </p>
                   <!---->
                 </div>
@@ -567,7 +573,7 @@ exports[`Taxonomy Page > Load page #1`] = `
             data-v-a28185ec=""
           />
           <div class="symptax-version" data-v-a28185ec="">
-            RUI 0.13.1 <br data-v-a28185ec="" />
+            RUI 0.13.2 <br data-v-a28185ec="" />
             (symptax v7)
           </div>
           <img
@@ -579,7 +585,7 @@ exports[`Taxonomy Page > Load page #1`] = `
       </div>
     </div>
     <script src="/js/chunk-vendors.8faaf858.js"></script>
-    <script src="/js/app.8538a54c.js"></script>
+    <script src="/js/app.a0a0df6c.js"></script>
   </body>
 </html>
 `;
