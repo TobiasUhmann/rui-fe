@@ -8,6 +8,7 @@
     "serve": "vue-cli-service serve",
     "start": "http-server dist/",
     "test:e2e": "vue-cli-service test:e2e",
+    "test:e2e:headless": "vue-cli-service test:e2e --headless",
     "test:unit": "vue-cli-service test:unit"
   },
   "dependencies": {
@@ -31,7 +32,6 @@
     "@vue/eslint-config-typescript": "^7.0.0",
     "@vue/test-utils": "^2.0.0-0",
     "cypress-file-upload": "^5.0.8",
-    "cypress-plugin-snapshots": "^1.4.4",
     "eslint": "^6.7.2",
     "eslint-plugin-vue": "^7.0.0",
     "sass": "^1.26.5",

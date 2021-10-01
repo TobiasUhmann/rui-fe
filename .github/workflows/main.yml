@@ -1,0 +1,17 @@
+name: main
+
+on: [ push ]
+
+jobs:
+  e2e:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - run: |
+          npm ci
+          npm run test:e2e:headless
+      - name: Upload test results
+        if: failure()
+        uses: actions/upload-artifact@v2
+        with:
+          path: tests/e2e/screenshots/

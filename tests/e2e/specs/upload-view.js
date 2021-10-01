@@ -7,7 +7,7 @@ describe('Upload Page', () => {
 
         cy.visit('/upload')
 
-        cy.get('.app > main').toMatchImageSnapshot()
+        // TODO
     })
 
     it('Load page via root URL', () => {
@@ -19,7 +19,7 @@ describe('Upload Page', () => {
 
         cy.url().should('contain', '/upload')
 
-        cy.get('.app > main').toMatchImageSnapshot()
+        // TODO
     })
 
     it('Cancel upload', () => {
@@ -36,9 +36,7 @@ describe('Upload Page', () => {
         cy.get('[type="submit"]').click()
         cy.get('.cancel').click()
 
-        cy.wait(1000)
-
-        cy.get('.app > main').toMatchImageSnapshot()
+        // TODO
     })
 
     it('Upload ZIP', () => {
@@ -54,6 +52,6 @@ describe('Upload Page', () => {
         cy.url().should('contain', '/taxonomy')
         cy.get('.node-name').should('contain', 'C-1')
 
-        cy.get('.app > main').toMatchImageSnapshot()
+        // TODO
     })
 })

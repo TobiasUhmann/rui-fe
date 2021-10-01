@@ -15,7 +15,7 @@ describe('Taxonomy Page', () => {
 
         cy.get('html').should('contain', 'C-1')
 
-        cy.get('.grid').toMatchImageSnapshot()
+        // TODO
     })
 
     it('Select root node', () => {
@@ -29,7 +29,7 @@ describe('Taxonomy Page', () => {
         cy.get('.grid-top-right').should('contain', 'A-1')
         cy.get('.grid-bottom-right').should('contain', 'A-1')
 
-        cy.get('.grid').toMatchImageSnapshot()
+        // TODO
     })
 
     it('Select sub node', () => {
@@ -43,7 +43,7 @@ describe('Taxonomy Page', () => {
         cy.get('.grid-top-right').should('contain', 'Aa-1')
         cy.get('.grid-bottom-right').should('contain', 'Aa-1')
 
-        cy.get('.grid').toMatchImageSnapshot()
+        // TODO
     })
 
     it('Add root node', () => {
@@ -57,7 +57,7 @@ describe('Taxonomy Page', () => {
         cy.get('.grid-top-right').should('not.contain', 'Details')
         cy.get('.grid-bottom-right').should('not.contain', 'Matches')
 
-        cy.get('.grid').toMatchImageSnapshot()
+        // TODO
     })
 
     it('Add entities', () => {
@@ -78,7 +78,7 @@ describe('Taxonomy Page', () => {
         cy.get('.grid-top-right').contains('Add').click()
         cy.get('.grid-top-right').find('li').should('have.length', 3)
 
-        cy.get('.grid').toMatchImageSnapshot()
+        // TODO
     })
 
     it('Delete entities', () => {
@@ -91,7 +91,7 @@ describe('Taxonomy Page', () => {
 
         cy.get('.grid-top-right').find('li').should('have.length', 1)
 
-        cy.get('.grid').toMatchImageSnapshot()
+        // TODO
     })
 
     it('Create node', () => {
@@ -108,6 +108,6 @@ describe('Taxonomy Page', () => {
         cy.get('.grid-top-right').should('not.contain', 'New')
         cy.get('.grid-left').should('contain', 'baz')
 
-        cy.get('.grid').toMatchImageSnapshot()
+        // TODO
     })
 })
