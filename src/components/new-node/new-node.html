@@ -28,6 +28,7 @@
     <!-- Create Node Button -->
 
     <button class="create-button mt-16"
+            :class="[entityNames.length > 0 ? 'create-button' : 'disabled-button']"
             :disabled="entityNames.length === 0"
             @click="$emit('createNode', entityNames)">
         Create Node

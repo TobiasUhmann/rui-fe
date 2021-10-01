@@ -1,38 +1,59 @@
 describe('Upload Page', () => {
 
     it('Load page', () => {
+
+        // WHEN visiting the "Upload" page
+        // THEN the page should be shown
+
         cy.visit('/upload')
 
-        cy.get('html').toMatchSnapshot()
+        cy.get('.app > main').toMatchImageSnapshot()
     })
 
     it('Load page via root URL', () => {
+
+        // WHEN visiting the "Upload" page via the root URL
+        // THEN the page should be shown
+
         cy.visit('/')
 
-        // should lead to Upload Page
         cy.url().should('contain', '/upload')
 
-        cy.get('html').toMatchSnapshot()
+        cy.get('.app > main').toMatchImageSnapshot()
     })
 
-    it('Upload valid ZIP', () => {
-        cy.visit('/upload')
+    it('Cancel upload', () => {
 
-        cy.fixture('symptax_upload_v7_random.zip').then(fileContent => {
-            cy.get('input[type="file"]').attachFile({
-                fileContent: fileContent,
-                fileName: 'symptax_upload_v7_random.zip'
-            })
+        // WHEN clicking the "Choose File" button
+        // AND  selecting a valid "Symptax Upload ZIP"
+        // AND  clicking the "Upload" button
+        // AND  clicking the "Cancel" button in the opening confirmation dialog
+        // THEN the user should stay on the page
+        // AND  the file selection should still contain the file
 
-            // click "Upload"
-            cy.get('[type="submit"]').click()
-            cy.get('.continue').click()
+        cy.get('input[type="file"]').attachFile('symptax_upload_v7_random.zip')
 
-            // should lead to Taxonomy Page
-            cy.url().should('contain', '/taxonomy')
+        cy.get('[type="submit"]').click()
+        cy.get('.cancel').click()
 
-            cy.get('.node-name').should('contain', 'C-1')
-            cy.get('html').toMatchSnapshot()
-        })
+        cy.wait(1000)
+
+        cy.get('.app > main').toMatchImageSnapshot()
+    })
+
+    it('Upload ZIP', () => {
+
+        // WHEN clicking the "Upload" button again
+        // AND  clicking the "Overwrite" button
+        // THEN the "Taxonomy" page should be shown
+        // AND  the uploaded ZIP's contents should be shown
+
+        cy.get('[type="submit"]').click()
+        cy.get('.continue').click()
+
+        cy.url().should('contain', '/taxonomy')
+        cy.get('.node-name').should('contain', 'C-1')
+
+        cy.get('.app > main').toMatchImageSnapshot()
     })
 })

@@ -2,84 +2,112 @@ describe('Taxonomy Page', () => {
 
     it('Load page', () => {
 
-        //
-        // Upload ZIP
-        // Should lead to taxonomy page
-        //
+        // WHEN uploading a ZIP
+        // THEN the "Taxonomy" page should be shown with the respective data
 
         cy.visit('/upload')
 
-        cy.fixture('symptax_upload_v7_random.zip').then(fileContent => {
-            cy.get('input[type="file"]').attachFile({
-                fileContent: fileContent,
-                fileName: 'symptax_upload_v7_random.zip'
-            })
+        cy.get('input[type="file"]').attachFile('symptax_upload_v7_random.zip')
+        cy.get('[type="submit"]').click()
+        cy.get('.continue').click()
 
-            // click "Upload"
-            cy.get('[type="submit"]').click()
-            cy.get('.continue').click()
+        cy.url().should('contain', '/taxonomy')
 
-            cy.url().should('contain', '/taxonomy')
-            cy.get('html').should('contain', 'C-1')
+        cy.get('html').should('contain', 'C-1')
 
-            cy.get('html').toMatchSnapshot()
-
-            //
-            // Expand root node
-            // Should show node details
-            //
-
-            cy.get(':nth-child(1) > .node-name').click()
-
-            cy.get('.predictions > table > :nth-child(1) > td').should('contain', 2)
-
-            cy.get('html').toMatchSnapshot()
-        })
+        cy.get('.grid').toMatchImageSnapshot()
     })
 
-    it.skip('Select collapsed root node', () => {
-        cy.visit('/taxonomy')
+    it('Select root node', () => {
 
-        cy.get(':nth-child(1) > .node-name').click()
+        // WHEN selecting a root node
+        // THEN its details should be shown
+        // AND  its matches should be shown
 
-        cy.get('html').toMatchSnapshot()
+        cy.get('.grid-left').contains('A-1').click()
+
+        cy.get('.grid-top-right').should('contain', 'A-1')
+        cy.get('.grid-bottom-right').should('contain', 'A-1')
+
+        cy.get('.grid').toMatchImageSnapshot()
     })
 
-    it.skip('Select expanded node', () => {
+    it('Select sub node', () => {
 
-        // TODO selected node should still be highlighted but collapsed
+        // WHEN selecting a sub node
+        // THEN its details should be shown
+        // AND  its matches should be shown
 
-        // TODO node information should still be shown
+        cy.get('.grid-left').contains('Aa-1').click()
+
+        cy.get('.grid-top-right').should('contain', 'Aa-1')
+        cy.get('.grid-bottom-right').should('contain', 'Aa-1')
+
+        cy.get('.grid').toMatchImageSnapshot()
     })
 
-    it.skip('Select sub node', () => {
+    it('Add root node', () => {
 
-        // TODO node should be highlighted
+        // WHEN clicking the "Add Root Node" button
+        // THEN the "Node Details" and "Matches" sections should not show node information
+        // AND  the "New Node" section should be shown with a disabled "Create Node" button
 
-        // TODO node details and matches should be shown
+        cy.get('.grid-left button').contains('Add Root Node').click()
+
+        cy.get('.grid-top-right').should('not.contain', 'Details')
+        cy.get('.grid-bottom-right').should('not.contain', 'Matches')
+
+        cy.get('.grid').toMatchImageSnapshot()
     })
 
-    it.skip('Add root node', () => {
+    it('Add entities', () => {
 
-        // TODO should not show "Node Details" or "Matches" sections
+        // WHEN adding an entity by hitting RETURN
+        // AND  adding an entity by clicking the "Add" button
+        // AND  clicking the "Add" button without having entered an entity text
+        // THEN the two new entities should be shown
+        // AND  the "Create Node" button should become clickable
 
-        // TODO should show "New Node" section with disabled "Create Node" button
+        cy.get('.grid-top-right input').type('foo{enter}')
+        cy.get('.grid-top-right').should('contain', 'foo')
 
-        // TODO clicking "Create Node" should have no effect
+        cy.get('.grid-top-right input').type('bar')
+        cy.get('.grid-top-right').contains('Add').click()
+        cy.get('.grid-top-right').should('contain', 'bar')
+
+        cy.get('.grid-top-right').contains('Add').click()
+        cy.get('.grid-top-right').find('li').should('have.length', 3)
+
+        cy.get('.grid').toMatchImageSnapshot()
     })
 
-    it.skip('Create node', () => {
+    it('Delete entities', () => {
 
-        // TODO Add entities via hitting RETURN or clicking "Add"
+        // WHEN deleting all entities from the "New Node" section
+        // THEN the "Create Node" button should not be clickable anymore
 
-        // TODO Remove first, middle, and last entity
+        cy.get('.grid-top-right button').contains('Delete').first().click()
+        cy.get('.grid-top-right button').contains('Delete').click()
 
-        // TODO Clicking "Create Node"
+        cy.get('.grid-top-right').find('li').should('have.length', 1)
 
-        // TODO "New Node" section should be hidden
+        cy.get('.grid').toMatchImageSnapshot()
+    })
 
-        // TODO Created node should be shown in taxonomy and be selected
+    it('Create node', () => {
 
-        // TODO "Node Details" and "Matches" should be shown
+        // WHEN adding an entity to the "New Node" section
+        // AND  clicking the "Create Node" button
+        // THEN the "Node Details" section should not be shown anymore
+        // AND  the new node should be shown in the taxonomy
+
+        cy.get('.grid-top-right input').type('baz{enter}')
+
+        cy.get('.grid-top-right button').contains('Create Node').click()
+
+        cy.get('.grid-top-right').should('not.contain', 'New')
+        cy.get('.grid-left').should('contain', 'baz')
+
+        cy.get('.grid').toMatchImageSnapshot()
     })
 })
