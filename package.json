@@ -8,6 +8,7 @@
     "serve": "vue-cli-service serve",
     "start": "http-server dist/",
     "test:e2e": "vue-cli-service test:e2e",
+    "test:e2e:headless": "vue-cli-service test:e2e --headless",
     "test:unit": "vue-cli-service test:unit"
   },
   "dependencies": {

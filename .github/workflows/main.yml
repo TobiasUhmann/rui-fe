@@ -9,4 +9,4 @@ jobs:
       - uses: actions/checkout@v2
       - run: |
           npm ci
-          npm run test:e2e
+          npm run test:e2e:headless
