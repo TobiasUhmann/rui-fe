@@ -10,7 +10,8 @@ describe('Predictions Page', () => {
 
         cy.url().should('contain', '/taxonomy')
         cy.get('html').should('contain', 'C-1')
-        cy.get('.grid').toMatchImageSnapshot()
+
+        // TODO
     })
 
     it('Load page', () => {
@@ -22,7 +23,7 @@ describe('Predictions Page', () => {
 
         cy.contains('Porta lorem').should('exist')
 
-        cy.get('.app > main').toMatchImageSnapshot()
+        // TODO
     })
 
     it('Dismiss prediction', () => {
@@ -34,6 +35,6 @@ describe('Predictions Page', () => {
 
         cy.contains('Erat imperdiet').should('not.exist')
 
-        cy.get('.app > main').toMatchImageSnapshot()
+        // TODO
     })
 })
