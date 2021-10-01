@@ -36,27 +36,36 @@ describe('Taxonomy Page', () => {
         cy.get('.grid').toMatchImageSnapshot()
     })
 
-    it.skip('Select expanded node', () => {
+    it('Select sub node', () => {
 
-        // TODO selected node should still be highlighted but collapsed
+        //
+        // WHEN selecting a sub node
+        // THEN its details should be shown
+        // AND  its matches should be shown
+        //
 
-        // TODO node information should still be shown
+        cy.get('.grid-left').contains('Aa-1').click()
+
+        cy.get('.grid-top-right').should('contain', 'Aa-1')
+        cy.get('.grid-bottom-right').should('contain', 'Aa-1')
+
+        cy.get('.grid').toMatchImageSnapshot()
     })
 
-    it.skip('Select sub node', () => {
+    it('Add root node', () => {
 
-        // TODO node should be highlighted
+        //
+        // WHEN clicking the "Add Root Node" button
+        // THEN the Node Details and Matches sections should not show node information
+        // AND  the New Node sections should be shown with a disabled "Create Node" button
+        //
 
-        // TODO node details and matches should be shown
-    })
+        cy.get('.grid-left button').contains('Add Root Node').click()
 
-    it.skip('Add root node', () => {
+        cy.get('.grid-top-right').should('not.contain', 'Details')
+        cy.get('.grid-bottom-right').should('not.contain', 'Matches')
 
-        // TODO should not show "Node Details" or "Matches" sections
-
-        // TODO should show "New Node" section with disabled "Create Node" button
-
-        // TODO clicking "Create Node" should have no effect
+        cy.get('.grid').toMatchImageSnapshot()
     })
 
     it.skip('Create node', () => {

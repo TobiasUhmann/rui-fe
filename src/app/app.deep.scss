@@ -102,11 +102,6 @@ a, a:visited {
 
 /* Create & Delete Buttons */
 
-.delete-button, .create-button {
-    background-color: inherit;
-    cursor: pointer;
-}
-
 .delete-button {
     color: $red;
     background-color: $white;
@@ -117,4 +112,15 @@ a, a:visited {
     color: $green;
     background-color: $white;
     border: 1px solid $green;
+}
+
+.disabled-button {
+    color: $grey;
+    background-color: $white;
+    border: 1px solid $grey;
+}
+
+.delete-button, .create-button, .disabled-button {
+    background-color: inherit;
+    cursor: pointer;
 }
