@@ -2,10 +2,8 @@ describe('Taxonomy Page', () => {
 
     it('Load page', () => {
 
-        //
         // WHEN uploading a ZIP
         // THEN the taxonomy page should be shown with the respective data
-        //
 
         cy.visit('/upload')
 
@@ -22,11 +20,9 @@ describe('Taxonomy Page', () => {
 
     it('Select root node', () => {
 
-        //
         // WHEN selecting a root node
         // THEN its details should be shown
         // AND  its matches should be shown
-        //
 
         cy.get('.grid-left').contains('A-1').click()
 
@@ -38,11 +34,9 @@ describe('Taxonomy Page', () => {
 
     it('Select sub node', () => {
 
-        //
         // WHEN selecting a sub node
         // THEN its details should be shown
         // AND  its matches should be shown
-        //
 
         cy.get('.grid-left').contains('Aa-1').click()
 
@@ -54,11 +48,9 @@ describe('Taxonomy Page', () => {
 
     it('Add root node', () => {
 
-        //
         // WHEN clicking the "Add Root Node" button
         // THEN the Node Details and Matches sections should not show node information
         // AND  the New Node sections should be shown with a disabled "Create Node" button
-        //
 
         cy.get('.grid-left button').contains('Add Root Node').click()
 
@@ -68,18 +60,54 @@ describe('Taxonomy Page', () => {
         cy.get('.grid').toMatchImageSnapshot()
     })
 
-    it.skip('Create node', () => {
+    it('Add entities', () => {
 
-        // TODO Add entities via hitting RETURN or clicking "Add"
+        // WHEN adding an entity by hitting RETURN
+        // AND  adding an entity by clicking the "Add" button
+        // AND  clicking the "Add" button without having entered an entity text
+        // THEN the two new entities should be shown
+        // AND  the "Create Node" button should become clickable
 
-        // TODO Remove first, middle, and last entity
+        cy.get('.grid-top-right input').type('foo{enter}')
+        cy.get('.grid-top-right').should('contain', 'foo')
 
-        // TODO Clicking "Create Node"
+        cy.get('.grid-top-right input').type('bar')
+        cy.get('.grid-top-right').contains('Add').click()
+        cy.get('.grid-top-right').should('contain', 'bar')
 
-        // TODO "New Node" section should be hidden
+        cy.get('.grid-top-right').contains('Add').click()
+        cy.get('.grid-top-right').find('li').should('have.length', 3)
 
-        // TODO Created node should be shown in taxonomy and be selected
+        cy.get('.grid').toMatchImageSnapshot()
+    })
 
-        // TODO "Node Details" and "Matches" should be shown
+    it('Delete entities', () => {
+
+        // WHEN deleting all entities from the "New Node" section
+        // THEN the "Create Node" button should not be clickable anymore
+
+        cy.get('.grid-top-right button').contains('Delete').first().click()
+        cy.get('.grid-top-right button').contains('Delete').click()
+
+        cy.get('.grid-top-right').find('li').should('have.length', 1)
+
+        cy.get('.grid').toMatchImageSnapshot()
+    })
+
+    it('Create node', () => {
+
+        // WHEN adding an entity to the "New Node" section
+        // AND  clicking the "Create Node" button
+        // THEN the "Node Details" section should not be shown anymore
+        // AND  the new node should be shown in the taxonomy
+
+        cy.get('.grid-top-right input').type('baz{enter}')
+
+        cy.get('.grid-top-right button').contains('Create Node').click()
+
+        cy.get('.grid-top-right').should('not.contain', 'New')
+        cy.get('.grid-left').should('contain', 'baz')
+
+        cy.get('.grid').toMatchImageSnapshot()
     })
 })
