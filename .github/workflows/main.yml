@@ -3,10 +3,10 @@ name: main
 on: [ push ]
 
 jobs:
-  test:
+  e2e:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
       - run: |
           npm ci
-          npm run test:unit
+          npm run test:e2e
