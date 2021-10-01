@@ -3,7 +3,7 @@ describe('Taxonomy Page', () => {
     it('Load page', () => {
 
         // WHEN uploading a ZIP
-        // THEN the taxonomy page should be shown with the respective data
+        // THEN the "Taxonomy" page should be shown with the respective data
 
         cy.visit('/upload')
 
@@ -49,8 +49,8 @@ describe('Taxonomy Page', () => {
     it('Add root node', () => {
 
         // WHEN clicking the "Add Root Node" button
-        // THEN the Node Details and Matches sections should not show node information
-        // AND  the New Node sections should be shown with a disabled "Create Node" button
+        // THEN the "Node Details" and "Matches" sections should not show node information
+        // AND  the "New Node" section should be shown with a disabled "Create Node" button
 
         cy.get('.grid-left button').contains('Add Root Node').click()
 
