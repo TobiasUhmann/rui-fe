@@ -3,41 +3,37 @@ describe('Taxonomy Page', () => {
     it('Load page', () => {
 
         //
-        // Upload ZIP
-        // Should lead to taxonomy page
+        // WHEN uploading a ZIP
+        // THEN the taxonomy page should be shown with the respective data
         //
 
         cy.visit('/upload')
 
         cy.get('input[type="file"]').attachFile('symptax_upload_v7_random.zip')
-
-        // click "Upload"
         cy.get('[type="submit"]').click()
         cy.get('.continue').click()
 
         cy.url().should('contain', '/taxonomy')
+
         cy.get('html').should('contain', 'C-1')
 
-        cy.get('html').toMatchImageSnapshot()
-
-        //
-        // Expand root node
-        // Should show node details
-        //
-
-        cy.get(':nth-child(1) > .node-name').click()
-
-        cy.get('.predictions > table > :nth-child(1) > td').should('contain', 2)
-
-        cy.get('html').toMatchImageSnapshot()
+        cy.get('.grid').toMatchImageSnapshot()
     })
 
-    it.skip('Select collapsed root node', () => {
-        cy.visit('/taxonomy')
+    it('Select root node', () => {
 
-        cy.get(':nth-child(1) > .node-name').click()
+        //
+        // WHEN selecting a root node
+        // THEN its details should be shown
+        // AND  its matches should be shown
+        //
 
-        cy.get('html').toMatchSnapshot()
+        cy.get('.grid-left').contains('A-1').click()
+
+        cy.get('.grid-top-right').should('contain', 'A-1')
+        cy.get('.grid-bottom-right').should('contain', 'A-1')
+
+        cy.get('.grid').toMatchImageSnapshot()
     })
 
     it.skip('Select expanded node', () => {
