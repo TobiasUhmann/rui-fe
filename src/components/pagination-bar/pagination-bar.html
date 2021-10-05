@@ -1,9 +1,11 @@
 <div class="pagination-bar">
-    <button @click="currentPage = 0">
+    <button :disabled="currentPage === 0"
+            @click="currentPage = 0">
         &lt;&lt;
     </button>
 
     <button class="ml-8"
+            :disabled="currentPage === 0"
             @click="currentPage = (currentPage === 0) ? 0 : currentPage - 1">
         &lt;
     </button>
@@ -18,11 +20,13 @@
     </div>
 
     <button class="ml-24"
+            :disabled="currentPage + 1 >= numberOfPages"
             @click="currentPage = (currentPage === numberOfPages - 1) ? numberOfPages - 1 : currentPage + 1">
         &gt;
     </button>
 
     <button class="ml-8"
+            :disabled="currentPage + 1 >= numberOfPages"
             @click="currentPage = numberOfPages - 1">
         &gt;&gt;
     </button>
