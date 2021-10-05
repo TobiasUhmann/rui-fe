@@ -61,14 +61,31 @@ table td:not(:first-child) {
     color: #F3790CFF;
 }
 
-/* Buttons */
+/* Footer */
 
-.buttons {
+footer {
     display: flex;
-    justify-content: right;
 
     padding: 6px;
 
-    background-color: #efefef;
+    background-color: $light-grey;
     border-top: 1px solid grey;
+}
+
+.space {
+    flex-grow: 1;
+}
+
+#dismiss-button {
+    color: $red;
+    background-color: $white;
+    border: 1px solid $red;
+}
+
+#annotate-button {
+    margin-left: 8px;
+    
+    color: $green;
+    background-color: $white;
+    border: 1px solid green;
 }

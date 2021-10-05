@@ -1,5 +1,8 @@
 <div class="prediction-card">
     <div class="flex">
+
+        <!-- Candidate Text -->
+
         <div class="candidate">
             <template v-for="(token, i) of tokens">
                 <span class="token"
@@ -10,6 +13,8 @@
                 {{ ' ' }}
             </template>
         </div>
+
+        <!-- Prediction Items -->
 
         <div class="predictions">
             <h1>Is Synonym of</h1>
@@ -42,16 +47,20 @@
         </div>
     </div>
 
-    <!-- Buttons -->
+    <!-- Footer -->
 
-    <div class="buttons">
-        <button class="delete-button"
+    <footer>
+        <button id="dismiss-button"
                 @click="$emit('dismiss')">
             Dismiss
         </button>
 
-        <button class="create-button ml-8">
+        <div class="space" />
+
+        <input type="text"/>
+
+        <button id="annotate-button">
             Annotate
         </button>
-    </div>
+    </footer>
 </div>
