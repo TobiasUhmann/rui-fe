@@ -18,6 +18,16 @@ export default defineComponent({
         }
     },
 
+    watch: {
+        candidateWithPredictions: {
+            immediate: true,
+            handler(candidateWithPredictions: CandidateWithPredictions) {
+                this.tokens = candidateWithPredictions.candidate.split(' ')
+                this.tokenSelections = new Array<boolean>(this.tokens.length).fill(false)
+            }
+        }
+    },
+
     emits: {
         dismiss() {
             return true
@@ -26,6 +36,9 @@ export default defineComponent({
 
     data() {
         return {
+            tokens: undefined as undefined | string[],
+            tokenSelections: undefined as undefined | boolean[],
+
             getNodeName: getNodeName
         }
     }

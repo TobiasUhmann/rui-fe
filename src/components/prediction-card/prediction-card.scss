@@ -1,3 +1,5 @@
+@import "src/assets/styles/_variables.scss";
+
 .prediction-card {
     border: 1px solid grey;
 }
@@ -23,6 +25,17 @@
     overflow-y: auto;
 
     border-left: 1px solid grey;
+}
+
+/* Candidate Text */
+
+.token {
+    cursor: pointer;
+}
+
+.marked {
+    color: $orange;
+    font-weight: bold;
 }
 
 /* Headers */

@@ -1,7 +1,14 @@
 <div class="prediction-card">
     <div class="flex">
         <div class="candidate">
-            {{ candidateWithPredictions.candidate }}
+            <template v-for="(token, i) of tokens">
+                <span class="token"
+                        :class="{marked: tokenSelections[i]}"
+                      @click="tokenSelections[i] = !tokenSelections[i]">
+                    {{ token }}
+                </span>
+                {{ ' ' }}
+            </template>
         </div>
 
         <div class="predictions">

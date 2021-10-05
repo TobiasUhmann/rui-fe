@@ -40,6 +40,7 @@ describe('PredictionCard', () => {
         // GIVEN a PredictionCard
         // WHEN  selecting tokens in the candidate text by clicking them
         // THEN  the selected tokens should be highlighted
+        // AND   the mention input should contain the selected tokens
 
         const wrapper = mount(PredictionCard, {
             props: {
@@ -57,5 +58,11 @@ describe('PredictionCard', () => {
         const spans = wrapper.findAll('.candidate span')
         await spans[0].trigger('click')
         await spans[2].trigger('click')
+
+        expect(spans[0].classes()).toContain('marked')
+        expect(spans[1].classes()).not.toContain('marked')
+        expect(spans[2].classes()).toContain('marked')
+
+        expect(wrapper.find('#mention')).toContain('Foo Baz')
     })
 })
