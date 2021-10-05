@@ -61,7 +61,8 @@
                v-model="mentionInput"
                @input="userEditsMentionInput = true"/>
 
-        <button id="annotate-button">
+        <button id="annotate-button"
+                :disabled="mentionInput === ''">
             Annotate
         </button>
     </footer>
