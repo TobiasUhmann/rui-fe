@@ -1,3 +1,5 @@
+@import "src/assets/styles/_variables.scss";
+
 .node-name {
     cursor: pointer;
 }
@@ -24,5 +26,5 @@ li.extended::marker {
 
 .selected {
     font-weight: bold;
-    color: #F3790CFF;
+    color: $orange;
 }

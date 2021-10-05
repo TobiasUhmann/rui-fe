@@ -25,6 +25,16 @@ export default defineComponent({
                 this.tokens = candidateWithPredictions.candidate.split(' ')
                 this.tokenSelections = new Array<boolean>(this.tokens.length).fill(false)
             }
+        },
+
+        tokenSelections: {
+            deep: true,
+            handler(tokenSelections: boolean[]) {
+                if (!this.userEditsMentionInput) {
+                    this.mentionInput = tokenSelections!.reduce((a, b, i) =>
+                        tokenSelections![i] ? a + ' ' + this.tokens![i] : a, '')
+                }
+            }
         }
     },
 
@@ -38,6 +48,9 @@ export default defineComponent({
         return {
             tokens: undefined as undefined | string[],
             tokenSelections: undefined as undefined | boolean[],
+
+            mentionInput: '',
+            userEditsMentionInput: false,
 
             getNodeName: getNodeName
         }

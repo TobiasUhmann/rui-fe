@@ -6,7 +6,7 @@
         <div class="candidate">
             <template v-for="(token, i) of tokens">
                 <span class="token"
-                        :class="{marked: tokenSelections[i]}"
+                      :class="{marked: tokenSelections[i]}"
                       @click="tokenSelections[i] = !tokenSelections[i]">
                     {{ token }}
                 </span>
@@ -55,9 +55,11 @@
             Dismiss
         </button>
 
-        <div class="space" />
+        <div class="space"/>
 
-        <input type="text"/>
+        <input type="text"
+               v-model="mentionInput"
+               @input="userEditsMentionInput = true"/>
 
         <button id="annotate-button">
             Annotate
