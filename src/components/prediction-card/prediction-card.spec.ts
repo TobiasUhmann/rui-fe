@@ -66,6 +66,7 @@ describe('PredictionCard', () => {
         expect(spans[1].classes()).not.toContain('marked')
         expect(spans[2].classes()).toContain('marked')
 
-        expect(wrapper.find('#mention')).toContain('Foo Baz')
+        const input = wrapper.find('#mention').element as HTMLInputElement
+        expect(input.value).toContain('Foo Baz')
     })
 })

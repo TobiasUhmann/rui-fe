@@ -3,8 +3,17 @@ name: main
 on: [ push ]
 
 jobs:
+
+  unit:
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v2
+      - run: |
+          npm ci
+          npm run test:unit
+
   e2e:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2
       - run: |
