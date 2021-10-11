@@ -22,7 +22,10 @@ describe('PredictionCard', () => {
             }
         })
 
-        expect(wrapper.find('.candidate').text()).toBe('Foo Bar Baz')
+        const candidateText = wrapper.find('.candidate').text()
+        expect(candidateText).toContain('Foo')
+        expect(candidateText).toContain('Bar')
+        expect(candidateText).toContain('Baz')
 
         const headers = wrapper.findAll('h1')
         expect(headers).toHaveLength(2)
