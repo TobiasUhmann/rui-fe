@@ -1,6 +1,8 @@
 import {mount} from '@vue/test-utils'
 
 import PredictionCard from '@/components/prediction-card/prediction-card.vue'
+import {CandidateWithPredictions} from "@/models/prediction/candidate-with-predictions";
+import {PostNode} from "@/models/node/post-node";
 
 describe('PredictionCard', () => {
 
@@ -68,5 +70,47 @@ describe('PredictionCard', () => {
 
         const input = wrapper.find('#mention').element as HTMLInputElement
         expect(input.value).toContain('Foo Baz')
+    })
+
+    it('Annotate child', async () => {
+
+        // GIVEN a prediction card with a selected child prediction
+        // AND   with selected tokens
+
+        const entity = {id: 0, nodeId: 0, name: 'TestEntity', matchesCount: 42}
+        const node = {id: 0, parentId: null, entities: [entity]}
+
+        const candidateWithPredictions: CandidateWithPredictions = {
+            candidate: 'Foo Bar Baz',
+            parentPredictions: [],
+            synonymPredictions: [{score: 0.8, node}]
+        }
+
+        const wrapper = mount(PredictionCard, {
+            props: {
+                candidateWithPredictions,
+                selectedNodeId: 0
+            }
+        })
+
+        const spans = wrapper.findAll('.candidate span')
+        await spans[0].trigger('click')
+        await spans[2].trigger('click')
+
+        // WHEN  clicking "Annotate"
+
+        const annotateButton = wrapper.findAll('button')
+            .filter(button => button.text().match(/Annotate/))[0]
+        await annotateButton.trigger('click')
+
+        // THEN  the card should emit a "createNode" event
+
+        const postNode: PostNode = {
+            parentId: null,
+            entities: [{name: 'Foo Baz'}]
+        }
+
+        expect(wrapper.emitted().createNode.length).toBe(1)
+        expect(wrapper.emitted().createNode[0]).toEqual(postNode)
     })
 })
