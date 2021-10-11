@@ -2,6 +2,7 @@ import {defineComponent, PropType} from 'vue'
 
 import {CandidateWithPredictions} from '@/models/prediction/candidate-with-predictions'
 import {getNodeName} from '@/models/node/node'
+import {PostNode} from '@/models/node/post-node'
 
 export default defineComponent({
     name: 'PredictionCard',
@@ -31,8 +32,10 @@ export default defineComponent({
             deep: true,
             handler(tokenSelections: boolean[]) {
                 if (!this.userEditsMentionInput) {
-                    this.mentionInput = tokenSelections!.reduce((a, b, i) =>
-                        tokenSelections![i] ? a + ' ' + this.tokens![i] : a, '')
+                    this.mentionInput = tokenSelections!
+                        .map((tokenSelection, index) => tokenSelection ? this.tokens![index] : null)
+                        .filter(token => token !== null)
+                        .join(' ')
                 }
             }
         }
@@ -40,6 +43,10 @@ export default defineComponent({
 
     emits: {
         dismiss() {
+            return true
+        },
+
+        createNode(postNode: PostNode) {
             return true
         }
     },
@@ -53,6 +60,18 @@ export default defineComponent({
             userEditsMentionInput: false,
 
             getNodeName: getNodeName
+        }
+    },
+
+    methods: {
+        emitCreateNode() {
+            const mentionInput = this.$refs.mention as HTMLInputElement
+            const postNode = {
+                parentId: this.selectedNodeId,
+                entities: [{name: mentionInput.value}]
+            }
+
+            this.$emit('createNode', postNode)
         }
     }
 })

@@ -106,11 +106,11 @@ describe('PredictionCard', () => {
         // THEN  the card should emit a "createNode" event
 
         const postNode: PostNode = {
-            parentId: null,
+            parentId: 0,
             entities: [{name: 'Foo Baz'}]
         }
 
         expect(wrapper.emitted().createNode.length).toBe(1)
-        expect(wrapper.emitted().createNode[0]).toEqual(postNode)
+        expect(wrapper.emitted().createNode[0]).toEqual([postNode])
     })
 })

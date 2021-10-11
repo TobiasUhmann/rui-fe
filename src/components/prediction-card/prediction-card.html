@@ -57,13 +57,14 @@
 
         <div class="space"/>
 
-        <input id="mention"
+        <input id="mention" ref="mention"
                type="text"
                v-model="mentionInput"
                @input="userEditsMentionInput = true"/>
 
         <button id="annotate-button"
-                :disabled="mentionInput === ''">
+                :disabled="mentionInput === ''"
+                @click="emitCreateNode">
             Annotate
         </button>
     </footer>
