@@ -10,7 +10,7 @@ import {PredictionService} from '@/services/prediction-service'
 import {PredictionResponse} from "@/models/prediction/prediction-response";
 
 export default defineComponent({
-    name: 'PredictionsView',
+    name: 'PredictionsPage',
 
     components: {PaginationBar, PredictionCard, TreeItem},
 
