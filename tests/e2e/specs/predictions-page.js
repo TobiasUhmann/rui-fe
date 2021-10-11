@@ -21,7 +21,8 @@ describe('Predictions Page', () => {
 
         cy.visit('/predictions/0')
 
-        cy.contains('Porta lorem').should('exist')
+        cy.contains('Porta').should('exist')
+        cy.contains('lorem').should('exist')
 
         // TODO
     })
