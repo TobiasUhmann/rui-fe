@@ -6,8 +6,9 @@ import TreeItem from '@/components/tree-item/tree-item.vue'
 import {CandidateWithPredictions} from '@/models/prediction/candidate-with-predictions'
 import {DeepNode} from '@/models/node/deep-node'
 import {NodeService} from '@/services/node-service'
+import {PostNode} from '@/models/node/post-node'
+import {PredictionResponse} from '@/models/prediction/prediction-response'
 import {PredictionService} from '@/services/prediction-service'
-import {PredictionResponse} from "@/models/prediction/prediction-response";
 
 export default defineComponent({
     name: 'PredictionsPage',
@@ -89,6 +90,13 @@ export default defineComponent({
             PredictionService.patchPrediction(candidate, {dismissed: true}).then(() => {
                 this.loadPredictions(this.nodeId!, this.offset, 3)
             })
+        },
+
+        createNode(postNode: PostNode) {
+            const nodeId = this.nodeId!
+
+            NodeService.postNode(postNode)
+                .then(() => this.loadRootNode(nodeId))
         }
     }
 })

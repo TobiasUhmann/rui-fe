@@ -2,7 +2,7 @@ import {PostEntity} from '@/models/entity/post-entity'
 
 export const EntityService = {
 
-    postEntity(postEntity: PostEntity): Promise<void> {
+    postEntity(postEntity: PostEntity): Promise<Response | void> {
         const fetchOptions = {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
@@ -10,17 +10,15 @@ export const EntityService = {
         }
 
         return fetch(`${process.env.VUE_APP_API_URL}/entities`, fetchOptions)
-            .then(response => console.debug(response))
             .catch(error => console.error(error))
     },
 
-    deleteEntity(entityId: number): Promise<void> {
+    deleteEntity(entityId: number): Promise<Response | void> {
         const fetchOptions = {
             method: 'DELETE'
         }
 
         return fetch(`${process.env.VUE_APP_API_URL}/entities/${entityId}`, fetchOptions)
-            .then(response => console.debug(response))
             .catch(error => console.error(error))
     }
 }

@@ -25,7 +25,8 @@
                             class="prediction-card"
                             :candidateWithPredictions="candidateWithPredictions"
                             :selectedNodeId="predictedNode.id"
-                            @dismiss="dismissCandidateWithPredictions(candidateWithPredictions.candidate)">
+                            @dismiss="dismissCandidateWithPredictions(candidateWithPredictions.candidate)"
+                            @createNode="createNode($event)">
             </PredictionCard>
         </section>
 

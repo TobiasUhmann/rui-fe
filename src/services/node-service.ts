@@ -6,15 +6,11 @@ export const NodeService = {
 
     getNodes(): Promise<DeepNode[]> {
         return fetch(`${process.env.VUE_APP_API_URL}/nodes`)
-            .then(response => {
-                const data = response.json()
-                console.debug(data)
-                return data
-            })
+            .then(response => response.json())
             .catch(error => console.error(error))
     },
 
-    postNode(postNode: PostNode): Promise<void> {
+    postNode(postNode: PostNode): Promise<Response | void> {
         const fetchOptions = {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
@@ -22,17 +18,15 @@ export const NodeService = {
         }
 
         return fetch(`${process.env.VUE_APP_API_URL}/nodes`, fetchOptions)
-            .then(response => console.debug(response))
             .catch(error => console.error(error))
     },
 
-    deleteNode(nodeId: number): Promise<void> {
+    deleteNode(nodeId: number): Promise<Response | void> {
         const fetchOptions = {
             method: 'DELETE'
         }
 
         return fetch(`${process.env.VUE_APP_API_URL}/nodes/${nodeId}`, fetchOptions)
-            .then(response => console.debug(response))
             .catch(error => console.error(error))
     }
 }

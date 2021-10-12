@@ -1,10 +1,15 @@
 import {flushPromises, shallowMount} from '@vue/test-utils'
 
+import {PostNode} from '@/models/node/post-node'
+import PredictionCard from '@/components/prediction-card/prediction-card.vue'
 import PredictionsPage from '@/pages/predictions-page/predictions-page.vue'
+import TreeItem from '@/components/tree-item/tree-item.vue'
 
 import {createFetchResponse} from '../../../tests/unit/util'
-import {nodesResponse} from './fixtures/nodes-response'
-import {predictionsResponse} from './fixtures/predictions-response'
+import {nodesResponseWithNewNode} from '@/pages/predictions-page/fixtures/nodes-response-with-new-node'
+import {nodesResponse} from '@/pages/predictions-page/fixtures/nodes-response'
+import {predictionsResponseWithoutAnnotatedPrediction} from '@/pages/predictions-page/fixtures/predictions-response-without-annotated-prediction'
+import {predictionsResponse} from '@/pages/predictions-page/fixtures/predictions-response'
 
 it('Annotate child prediction', async () => {
 
@@ -13,6 +18,9 @@ it('Annotate child prediction', async () => {
     global.fetch = jest.fn()
         .mockReturnValueOnce(createFetchResponse(nodesResponse))
         .mockReturnValueOnce(createFetchResponse(predictionsResponse))
+        .mockReturnValueOnce(createFetchResponse({}))
+        .mockReturnValueOnce(createFetchResponse(nodesResponseWithNewNode))
+        .mockReturnValueOnce(createFetchResponse(predictionsResponseWithoutAnnotatedPrediction))
 
     const wrapper = shallowMount(PredictionsPage, {
         global: {mocks: {$route: {params: {node: '0'}}}}
@@ -22,7 +30,14 @@ it('Annotate child prediction', async () => {
 
     // WHEN  a prediction emits a "createNode" event
 
-    await wrapper.findAll('prediction-card-stub')[0].trigger('createNode')
+    const postNode: PostNode = {
+        parentId: 0,
+        entities: [{name: 'foo'}]
+    }
+
+    await wrapper.findAllComponents(PredictionCard)[0].vm.$emit('createNode', postNode)
+
+    await flushPromises()
 
     // THEN  POST /nodes should have been called
     // AND   the node should be added to the taxonomy
@@ -34,4 +49,9 @@ it('Annotate child prediction', async () => {
     // GET /nodes
     // GET /nodes/0/predictions
     expect(global.fetch).toBeCalledTimes(5)
+
+    const treeItem = wrapper.findComponent(TreeItem)
+    expect(treeItem.vm.node.children[2].entities[0].name).toBe('Ac-1')
+
+    expect(wrapper.findAllComponents(PredictionCard)).toHaveLength(2)
 })
