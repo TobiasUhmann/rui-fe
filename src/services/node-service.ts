@@ -7,8 +7,9 @@ export const NodeService = {
     getNodes(): Promise<DeepNode[]> {
         return fetch(`${process.env.VUE_APP_API_URL}/nodes`)
             .then(response => {
-                console.debug(response)
-                return response.json()
+                const data = response.json()
+                console.debug(data)
+                return data
             })
             .catch(error => console.error(error))
     },

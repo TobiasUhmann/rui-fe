@@ -1,8 +1,8 @@
 import {mount} from '@vue/test-utils'
 
 import PredictionCard from '@/components/prediction-card/prediction-card.vue'
-import {CandidateWithPredictions} from "@/models/prediction/candidate-with-predictions";
-import {PostNode} from "@/models/node/post-node";
+import {CandidateWithPredictions} from '@/models/prediction/candidate-with-predictions'
+import {PostNode} from '@/models/node/post-node'
 
 describe('PredictionCard', () => {
 
