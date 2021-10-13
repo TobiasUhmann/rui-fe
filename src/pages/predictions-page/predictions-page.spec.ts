@@ -1,26 +1,25 @@
 import {flushPromises, shallowMount} from '@vue/test-utils'
 
-import {PostNode} from '@/models/node/post-node'
 import PredictionCard from '@/components/prediction-card/prediction-card.vue'
 import PredictionsPage from '@/pages/predictions-page/predictions-page.vue'
 import TreeItem from '@/components/tree-item/tree-item.vue'
+import {PostNode} from '@/models/node/post-node'
 
 import {createFetchResponse} from '../../../tests/unit/util'
-import {nodesResponseWithNewNode} from '@/pages/predictions-page/fixtures/nodes-response-with-new-node'
-import {nodesResponse} from '@/pages/predictions-page/fixtures/nodes-response'
-import {predictionsResponseWithoutAnnotatedPrediction} from '@/pages/predictions-page/fixtures/predictions-response-without-annotated-prediction'
-import {predictionsResponse} from '@/pages/predictions-page/fixtures/predictions-response'
+import {getNodesResponse, getNodesResponseWithNewNode} from '@/pages/predictions-page/fixtures/nodes'
+import {getPredictionsResponseWithoutAnnotatedPrediction} from '@/pages/predictions-page/fixtures/predictions'
+import {getPredictionsResponse} from '@/pages/predictions-page/fixtures/predictions'
 
 it('Annotate child prediction', async () => {
 
     // GIVEN the "Predictions" page with some predictions
 
     global.fetch = jest.fn()
-        .mockReturnValueOnce(createFetchResponse(nodesResponse))
-        .mockReturnValueOnce(createFetchResponse(predictionsResponse))
+        .mockReturnValueOnce(createFetchResponse(getNodesResponse))
+        .mockReturnValueOnce(createFetchResponse(getPredictionsResponse))
         .mockReturnValueOnce(createFetchResponse({}))
-        .mockReturnValueOnce(createFetchResponse(nodesResponseWithNewNode))
-        .mockReturnValueOnce(createFetchResponse(predictionsResponseWithoutAnnotatedPrediction))
+        .mockReturnValueOnce(createFetchResponse(getNodesResponseWithNewNode))
+        .mockReturnValueOnce(createFetchResponse(getPredictionsResponseWithoutAnnotatedPrediction))
 
     const wrapper = shallowMount(PredictionsPage, {
         global: {mocks: {$route: {params: {node: '0'}}}}
