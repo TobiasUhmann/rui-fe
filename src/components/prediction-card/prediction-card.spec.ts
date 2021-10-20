@@ -60,7 +60,7 @@ it('Render', () => {
     expect(candidateText).toContain('Baz')
 
     // THEN  the predictions that match the selected node should be highlighted
-    // THEN  the predictions that do not match the selected node should not be highlighted
+    // AND   the predictions that do not match the selected node should not be highlighted
 
     const synonymPredictions = wrapper.findAll('table')[0].findAll('td:nth-child(2)')
     expect(synonymPredictions[0].classes()).toContain('selected')
@@ -68,6 +68,33 @@ it('Render', () => {
 
     const parentPredictions = wrapper.findAll('table')[1].findAll('td:nth-child(2)')
     expect(parentPredictions[0].classes()).toContain('selected')
+    expect(parentPredictions[1].classes()).not.toContain('selected')
+})
+
+it('Select synonym prediction', async () => {
+
+    // GIVEN a prediction card with some predictions
+
+    const wrapper = shallowMount(PredictionCard, {
+        props: {
+            candidateWithPredictions: candidateWithPredictions,
+            selectedNodeId: nodeA.id
+        }
+    })
+
+    // WHEN  selecting another synonym prediction
+
+    const synonymPredictions = wrapper.findAll('table')[0].findAll('td:nth-child(2)')
+    await synonymPredictions[1].trigger('click')
+
+    // THEN  the selected prediction should be highlighted
+    // AND   the previously selected prediction should not be highlighted anymore
+
+    expect(synonymPredictions[0].classes()).not.toContain('selected')
+    expect(synonymPredictions[1].classes()).toContain('selected')
+
+    const parentPredictions = wrapper.findAll('table')[1].findAll('td:nth-child(2)')
+    expect(parentPredictions[0].classes()).not.toContain('selected')
     expect(parentPredictions[1].classes()).not.toContain('selected')
 })
 
@@ -188,21 +215,4 @@ it('Annotate synonym', async () => {
 
     expect(wrapper.emitted().createEntity.length).toBe(1)
     expect(wrapper.emitted().createEntity[0]).toEqual([postEntity])
-})
-
-it('Select prediction', async () => {
-
-    // GIVEN a prediction card
-
-    const wrapper = mount(PredictionCard, {
-        props: {
-            candidateWithPredictions: candidateWithPredictions0,
-            selectedNodeId: 0
-        }
-    })
-
-    // WHEN  selecting another prediction
-
-    // THEN  the selected prediction should be highlighted
-    // AND   the previously selected prediction should not be highlighted anymore
 })
