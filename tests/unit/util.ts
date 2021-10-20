@@ -1,9 +1,3 @@
-export function createFetchResponse<T>(value: T)
-    : Promise<{ json: () => Promise<T> }> {
-
-    return Promise.resolve({json: () => Promise.resolve(value)})
-}
-
 export function mockFetchResponse<T>(urlEndsWith: string, fetchResponse: T)
     : (url: string) => Promise<{ json: () => Promise<T> }> {
 
@@ -17,4 +11,3 @@ export function mockFetchResponse<T>(urlEndsWith: string, fetchResponse: T)
         }
     }
 }
-

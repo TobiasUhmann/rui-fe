@@ -10,7 +10,7 @@ import {DeepNode} from '@/models/node/deep-node'
 import {Entity} from '@/models/entity/entity'
 import {PostEntity} from '@/models/entity/post-entity'
 import {PredictionResponse} from '@/models/prediction/prediction-response'
-import {createFetchResponse, mockFetchResponse} from '../../../tests/unit/util'
+import {mockFetchResponse} from '../../../tests/unit/util'
 
 const entityAa1: Entity = {id: 1, nodeId: 1, name: 'Aa-1', matchesCount: 2}
 const nodeAa: DeepNode = {id: 1, parentId: 0, entities: [entityAa1], children: []}
@@ -76,7 +76,7 @@ const getPredictionsResponseWithoutAnnotatedPrediction: PredictionResponse = {
     predictions: [prediction1, prediction2]
 }
 
-it('Render', async() => {
+it('Render', async () => {
 
     //
     // GIVEN the backend with the following endpoints:
@@ -122,7 +122,12 @@ it('Annotate synonym prediction', async () => {
     //
 
     const entityA2: Entity = {id: 0, nodeId: 0, name: 'A-2', matchesCount: 2}
-    const nodeAWithEntityA2: DeepNode = {id: 0, parentId: null, entities: [entityA1, entityA2], children: [nodeAa, nodeAb]}
+    const nodeAWithEntityA2: DeepNode = {
+        id: 0,
+        parentId: null,
+        entities: [entityA1, entityA2],
+        children: [nodeAa, nodeAb]
+    }
     const getNodesResponseWithEntityA2 = [nodeAWithEntityA2, nodeB, nodeC]
 
     global.fetch = jest.fn()
@@ -181,7 +186,12 @@ it('Annotate child prediction', async () => {
 
     const entityAc1: Entity = {id: 12, nodeId: 7, name: 'Ac-1', matchesCount: 0}
     const nodeAc: DeepNode = {id: 7, parentId: 0, entities: [entityAc1], children: []}
-    const nodeAWithChildNodeAc: DeepNode = {id: 0, parentId: null, entities: [entityA1], children: [nodeAa, nodeAb, nodeAc]}
+    const nodeAWithChildNodeAc: DeepNode = {
+        id: 0,
+        parentId: null,
+        entities: [entityA1],
+        children: [nodeAa, nodeAb, nodeAc]
+    }
     const getNodesResponseWithChildNodeAc = [nodeAWithChildNodeAc, nodeB, nodeC]
 
     global.fetch = jest.fn()
