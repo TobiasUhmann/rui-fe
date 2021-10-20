@@ -54,7 +54,9 @@ table td:not(:first-child) {
     padding-left: 8px;
 }
 
-/* Selected Node */
+table td:not(.selected) {
+    cursor: pointer;
+}
 
 .selected {
     font-weight: bold;

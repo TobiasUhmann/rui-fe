@@ -1,4 +1,4 @@
-import {mount, shallowMount} from '@vue/test-utils'
+import {shallowMount} from '@vue/test-utils'
 
 import PredictionCard from '@/components/prediction-card/prediction-card.vue'
 import {CandidateWithPredictions} from '@/models/prediction/candidate-with-predictions'
@@ -21,22 +21,22 @@ const candidateWithPredictions: CandidateWithPredictions = {
     dismissed: false,
     synonymPredictions: [
         {score: 1.0, node: nodeA},
-        {score: 0.9, node: nodeB}
+        {score: 0.9, node: nodeC}
     ],
     parentPredictions: [
-        {score: 0.8, node: nodeA},
+        {score: 0.8, node: nodeB},
         {score: 0.7, node: nodeC}
     ]
 }
 
-it('Render', () => {
+it('Render', async () => {
 
-    // GIVEN a prediction card with some predictions
+    // GIVEN a prediction card
 
     const wrapper = shallowMount(PredictionCard, {
         props: {
             candidateWithPredictions: candidateWithPredictions,
-            selectedNodeId: nodeA.id
+            currentNodeId: nodeA.id
         }
     })
 
@@ -58,17 +58,68 @@ it('Render', () => {
     expect(candidateText).toContain('Foo')
     expect(candidateText).toContain('Bar')
     expect(candidateText).toContain('Baz')
+})
 
-    // THEN  the predictions that match the selected node should be highlighted
-    // AND   the predictions that do not match the selected node should not be highlighted
+it('Synonym and parent prediction for current node', () => {
+
+    // GIVEN a prediction card with a synonym prediction for the current node
+    //       and a child prediction for the current node
+
+    const wrapper = shallowMount(PredictionCard, {
+        props: {
+            candidateWithPredictions: candidateWithPredictions,
+            currentNodeId: nodeC.id
+        }
+    })
+
+    // THEN  the synonym prediction for the current node should be rendered
+    // AND   the child prediction for the current node should not be rendered
+    // AND   the other predictions should not be rendered
 
     const synonymPredictions = wrapper.findAll('table')[0].findAll('td:nth-child(2)')
-    expect(synonymPredictions[0].classes()).toContain('selected')
+    expect(synonymPredictions[0].classes()).not.toContain('selected')
+    expect(synonymPredictions[1].classes()).toContain('selected')
+
+    const parentPredictions = wrapper.findAll('table')[1].findAll('td:nth-child(2)')
+    expect(parentPredictions[0].classes()).not.toContain('selected')
+    expect(parentPredictions[1].classes()).not.toContain('selected')
+})
+
+it('Only child prediction for current node', () => {
+
+    // GIVEN a prediction card with a child prediction for the current node
+    //       but no synonym prediction for the current node
+
+    const candidateWithPredictions: CandidateWithPredictions = {
+        candidate: 'Foo Bar Baz',
+        dismissed: false,
+        synonymPredictions: [
+            {score: 1.0, node: nodeA},
+            {score: 0.9, node: nodeB}
+        ],
+        parentPredictions: [
+            {score: 0.8, node: nodeB},
+            {score: 0.7, node: nodeC}
+        ]
+    }
+
+    const wrapper = shallowMount(PredictionCard, {
+        props: {
+            candidateWithPredictions: candidateWithPredictions,
+            currentNodeId: nodeC.id
+        }
+    })
+
+    // THEN  the child prediction for the current node should be rendered
+    // AND   the other predictions should not be rendered
+
+    const synonymPredictions = wrapper.findAll('table')[0].findAll('td:nth-child(2)')
+    expect(synonymPredictions[0].classes()).not.toContain('selected')
     expect(synonymPredictions[1].classes()).not.toContain('selected')
 
     const parentPredictions = wrapper.findAll('table')[1].findAll('td:nth-child(2)')
-    expect(parentPredictions[0].classes()).toContain('selected')
-    expect(parentPredictions[1].classes()).not.toContain('selected')
+    expect(parentPredictions[0].classes()).not.toContain('selected')
+    expect(parentPredictions[1].classes()).toContain('selected')
 })
 
 it('Select synonym prediction', async () => {
@@ -78,20 +129,20 @@ it('Select synonym prediction', async () => {
     const wrapper = shallowMount(PredictionCard, {
         props: {
             candidateWithPredictions: candidateWithPredictions,
-            selectedNodeId: nodeA.id
+            currentNodeId: nodeC.id
         }
     })
 
-    // WHEN  selecting another synonym prediction
+    // WHEN  selecting a synonym prediction
 
     const synonymPredictions = wrapper.findAll('table')[0].findAll('td:nth-child(2)')
-    await synonymPredictions[1].trigger('click')
+    await synonymPredictions[0].trigger('click')
 
-    // THEN  the selected prediction should be highlighted
-    // AND   the previously selected prediction should not be highlighted anymore
+    // THEN  the selected synonym prediction should be highlighted
+    // AND   the other predictions should not be highlighted
 
-    expect(synonymPredictions[0].classes()).not.toContain('selected')
-    expect(synonymPredictions[1].classes()).toContain('selected')
+    expect(synonymPredictions[0].classes()).toContain('selected')
+    expect(synonymPredictions[1].classes()).not.toContain('selected')
 
     const parentPredictions = wrapper.findAll('table')[1].findAll('td:nth-child(2)')
     expect(parentPredictions[0].classes()).not.toContain('selected')
@@ -100,27 +151,23 @@ it('Select synonym prediction', async () => {
 
 it('marks selected tokens', async () => {
 
-    // GIVEN a PredictionCard
-    // WHEN  selecting tokens in the candidate text by clicking them
-    // THEN  the selected tokens should be highlighted
-    // AND   the mention input should contain the selected tokens
+    // GIVEN a prediction card
 
-    const wrapper = mount(PredictionCard, {
+    const wrapper = shallowMount(PredictionCard, {
         props: {
-            candidateWithPredictions: {
-                candidate: 'Foo Bar Baz',
-
-                parentPredictions: [],
-                synonymPredictions: []
-            },
-
-            selectedNodeId: 0
+            candidateWithPredictions,
+            currentNodeId: nodeA.id
         }
     })
+
+    // WHEN  selecting tokens in the candidate text by clicking them
 
     const spans = wrapper.findAll('.candidate span')
     await spans[0].trigger('click')
     await spans[2].trigger('click')
+
+    // THEN  the selected tokens should be highlighted
+    // AND   the mention input should contain the selected tokens
 
     expect(spans[0].classes()).toContain('marked')
     expect(spans[1].classes()).not.toContain('marked')
@@ -130,68 +177,15 @@ it('marks selected tokens', async () => {
     expect(input.value).toContain('Foo Baz')
 })
 
-it('Annotate child', async () => {
+it('Annotate synonym prediction', async () => {
 
-    // GIVEN a prediction card with a selected child prediction
-    // AND   with selected tokens
-
-    const entity = {id: 0, nodeId: 0, name: 'TestEntity', matchesCount: 42}
-    const node = {id: 0, parentId: null, entities: [entity]}
-
-    const candidateWithPredictions: CandidateWithPredictions = {
-        candidate: 'Foo Bar Baz',
-        dismissed: false,
-        parentPredictions: [],
-        synonymPredictions: [{score: 0.8, node}]
-    }
-
-    const wrapper = mount(PredictionCard, {
-        props: {
-            candidateWithPredictions,
-            selectedNodeId: 0
-        }
-    })
-
-    const spans = wrapper.findAll('.candidate span')
-    await spans[0].trigger('click')
-    await spans[2].trigger('click')
-
-    // WHEN  clicking "Annotate"
-
-    const annotateButton = wrapper.findAll('button')
-        .filter(button => button.text().match(/Annotate/))[0]
-    await annotateButton.trigger('click')
-
-    // THEN  the card should emit a "createNode" event
-
-    const postNode: PostNode = {
-        parentId: 0,
-        entities: [{name: 'Foo Baz'}]
-    }
-
-    expect(wrapper.emitted().createNode.length).toBe(1)
-    expect(wrapper.emitted().createNode[0]).toEqual([postNode])
-})
-
-const entity: Entity = {id: 0, nodeId: 0, name: 'Entity 1', matchesCount: 7}
-const node: Node = {id: 0, parentId: null, entities: [entity]}
-
-const candidateWithPredictions0: CandidateWithPredictions = {
-    candidate: 'Foo Bar Baz',
-    dismissed: false,
-    parentPredictions: [],
-    synonymPredictions: [{score: 0.8, node}]
-}
-
-it('Annotate synonym', async () => {
-
-    // GIVEN a "Prediction Card" with selected tokens
+    // GIVEN a prediction card with selected tokens
     // AND   a selected synonym prediction
 
-    const wrapper = mount(PredictionCard, {
+    const wrapper = shallowMount(PredictionCard, {
         props: {
-            candidateWithPredictions: candidateWithPredictions0,
-            selectedNodeId: 0
+            candidateWithPredictions: candidateWithPredictions,
+            currentNodeId: nodeA.id
         }
     })
 
@@ -208,11 +202,45 @@ it('Annotate synonym', async () => {
 
     // THEN  the card should emit a "createEntity" event
 
-    const postEntity: PostEntity = {
-        nodeId: 0,
+    const expectedPostEntity: PostEntity = {
+        nodeId: nodeA.id,
         name: 'Foo Baz'
     }
 
     expect(wrapper.emitted().createEntity.length).toBe(1)
-    expect(wrapper.emitted().createEntity[0]).toEqual([postEntity])
+    expect(wrapper.emitted().createEntity[0]).toEqual([expectedPostEntity])
+})
+
+it('Annotate child prediction', async () => {
+
+    // GIVEN a prediction card with a selected child prediction
+    // AND   with selected tokens
+
+    const wrapper = shallowMount(PredictionCard, {
+        props: {
+            candidateWithPredictions,
+            currentNodeId: nodeB.id
+        }
+    })
+
+    const spans = wrapper.findAll('.candidate span')
+    await spans[0].trigger('click')
+    await spans[2].trigger('click')
+
+    // WHEN  clicking "Annotate"
+
+    const annotateButton = wrapper.findAll('button')
+        .filter(button => button.text().match(/Annotate/))[0]
+
+    await annotateButton.trigger('click')
+
+    // THEN  the card should emit a "createNode" event
+
+    const expectedPostNode: PostNode = {
+        parentId: nodeB.id,
+        entities: [{name: 'Foo Baz'}]
+    }
+
+    expect(wrapper.emitted().createNode.length).toBe(1)
+    expect(wrapper.emitted().createNode[0]).toEqual([expectedPostNode])
 })

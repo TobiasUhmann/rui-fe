@@ -24,7 +24,7 @@
             <PredictionCard v-for="(candidateWithPredictions, index) of candidateWithPredictionsList" :key="index"
                             class="prediction-card"
                             :candidateWithPredictions="candidateWithPredictions"
-                            :selectedNodeId="predictedNode.id"
+                            :currentNodeId="predictedNode.id"
                             @dismiss="dismissCandidateWithPredictions(candidateWithPredictions.candidate)"
                             @createNode="createNode($event)">
             </PredictionCard>
@@ -32,7 +32,8 @@
 
         <!-- Pagination -->
 
-        <PaginationBar class="mx-auto"
+        <PaginationBar v-if="numberOfPages !== null"
+                       class="mx-auto"
                        :numberOfPages="numberOfPages"
                        @input="loadPredictions(nodeId, $event * 3, 3)">
         </PaginationBar>

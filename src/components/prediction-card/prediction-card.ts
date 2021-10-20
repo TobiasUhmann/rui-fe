@@ -1,10 +1,11 @@
 import {defineComponent, PropType} from 'vue'
 
+import {CandidatePrediction} from '@/models/prediction/candidate-prediction'
 import {CandidateWithPredictions} from '@/models/prediction/candidate-with-predictions'
-import {getNodeName} from '@/models/node/node'
+import {PostEntity} from '@/models/entity/post-entity'
 import {PostNode} from '@/models/node/post-node'
-import {PostEntity} from "@/models/entity/post-entity";
-import {CandidatePrediction} from "@/models/prediction/candidate-prediction";
+import {PredictionType} from '@/components/prediction-card/prediction-type'
+import {getNodeName} from '@/models/node/node'
 
 export default defineComponent({
     name: 'PredictionCard',
@@ -15,7 +16,7 @@ export default defineComponent({
             required: true
         },
 
-        selectedNodeId: {
+        currentNodeId: {
             type: Number,
             required: true
         }
@@ -39,6 +40,35 @@ export default defineComponent({
                         .filter(token => token !== null)
                         .join(' ')
                 }
+            }
+        },
+
+        /**
+         * Select the synonym prediction for the current node. If there is none, select
+         * the child prediction for the current node. There must be one or both of these.
+         */
+        currentNodeId: {
+            immediate: true,
+            handler(currentNodeId: number) {
+                const synonymPredictions = this.candidateWithPredictions.synonymPredictions
+                for (let i = 0; i < synonymPredictions.length; i++) {
+                    const synonymPrediction = synonymPredictions[i]
+                    if (synonymPrediction.node.id === currentNodeId) {
+                        this.selectedPrediction = {type: PredictionType.SYNONYM, index: i}
+                        return
+                    }
+                }
+
+                const parentPredictions = this.candidateWithPredictions.parentPredictions
+                for (let i = 0; i < parentPredictions.length; i++) {
+                    const parentPrediction = parentPredictions[i]
+                    if (parentPrediction.node.id === currentNodeId) {
+                        this.selectedPrediction = {type: PredictionType.CHILD, index: i}
+                        return
+                    }
+                }
+
+                throw 'There is neither a synonym nor a parent prediction about the current node.'
             }
         }
     },
@@ -65,12 +95,13 @@ export default defineComponent({
             mentionInput: '',
             userEditsMentionInput: false,
 
-            getNodeName: getNodeName,
-
             selectedPrediction: undefined as undefined | {
-                type: 'synonym' | 'parent',
+                type: PredictionType,
                 index: number
-            }
+            },
+
+            getNodeName,
+            PredictionType
         }
     },
 
@@ -88,7 +119,7 @@ export default defineComponent({
 
             const selectedPrediction = this.selectedPrediction!
 
-            if (selectedPrediction.type === 'synonym') {
+            if (selectedPrediction.type === PredictionType.SYNONYM) {
                 const synonymPredictions = this.candidateWithPredictions.synonymPredictions
                 const selectedSynonymPrediction: CandidatePrediction = synonymPredictions[selectedPrediction.index]
                 const selectedNode = selectedSynonymPrediction.node
@@ -100,7 +131,7 @@ export default defineComponent({
 
                 this.$emit('createEntity', postEntity)
 
-            } else if (selectedPrediction.type === 'parent') {
+            } else if (selectedPrediction.type === PredictionType.CHILD) {
                 const parentPredictions = this.candidateWithPredictions.parentPredictions
                 const selectedParentPrediction: CandidatePrediction = parentPredictions[selectedPrediction.index]
                 const selectedNode = selectedParentPrediction.node
@@ -112,6 +143,16 @@ export default defineComponent({
 
                 this.$emit('createNode', postNode)
             }
+        },
+
+        isPredictionSelected(type: PredictionType, index: number): boolean {
+            const selectedPrediction = this.selectedPrediction!
+
+            return type === selectedPrediction.type && index === selectedPrediction.index
+        },
+
+        selectPrediction(type: PredictionType, index: number): void {
+            this.selectedPrediction = {type, index}
         }
     }
 })
