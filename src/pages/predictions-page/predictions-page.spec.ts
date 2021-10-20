@@ -76,6 +76,41 @@ const getPredictionsResponseWithoutAnnotatedPrediction: PredictionResponse = {
     predictions: [prediction1, prediction2]
 }
 
+it('Render', async() => {
+
+    //
+    // GIVEN the backend with the following endpoints:
+    // - GET    /nodes
+    // - GET    /nodes/:nodeId/predictions
+    //
+
+    global.fetch = jest.fn()
+        // GET /nodes
+        .mockImplementationOnce(mockFetchResponse("/nodes", getNodesResponse))
+        // GET /nodes/0/predictions?offset=0&limit=3
+        .mockImplementationOnce(mockFetchResponse("/nodes/0/predictions?offset=0&limit=3", getPredictionsResponse))
+
+    //
+    // GIVEN the predictions page with some predictions
+    //
+
+    const wrapper = await shallowMount(PredictionsPage, {
+        global: {mocks: {$route: {params: {node: nodeA.id}}}}
+    })
+
+    await flushPromises()
+
+    //
+    // THEN  the node should be shown in the taxonomy
+    // AND   the predictions should be shown
+    //
+
+    const treeItem = wrapper.findComponent(TreeItem)
+    expect(treeItem.vm.node.entities[0].name).toBe(entityA1.name)
+
+    expect(wrapper.findAllComponents(PredictionCard)).toHaveLength(getPredictionsResponse.totalPredictions)
+})
+
 it('Annotate synonym prediction', async () => {
 
     //
