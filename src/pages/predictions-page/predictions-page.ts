@@ -9,6 +9,8 @@ import {NodeService} from '@/services/node-service'
 import {PostNode} from '@/models/node/post-node'
 import {PredictionResponse} from '@/models/prediction/prediction-response'
 import {PredictionService} from '@/services/prediction-service'
+import {PostEntity} from "@/models/entity/post-entity";
+import {EntityService} from "@/services/entity-service";
 
 export default defineComponent({
     name: 'PredictionsPage',
@@ -92,6 +94,23 @@ export default defineComponent({
             })
         },
 
+        /**
+         * Post entity via EntityService and reload taxonomy.
+         *
+         * Expects nodeId to be set.
+         */
+        createEntity(postEntity: PostEntity) {
+            const nodeId = this.nodeId!
+
+            EntityService.postEntity(postEntity)
+                .then(() => this.loadRootNode(nodeId))
+        },
+
+        /**
+         * Post node via NodeService and reload taxonomy.
+         *
+         * Expects nodeId to be set.
+         */
         createNode(postNode: PostNode) {
             const nodeId = this.nodeId!
 

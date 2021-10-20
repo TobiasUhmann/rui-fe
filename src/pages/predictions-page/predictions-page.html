@@ -26,6 +26,7 @@
                             :candidateWithPredictions="candidateWithPredictions"
                             :currentNodeId="predictedNode.id"
                             @dismiss="dismissCandidateWithPredictions(candidateWithPredictions.candidate)"
+                            @createEntity="createEntity($event)"
                             @createNode="createNode($event)">
             </PredictionCard>
         </section>
