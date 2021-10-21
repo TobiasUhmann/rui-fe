@@ -9,14 +9,11 @@ export const PredictionService = {
             : `${process.env.VUE_APP_API_URL}/nodes/${nodeId}/predictions?offset=${offset}&limit=${limit}`
 
         return fetch(url)
-            .then(response => {
-                console.debug(response)
-                return response.json()
-            })
+            .then(response => response.json())
             .catch(error => console.error(error))
     },
 
-    patchPrediction(candidate: string, predictionPatch: PredictionPatch): Promise<void> {
+    patchPrediction(candidate: string, predictionPatch: PredictionPatch): Promise<Response | void> {
         const fetchOptions = {
             method: 'PATCH',
             headers: {'Content-Type': 'application/json'},
@@ -24,7 +21,6 @@ export const PredictionService = {
         }
 
         return fetch(`${process.env.VUE_APP_API_URL}/predictions/${encodeURIComponent(candidate)}`, fetchOptions)
-            .then(response => console.debug(response))
             .catch(error => console.error(error))
     }
 }

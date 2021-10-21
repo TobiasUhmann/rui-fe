@@ -11,6 +11,10 @@ button {
     cursor: pointer;
 }
 
+button:disabled {
+    cursor: default;
+}
+
 input {
     box-sizing: border-box;
     width: 60px;

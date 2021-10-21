@@ -21,17 +21,21 @@
         <!-- Predictions -->
 
         <section class="grid-content">
-            <PredictionCard v-for="(candidateWithPredictions, index) of candidateWithPredictionsList" :key="index"
+            <PredictionCard v-for="(candidateWithPredictions, index) of candidateWithPredictionsList"
+                            :key="candidateWithPredictions.candidate"
                             class="prediction-card"
                             :candidateWithPredictions="candidateWithPredictions"
-                            :selectedNodeId="predictedNode.id"
-                            @dismiss="dismissCandidateWithPredictions(candidateWithPredictions.candidate)">
+                            :currentNodeId="predictedNode.id"
+                            @dismiss="dismissCandidateWithPredictions(candidateWithPredictions.candidate)"
+                            @createEntity="createEntityAndDismissPrediction(index, $event)"
+                            @createNode="createNodeAndDismissPrediction(index, $event)">
             </PredictionCard>
         </section>
 
         <!-- Pagination -->
 
-        <PaginationBar class="mx-auto"
+        <PaginationBar v-if="numberOfPages !== null"
+                       class="mx-auto"
                        :numberOfPages="numberOfPages"
                        @input="loadPredictions(nodeId, $event * 3, 3)">
         </PaginationBar>

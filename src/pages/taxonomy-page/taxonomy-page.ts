@@ -11,7 +11,7 @@ import {PostEntity} from '@/models/entity/post-entity'
 import {PostNode} from '@/models/node/post-node'
 
 export default defineComponent({
-    name: 'TaxonomyView',
+    name: 'TaxonomyPage',
 
     components: {NewNode, NodeDetails, Matches, Taxonomy},
 

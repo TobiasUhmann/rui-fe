@@ -1,3 +1,5 @@
+@import "src/assets/styles/_variables.scss";
+
 .prediction-card {
     border: 1px solid grey;
 }
@@ -25,6 +27,17 @@
     border-left: 1px solid grey;
 }
 
+/* Candidate Text */
+
+.token {
+    cursor: pointer;
+}
+
+.marked {
+    color: $orange;
+    font-weight: bold;
+}
+
 /* Headers */
 
 h1 {
@@ -41,21 +54,51 @@ table td:not(:first-child) {
     padding-left: 8px;
 }
 
-/* Selected Node */
+table td:not(.selected) {
+    cursor: pointer;
+}
 
 .selected {
     font-weight: bold;
-    color: #F3790CFF;
+    color: $orange;
 }
 
-/* Buttons */
+/* Footer */
 
-.buttons {
+footer {
     display: flex;
-    justify-content: right;
 
     padding: 6px;
 
-    background-color: #efefef;
+    background-color: $light-grey;
     border-top: 1px solid grey;
+}
+
+.space {
+    flex-grow: 1;
+}
+
+button {
+    background-color: $white;
+
+    cursor: pointer;
+}
+
+#dismiss-button {
+    color: $red;
+    border: 1px solid $red;
+}
+
+#annotate-button {
+    margin-left: 8px;
+
+    color: $green;
+    border: 1px solid green;
+}
+
+#annotate-button:disabled {
+    color: $grey;
+    border: 1px solid grey;
+
+    cursor: default;
 }

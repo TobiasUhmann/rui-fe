@@ -8,17 +8,17 @@ const routes: Array<RouteRecordRaw> = [
     {
         path: '/predictions/:node',
         name: 'Predictions',
-        component: () => import(/* webpackChunkName: 'predictions' */ '../views/predictions-view/predictions-view.vue')
+        component: () => import(/* webpackChunkName: 'predictions' */ '../pages/predictions-page/predictions-page.vue')
     },
     {
         path: '/upload',
         name: 'Upload',
-        component: () => import(/* webpackChunkName: 'upload' */ '../views/upload-view/upload-view.vue')
+        component: () => import(/* webpackChunkName: 'upload' */ '../pages/upload-page/upload-page.vue')
     },
     {
         path: '/taxonomy',
         name: 'Taxonomy',
-        component: () => import(/* webpackChunkName: 'taxonomy' */ '../views/taxonomy-view/taxonomy-view.vue')
+        component: () => import(/* webpackChunkName: 'taxonomy' */ '../pages/taxonomy-page/taxonomy-page.vue')
     }
 ]
 

@@ -5,12 +5,16 @@ import PredictionCard from '@/components/prediction-card/prediction-card.vue'
 import TreeItem from '@/components/tree-item/tree-item.vue'
 import {CandidateWithPredictions} from '@/models/prediction/candidate-with-predictions'
 import {DeepNode} from '@/models/node/deep-node'
+import {EntityService} from '@/services/entity-service'
 import {NodeService} from '@/services/node-service'
+import {PostEntity} from '@/models/entity/post-entity'
+import {PostNode} from '@/models/node/post-node'
+import {PredictionPatch} from '@/models/prediction/prediction-patch'
+import {PredictionResponse} from '@/models/prediction/prediction-response'
 import {PredictionService} from '@/services/prediction-service'
-import {PredictionResponse} from "@/models/prediction/prediction-response";
 
 export default defineComponent({
-    name: 'PredictionsView',
+    name: 'PredictionsPage',
 
     components: {PaginationBar, PredictionCard, TreeItem},
 
@@ -85,10 +89,55 @@ export default defineComponent({
             return null
         },
 
+        /**
+         * Dismiss the prediction with the specified candidate and reload the predictions.
+         *
+         * Expects nodeId to be set.
+         */
         dismissCandidateWithPredictions(candidate: string): void {
-            PredictionService.patchPrediction(candidate, {dismissed: true}).then(() => {
-                this.loadPredictions(this.nodeId!, this.offset, 3)
+            const nodeId = this.nodeId!
+
+            const predictionPatch: PredictionPatch = {dismissed: true}
+
+            PredictionService.patchPrediction(candidate, predictionPatch).then(() => {
+                this.loadPredictions(nodeId, this.offset, 3)
             })
+        },
+
+        /**
+         * Post entity via EntityService and reload the taxonomy. Also, dismiss the
+         * annotated prediction and reload the predictions.
+         *
+         * Expects nodeId and candidateWithPredictionsList to be set.
+         */
+        createEntityAndDismissPrediction(index: number, postEntity: PostEntity) {
+            const nodeId = this.nodeId!
+            const candidateWithPredictionsList = this.candidateWithPredictionsList!
+
+            const candidate = candidateWithPredictionsList[index].candidate
+            const predictionPatch: PredictionPatch = {dismissed: true}
+
+            PredictionService.patchPrediction(candidate, predictionPatch).then(() =>
+                EntityService.postEntity(postEntity).then(() =>
+                    this.loadRootNode(nodeId)))
+        },
+
+        /**
+         * Post node via NodeService and reload the taxonomy. Also, dismiss the
+         * annotated prediction and reload the predictions.
+         *
+         * Expects nodeId and candidateWithPredictionsList to be set.
+         */
+        createNodeAndDismissPrediction(index: number, postNode: PostNode) {
+            const nodeId = this.nodeId!
+            const candidateWithPredictionsList = this.candidateWithPredictionsList!
+
+            const candidate = candidateWithPredictionsList[index].candidate
+            const predictionPatch: PredictionPatch = {dismissed: true}
+
+            PredictionService.patchPrediction(candidate, predictionPatch).then(() =>
+                NodeService.postNode(postNode)
+                    .then(() => this.loadRootNode(nodeId)))
         }
     }
 })

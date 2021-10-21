@@ -3,7 +3,7 @@ import {Entity} from '@/models/entity/entity'
 export interface Node {
     id: number
 
-    parentId: number
+    parentId: number | null
 
     entities: Entity[]
 }

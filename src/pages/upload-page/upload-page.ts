@@ -4,7 +4,7 @@ import UploadWarning from '@/components/upload-warning/upload-warning.vue'
 import {UploadService} from '@/services/upload-service'
 
 export default defineComponent({
-    name: 'UploadView',
+    name: 'UploadPage',
 
     components: {UploadWarning},
 
