@@ -1,5 +1,4 @@
 import {DeepNode} from '@/models/node/deep-node'
-import {NodePatch} from '@/models/node/node-patch'
 import {PostNode} from '@/models/node/post-node'
 
 export const NodeService = {

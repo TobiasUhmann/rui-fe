@@ -3,14 +3,15 @@ import {flushPromises, shallowMount} from '@vue/test-utils'
 import PredictionCard from '@/components/prediction-card/prediction-card.vue'
 import PredictionsPage from '@/pages/predictions-page/predictions-page.vue'
 import TreeItem from '@/components/tree-item/tree-item.vue'
-import {PostNode} from '@/models/node/post-node'
-
 import {CandidateWithPredictions} from '@/models/prediction/candidate-with-predictions'
 import {DeepNode} from '@/models/node/deep-node'
+import {EntityService} from "@/services/entity-service"
 import {Entity} from '@/models/entity/entity'
+import {NodeService} from '@/services/node-service'
 import {PostEntity} from '@/models/entity/post-entity'
+import {PostNode} from '@/models/node/post-node'
 import {PredictionResponse} from '@/models/prediction/prediction-response'
-import {mockFetchResponse} from '../../../tests/unit/util'
+import {PredictionService} from "@/services/prediction-service"
 
 const entityAa1: Entity = {id: 1, nodeId: 1, name: 'Aa-1', matchesCount: 2}
 const nodeAa: DeepNode = {id: 1, parentId: 0, entities: [entityAa1], children: []}
@@ -84,11 +85,11 @@ it('Render', async () => {
     // - GET    /nodes/:nodeId/predictions
     //
 
-    global.fetch = jest.fn()
-        // GET /nodes
-        .mockImplementationOnce(mockFetchResponse("/nodes", getNodesResponse))
-        // GET /nodes/0/predictions?offset=0&limit=3
-        .mockImplementationOnce(mockFetchResponse("/nodes/0/predictions?offset=0&limit=3", getPredictionsResponse))
+    NodeService.getNodes = jest.fn()
+        .mockImplementationOnce(() => Promise.resolve(getNodesResponse))
+
+    PredictionService.getPredictions = jest.fn()
+        .mockImplementationOnce(() => Promise.resolve(getPredictionsResponse))
 
     //
     // GIVEN the predictions page with some predictions
@@ -128,19 +129,26 @@ it('Annotate synonym prediction', async () => {
         entities: [entityA1, entityA2],
         children: [nodeAa, nodeAb]
     }
+
     const getNodesResponseWithEntityA2 = [nodeAWithEntityA2, nodeB, nodeC]
 
-    global.fetch = jest.fn()
-        // GET /nodes
-        .mockImplementationOnce(mockFetchResponse("/nodes", getNodesResponse))
-        // GET /nodes/0/predictions?offset=0&limit=3
-        .mockImplementationOnce(mockFetchResponse("/nodes/0/predictions?offset=0&limit=3", getPredictionsResponse))
-        // POST /entities
-        .mockImplementationOnce(mockFetchResponse("/entities", {}))
-        // GET /nodes
-        .mockImplementationOnce(mockFetchResponse("/nodes", getNodesResponseWithEntityA2))
-        // GET /nodes/0/predictions?offset=0&limit=3
-        .mockImplementationOnce(mockFetchResponse("/nodes/0/predictions?offset=0&limit=3", getPredictionsResponseWithoutAnnotatedPrediction))
+    const postEntity: PostEntity = {nodeId: nodeA.id, name: 'A-2'}
+
+    NodeService.getNodes = jest.fn()
+        .mockImplementationOnce(() => Promise.resolve(getNodesResponse))
+        .mockImplementationOnce(() => Promise.resolve(getNodesResponseWithEntityA2))
+
+    PredictionService.getPredictions = jest.fn()
+        .mockImplementationOnce(() => Promise.resolve(getPredictionsResponse))
+        .mockImplementationOnce(() => Promise.resolve(getPredictionsResponseWithoutAnnotatedPrediction))
+
+    EntityService.postEntity = jest.fn()
+        .mockImplementationOnce((postEntity2: PostEntity) => {
+                expect(postEntity2).toBe(postEntity)
+
+                return Promise.resolve({json: () => Promise.resolve({})} as Response)
+            }
+        )
 
     //
     // GIVEN the predictions page with some predictions
@@ -155,8 +163,6 @@ it('Annotate synonym prediction', async () => {
     //
     // WHEN  a prediction card emits a "createEntity" event
     //
-
-    const postEntity: PostEntity = {nodeId: nodeA.id, name: 'A-2'}
 
     await wrapper.findAllComponents(PredictionCard)[0].vm.$emit('createEntity', postEntity)
 
@@ -194,17 +200,23 @@ it('Annotate child prediction', async () => {
     }
     const getNodesResponseWithChildNodeAc = [nodeAWithChildNodeAc, nodeB, nodeC]
 
-    global.fetch = jest.fn()
-        // GET /nodes
-        .mockImplementationOnce(mockFetchResponse("/nodes", getNodesResponse))
-        // GET /nodes/0/predictions?offset=0&limit=3
-        .mockImplementationOnce(mockFetchResponse("/nodes/0/predictions?offset=0&limit=3", getPredictionsResponse))
-        // POST /nodes
-        .mockImplementationOnce(mockFetchResponse("/nodes", {}))
-        // GET /nodes
-        .mockImplementationOnce(mockFetchResponse("/nodes", getNodesResponseWithChildNodeAc))
-        // GET /nodes/0/predictions?offset=0&limit=3
-        .mockImplementationOnce(mockFetchResponse("/nodes/0/predictions?offset=0&limit=3", getPredictionsResponseWithoutAnnotatedPrediction))
+    const postNode: PostNode = {parentId: nodeA.id, entities: [{name: 'foo'}]}
+
+    NodeService.getNodes = jest.fn()
+        .mockImplementationOnce(() => Promise.resolve(getNodesResponse))
+        .mockImplementationOnce(() => Promise.resolve(getNodesResponseWithChildNodeAc))
+
+    PredictionService.getPredictions = jest.fn()
+        .mockImplementationOnce(() => Promise.resolve(getPredictionsResponse))
+        .mockImplementationOnce(() => Promise.resolve(getPredictionsResponseWithoutAnnotatedPrediction))
+
+    NodeService.postNode = jest.fn()
+        .mockImplementationOnce((postNode2: PostNode) => {
+                expect(postNode2).toBe(postNode)
+
+                return Promise.resolve({json: () => Promise.resolve({})} as Response)
+            }
+        )
 
     //
     // GIVEN the predictions page with some predictions
@@ -219,8 +231,6 @@ it('Annotate child prediction', async () => {
     //
     // WHEN  a prediction emits a "createNode" event
     //
-
-    const postNode: PostNode = {parentId: nodeA.id, entities: [{name: 'foo'}]}
 
     await wrapper.findAllComponents(PredictionCard)[0].vm.$emit('createNode', postNode)
 
