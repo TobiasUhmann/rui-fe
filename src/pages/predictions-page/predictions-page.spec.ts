@@ -10,9 +10,9 @@ import {Entity} from '@/models/entity/entity'
 import {NodeService} from '@/services/node-service'
 import {PostEntity} from '@/models/entity/post-entity'
 import {PostNode} from '@/models/node/post-node'
+import {PredictionPatch} from '@/models/prediction/prediction-patch'
 import {PredictionResponse} from '@/models/prediction/prediction-response'
-import {PredictionService} from "@/services/prediction-service"
-import {PredictionPatch} from "@/models/prediction/prediction-patch";
+import {PredictionService} from '@/services/prediction-service'
 
 const entityAa1: Entity = {id: 1, nodeId: 1, name: 'Aa-1', matchesCount: 2}
 const nodeAa: DeepNode = {id: 1, parentId: 0, entities: [entityAa1], children: []}
@@ -153,7 +153,7 @@ it('Annotate synonym prediction', async () => {
 
     PredictionService.patchPrediction = jest.fn()
         .mockImplementationOnce((candidate: string, predictionPatch: PredictionPatch) => {
-            expect(predictionPatch.dismissed).toBe(false)
+            expect(predictionPatch.dismissed).toBe(true)
             return Promise.resolve({json: () => Promise.resolve({})} as Response)
         })
 
@@ -182,7 +182,7 @@ it('Annotate synonym prediction', async () => {
     // AND   the prediction should vanish
     //
 
-    expect(NodeService.postNode).toHaveBeenCalled()
+    expect(EntityService.postEntity).toHaveBeenCalled()
     expect(PredictionService.patchPrediction).toHaveBeenCalled()
 
     const treeItem = wrapper.findComponent(TreeItem)
@@ -221,7 +221,6 @@ it('Annotate child prediction', async () => {
     NodeService.postNode = jest.fn()
         .mockImplementationOnce((postNode2: PostNode) => {
                 expect(postNode2).toBe(postNode)
-
                 return Promise.resolve({json: () => Promise.resolve({})} as Response)
             }
         )
@@ -232,7 +231,7 @@ it('Annotate child prediction', async () => {
 
     PredictionService.patchPrediction = jest.fn()
         .mockImplementationOnce((candidate: string, predictionPatch: PredictionPatch) => {
-            expect(predictionPatch.dismissed).toBe(false)
+            expect(predictionPatch.dismissed).toBe(true)
             return Promise.resolve({json: () => Promise.resolve({})} as Response)
         })
 
