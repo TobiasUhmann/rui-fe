@@ -12,6 +12,7 @@ import {PostEntity} from '@/models/entity/post-entity'
 import {PostNode} from '@/models/node/post-node'
 import {PredictionResponse} from '@/models/prediction/prediction-response'
 import {PredictionService} from "@/services/prediction-service"
+import {PredictionPatch} from "@/models/prediction/prediction-patch";
 
 const entityAa1: Entity = {id: 1, nodeId: 1, name: 'Aa-1', matchesCount: 2}
 const nodeAa: DeepNode = {id: 1, parentId: 0, entities: [entityAa1], children: []}
@@ -109,7 +110,8 @@ it('Render', async () => {
     const treeItem = wrapper.findComponent(TreeItem)
     expect(treeItem.vm.node.entities[0].name).toBe(entityA1.name)
 
-    expect(wrapper.findAllComponents(PredictionCard)).toHaveLength(getPredictionsResponse.totalPredictions)
+    expect(wrapper.findAllComponents(PredictionCard))
+        .toHaveLength(getPredictionsResponse.totalPredictions)
 })
 
 it('Annotate synonym prediction', async () => {
@@ -134,6 +136,13 @@ it('Annotate synonym prediction', async () => {
 
     const postEntity: PostEntity = {nodeId: nodeA.id, name: 'A-2'}
 
+    EntityService.postEntity = jest.fn()
+        .mockImplementationOnce((postEntity2: PostEntity) => {
+                expect(postEntity2).toBe(postEntity)
+                return Promise.resolve({json: () => Promise.resolve({})} as Response)
+            }
+        )
+
     NodeService.getNodes = jest.fn()
         .mockImplementationOnce(() => Promise.resolve(getNodesResponse))
         .mockImplementationOnce(() => Promise.resolve(getNodesResponseWithEntityA2))
@@ -142,13 +151,11 @@ it('Annotate synonym prediction', async () => {
         .mockImplementationOnce(() => Promise.resolve(getPredictionsResponse))
         .mockImplementationOnce(() => Promise.resolve(getPredictionsResponseWithoutAnnotatedPrediction))
 
-    EntityService.postEntity = jest.fn()
-        .mockImplementationOnce((postEntity2: PostEntity) => {
-                expect(postEntity2).toBe(postEntity)
-
-                return Promise.resolve({json: () => Promise.resolve({})} as Response)
-            }
-        )
+    PredictionService.patchPrediction = jest.fn()
+        .mockImplementationOnce((candidate: string, predictionPatch: PredictionPatch) => {
+            expect(predictionPatch.dismissed).toBe(false)
+            return Promise.resolve({json: () => Promise.resolve({})} as Response)
+        })
 
     //
     // GIVEN the predictions page with some predictions
@@ -169,15 +176,20 @@ it('Annotate synonym prediction', async () => {
     await flushPromises()
 
     //
-    // THEN  POST /nodes should have been called
+    // THEN  POST /nodes should have been called with new node
+    // AND   PATCH /predictions should have been called to dismiss prediction
     // AND   the node should be added to the taxonomy
     // AND   the prediction should vanish
     //
 
+    expect(NodeService.postNode).toHaveBeenCalled()
+    expect(PredictionService.patchPrediction).toHaveBeenCalled()
+
     const treeItem = wrapper.findComponent(TreeItem)
     expect(treeItem.vm.node.entities[1].name).toBe('A-2')
 
-    expect(wrapper.findAllComponents(PredictionCard)).toHaveLength(2)
+    expect(wrapper.findAllComponents(PredictionCard))
+        .toHaveLength(getPredictionsResponseWithoutAnnotatedPrediction.totalPredictions)
 })
 
 it('Annotate child prediction', async () => {
@@ -206,10 +218,6 @@ it('Annotate child prediction', async () => {
         .mockImplementationOnce(() => Promise.resolve(getNodesResponse))
         .mockImplementationOnce(() => Promise.resolve(getNodesResponseWithChildNodeAc))
 
-    PredictionService.getPredictions = jest.fn()
-        .mockImplementationOnce(() => Promise.resolve(getPredictionsResponse))
-        .mockImplementationOnce(() => Promise.resolve(getPredictionsResponseWithoutAnnotatedPrediction))
-
     NodeService.postNode = jest.fn()
         .mockImplementationOnce((postNode2: PostNode) => {
                 expect(postNode2).toBe(postNode)
@@ -217,6 +225,16 @@ it('Annotate child prediction', async () => {
                 return Promise.resolve({json: () => Promise.resolve({})} as Response)
             }
         )
+
+    PredictionService.getPredictions = jest.fn()
+        .mockImplementationOnce(() => Promise.resolve(getPredictionsResponse))
+        .mockImplementationOnce(() => Promise.resolve(getPredictionsResponseWithoutAnnotatedPrediction))
+
+    PredictionService.patchPrediction = jest.fn()
+        .mockImplementationOnce((candidate: string, predictionPatch: PredictionPatch) => {
+            expect(predictionPatch.dismissed).toBe(false)
+            return Promise.resolve({json: () => Promise.resolve({})} as Response)
+        })
 
     //
     // GIVEN the predictions page with some predictions
@@ -237,13 +255,18 @@ it('Annotate child prediction', async () => {
     await flushPromises()
 
     //
-    // THEN  POST /nodes should have been called
+    // THEN  POST /nodes should have been called with new node
+    // AND   PATCH /predictions should have been called to dismiss prediction
     // AND   the node should be added to the taxonomy
     // AND   the prediction should vanish
     //
 
+    expect(NodeService.postNode).toHaveBeenCalled()
+    expect(PredictionService.patchPrediction).toHaveBeenCalled()
+
     const treeItem = wrapper.findComponent(TreeItem)
     expect(treeItem.vm.node.children[2].entities[0].name).toBe(entityAc1.name)
 
-    expect(wrapper.findAllComponents(PredictionCard)).toHaveLength(2)
+    expect(wrapper.findAllComponents(PredictionCard))
+        .toHaveLength(getPredictionsResponseWithoutAnnotatedPrediction.totalPredictions)
 })
