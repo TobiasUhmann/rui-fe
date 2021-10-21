@@ -22,11 +22,11 @@
                    class="mt-4">
                 <tr v-for="(synonymPrediction, index) of candidateWithPredictions.synonymPredictions" :key="index">
                     <td :class="{selected: isPredictionSelected(PredictionType.SYNONYM, index)}"
-                        @click="selectPrediction(PredictionType.SYNONYM, index)">
+                        @click="selectedPrediction = {type:PredictionType.SYNONYM, index}">
                         {{ synonymPrediction.score.toFixed(2) }}
                     </td>
                     <td :class="{selected: isPredictionSelected(PredictionType.SYNONYM, index)}"
-                        @click="selectPrediction(PredictionType.SYNONYM, index)">
+                        @click="selectedPrediction = {type:PredictionType.SYNONYM, index}">
                         {{ getNodeName(synonymPrediction.node) }}
                     </td>
                 </tr>
@@ -38,11 +38,11 @@
                    class="mt-4">
                 <tr v-for="(parentPrediction, index) of candidateWithPredictions.parentPredictions" :key="index">
                     <td :class="{selected: isPredictionSelected(PredictionType.CHILD, index)}"
-                        @click="selectPrediction(PredictionType.CHILD, index)">
+                        @click="selectedPrediction = {type:PredictionType.CHILD, index}">
                         {{ parentPrediction.score.toFixed(2) }}
                     </td>
                     <td :class="{selected: isPredictionSelected(PredictionType.CHILD, index)}"
-                        @click="selectPrediction(PredictionType.CHILD, index)">
+                        @click="selectedPrediction = {type:PredictionType.CHILD, index}">
                         {{ getNodeName(parentPrediction.node) }}
                     </td>
                 </tr>

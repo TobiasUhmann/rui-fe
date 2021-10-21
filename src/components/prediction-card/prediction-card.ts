@@ -149,10 +149,6 @@ export default defineComponent({
             const selectedPrediction = this.selectedPrediction!
 
             return type === selectedPrediction.type && index === selectedPrediction.index
-        },
-
-        selectPrediction(type: PredictionType, index: number): void {
-            this.selectedPrediction = {type, index}
         }
     }
 })

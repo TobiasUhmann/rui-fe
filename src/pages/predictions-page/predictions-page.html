@@ -21,7 +21,8 @@
         <!-- Predictions -->
 
         <section class="grid-content">
-            <PredictionCard v-for="(candidateWithPredictions, index) of candidateWithPredictionsList" :key="index"
+            <PredictionCard v-for="(candidateWithPredictions, index) of candidateWithPredictionsList"
+                            :key="candidateWithPredictions.candidate"
                             class="prediction-card"
                             :candidateWithPredictions="candidateWithPredictions"
                             :currentNodeId="predictedNode.id"
