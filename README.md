@@ -1,34 +1,13 @@
-# rui-fe
+This repository provides the Vue frontend for the RUI application.
 
-## Project setup
-```
-npm install
-```
+# Quickstart
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+You can start `rui-fe` via Docker:
 
-### Compiles and minifies for production
-```
-npm run build
+```bash
+$ git clone https://github.com/TobiasUhmann/rui-fe.git
+$ cd rui-fe/
+$ docker-compose up
 ```
 
-### Run your unit tests
-```
-npm run test:unit
-```
-
-### Run your end-to-end tests
-```
-npm run test:e2e
-```
-
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+After starting, the app is available at http://localhost/.
