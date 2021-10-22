@@ -1,6 +1,7 @@
-<Loading message="Loading..."/>
+<Loading :class="[showUploadWarning ? 'd-initial' : 'd-none']"
+         message="Loading..."/>
 
-<UploadWarning :class="[showUploadWarning ? 'd-block' : 'd-none']"
+<UploadWarning :class="[showUploadWarning ? 'd-initial' : 'd-none']"
                @cancel="showUploadWarning = false"
                @overwrite="uploadAndRedirect"/>
 
