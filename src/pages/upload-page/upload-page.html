@@ -11,9 +11,11 @@
 
     <label for="symptaxUploadZip">Symptax Upload ZIP</label>
     <input id="symptaxUploadZip" class="upload-form-input"
+           @change="isFileSelected = true"
            type="file" name="symptaxUploadZip">
 
     <input class="upload-form-input"
            type="submit"
-           value="Upload"/>
+           value="Upload"
+           :disabled="!isFileSelected"/>
 </form>

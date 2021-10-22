@@ -14,9 +14,12 @@ it('Render', async () => {
 
     //
     // THEN  upload form should be rendered
+    // AND   the submit button should be disabled
     //
 
-    expect(wrapper.find('form').text()).toContain('Upload ZIP')
+    const form = wrapper.find('form')
+    expect(form.text()).toContain('Upload ZIP')
+    expect(form.find('input[type="submit"]').attributes().disabled).toBe('')
 
     //
     // THEN  the loading indicator should not be shown

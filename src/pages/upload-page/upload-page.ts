@@ -13,6 +13,7 @@ export default defineComponent({
 
     data() {
         return {
+            isFileSelected: false,
             showUploadWarning: false
         }
     },
