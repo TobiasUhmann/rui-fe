@@ -1,0 +1,15 @@
+version: "3.7"
+
+services:
+
+  rui-fe:
+    container_name: rui-fe
+    build: .
+    ports:
+      - "80:80"
+    depends_on:
+      - rui-be
+
+  rui-be:
+    container_name: rui-be
+    image: xvlcw/rui-be:0.9.0
