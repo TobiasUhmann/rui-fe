@@ -61,5 +61,5 @@ jobs:
           tags: |
             xvlcw/rui-fe:latest
             xvlcw/rui-fe:0
-            xvlcw/rui-fe:0.14
-            xvlcw/rui-fe:0.14.0
+            xvlcw/rui-fe:0.15
+            xvlcw/rui-fe:0.15.0
