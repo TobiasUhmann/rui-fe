@@ -1,5 +1,6 @@
 import {defineComponent} from 'vue'
 
+import Loading from '@/components/loading/loading.vue'
 import PaginationBar from '@/components/pagination-bar/pagination-bar.vue'
 import PredictionCard from '@/components/prediction-card/prediction-card.vue'
 import TreeItem from '@/components/tree-item/tree-item.vue'
@@ -16,7 +17,7 @@ import {PredictionService} from '@/services/prediction-service'
 export default defineComponent({
     name: 'PredictionsPage',
 
-    components: {PaginationBar, PredictionCard, TreeItem},
+    components: {Loading, PaginationBar, PredictionCard, TreeItem},
 
     data() {
         return {
@@ -26,7 +27,22 @@ export default defineComponent({
 
             candidateWithPredictionsList: null as CandidateWithPredictions[] | null,
             numberOfPages: null as number | null,
-            offset: 0
+            offset: 0,
+
+            showLoadingGetNodes: false,
+            showLoadingGetNodesTimeout: -1,
+
+            showLoadingGetPredictions: false,
+            showLoadingGetPredictionsTimeout: -1,
+
+            showLoadingPatchPrediction: false,
+            showLoadingPatchPredictionTimeout: -1,
+
+            showLoadingPostNode: false,
+            showLoadingPostNodeTimeout: -1,
+
+            showLoadingPostEntity: false,
+            showLoadingPostEntityTimeout: -1,
         }
     },
 
@@ -45,7 +61,13 @@ export default defineComponent({
 
     methods: {
         loadRootNode(nodeId: number): void {
+            this.showLoadingGetNodesTimeout = window.setTimeout(() => this.showLoadingGetNodes = true, 500)
+
             NodeService.getNodes().then((rootNodes: DeepNode[]) => {
+                window.clearTimeout(this.showLoadingGetNodesTimeout)
+                this.showLoadingGetNodesTimeout = -1
+                this.showLoadingGetNodes = false
+
                 this.findRootNode(rootNodes, nodeId)
 
                 this.loadPredictions(nodeId, this.offset, 3)
@@ -55,7 +77,13 @@ export default defineComponent({
         loadPredictions(nodeId: number, offset: number, limit: number): void {
             this.offset = offset
 
+            this.showLoadingGetPredictionsTimeout = window.setTimeout(() => this.showLoadingGetPredictions = true, 500)
+
             PredictionService.getPredictions(nodeId, this.offset, limit).then((predictionResponse: PredictionResponse) => {
+                window.clearTimeout(this.showLoadingGetPredictionsTimeout)
+                this.showLoadingGetPredictionsTimeout = -1
+                this.showLoadingGetPredictions = false
+
                 this.candidateWithPredictionsList = predictionResponse.predictions
                 this.numberOfPages = Math.ceil(predictionResponse.totalPredictions / 3)
             })
@@ -99,7 +127,13 @@ export default defineComponent({
 
             const predictionPatch: PredictionPatch = {dismissed: true}
 
+            this.showLoadingPatchPredictionTimeout = window.setTimeout(() => this.showLoadingPatchPrediction = true, 500)
+
             PredictionService.patchPrediction(candidate, predictionPatch).then(() => {
+                window.clearTimeout(this.showLoadingPatchPredictionTimeout)
+                this.showLoadingPatchPredictionTimeout = -1
+                this.showLoadingPatchPrediction = false
+
                 this.loadPredictions(nodeId, this.offset, 3)
             })
         },
@@ -117,9 +151,23 @@ export default defineComponent({
             const candidate = candidateWithPredictionsList[index].candidate
             const predictionPatch: PredictionPatch = {dismissed: true}
 
-            PredictionService.patchPrediction(candidate, predictionPatch).then(() =>
-                EntityService.postEntity(postEntity).then(() =>
-                    this.loadRootNode(nodeId)))
+            this.showLoadingPatchPredictionTimeout = window.setTimeout(() => this.showLoadingPatchPrediction = true, 500)
+
+            PredictionService.patchPrediction(candidate, predictionPatch).then(() => {
+                window.clearTimeout(this.showLoadingPatchPredictionTimeout)
+                this.showLoadingPatchPredictionTimeout = -1
+                this.showLoadingPatchPrediction = false
+
+                this.showLoadingPostEntityTimeout = window.setTimeout(() => this.showLoadingPostEntity = true, 500)
+
+                EntityService.postEntity(postEntity).then(() => {
+                    window.clearTimeout(this.showLoadingPostEntityTimeout)
+                    this.showLoadingPostEntityTimeout = -1
+                    this.showLoadingPostEntity = false
+
+                    this.loadRootNode(nodeId)
+                })
+            })
         },
 
         /**
@@ -135,9 +183,23 @@ export default defineComponent({
             const candidate = candidateWithPredictionsList[index].candidate
             const predictionPatch: PredictionPatch = {dismissed: true}
 
-            PredictionService.patchPrediction(candidate, predictionPatch).then(() =>
-                NodeService.postNode(postNode)
-                    .then(() => this.loadRootNode(nodeId)))
+            this.showLoadingPatchPredictionTimeout = window.setTimeout(() => this.showLoadingPatchPrediction = true, 500)
+
+            PredictionService.patchPrediction(candidate, predictionPatch).then(() => {
+                window.clearTimeout(this.showLoadingPatchPredictionTimeout)
+                this.showLoadingPatchPredictionTimeout = -1
+                this.showLoadingPatchPrediction = false
+
+                this.showLoadingPostNodeTimeout = window.setTimeout(() => this.showLoadingPostNode = true, 500)
+
+                NodeService.postNode(postNode).then(() => {
+                    window.clearTimeout(this.showLoadingPostNodeTimeout)
+                    this.showLoadingPostNodeTimeout = -1
+                    this.showLoadingPostNode = false
+
+                    this.loadRootNode(nodeId)
+                })
+            })
         }
     }
 })

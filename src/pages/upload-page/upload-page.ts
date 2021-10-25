@@ -28,10 +28,11 @@ export default defineComponent({
 
             const formData = new FormData(form)
             UploadService.putUpload(formData).then(() => {
-                this.$router.push('/taxonomy')
-
-                this.showLoading = false
                 window.clearTimeout(this.showLoadingTimeout)
+                this.showLoadingTimeout = -1
+                this.showLoading = false
+
+                this.$router.push('/taxonomy')
             })
 
             this.showUploadWarning = false
