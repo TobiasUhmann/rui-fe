@@ -1,17 +1,5 @@
-<Loading :class="[showLoadingGetNodes ? 'd-initial' : 'd-none']"
-         message="Loading nodes..."/>
-
-<Loading :class="[showLoadingGetPredictions ? 'd-initial' : 'd-none']"
-         message="Loading predictions..."/>
-
-<Loading :class="[showLoadingPatchPrediction ? 'd-initial' : 'd-none']"
-         message="Updating prediction..."/>
-
-<Loading :class="[showLoadingPostNode ? 'd-initial' : 'd-none']"
-         message="Creating node..."/>
-
-<Loading :class="[showLoadingPostEntity ? 'd-initial' : 'd-none']"
-         message="Creating entity..."/>
+<Loading :class="[showLoading ? 'd-initial' : 'd-none']"
+         :message="loadingMessages.join(' ')"/>
 
 <main class="grid">
 

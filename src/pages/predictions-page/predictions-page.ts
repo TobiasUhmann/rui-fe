@@ -29,20 +29,9 @@ export default defineComponent({
             numberOfPages: null as number | null,
             offset: 0,
 
-            showLoadingGetNodes: false,
-            showLoadingGetNodesTimeout: -1,
-
-            showLoadingGetPredictions: false,
-            showLoadingGetPredictionsTimeout: -1,
-
-            showLoadingPatchPrediction: false,
-            showLoadingPatchPredictionTimeout: -1,
-
-            showLoadingPostNode: false,
-            showLoadingPostNodeTimeout: -1,
-
-            showLoadingPostEntity: false,
-            showLoadingPostEntityTimeout: -1,
+            loadingMessages: [] as string[],
+            showLoading: false,
+            showLoadingTimeout: -1
         }
     },
 
@@ -60,32 +49,50 @@ export default defineComponent({
     },
 
     methods: {
+        startLoading(loadingMessage: string): void {
+            this.loadingMessages.push(loadingMessage)
+
+            if (this.showLoadingTimeout === -1) {
+                this.showLoadingTimeout = window.setTimeout(() => this.showLoading = true, 500);
+            }
+        },
+
+        stopLoading(loadingMessage: string): void {
+
+            // Remove loading message
+            const index = this.loadingMessages.indexOf(loadingMessage)
+            if (index !== -1) {
+                this.loadingMessages.splice(index, 1)
+            }
+
+            // Stop timeout if there are no further loading messages
+            if (this.loadingMessages.length === 0) {
+                window.clearTimeout(this.showLoadingTimeout);
+                this.showLoadingTimeout = -1
+                this.showLoading = false
+            }
+        },
+
         loadRootNode(nodeId: number): void {
-            this.showLoadingGetNodesTimeout = window.setTimeout(() => this.showLoadingGetNodes = true, 500)
-
+            this.startLoading('Loading nodes...')
             NodeService.getNodes().then((rootNodes: DeepNode[]) => {
-                window.clearTimeout(this.showLoadingGetNodesTimeout)
-                this.showLoadingGetNodesTimeout = -1
-                this.showLoadingGetNodes = false
-
                 this.findRootNode(rootNodes, nodeId)
 
                 this.loadPredictions(nodeId, this.offset, 3)
+
+                this.stopLoading('Loading nodes...')
             })
         },
 
         loadPredictions(nodeId: number, offset: number, limit: number): void {
             this.offset = offset
 
-            this.showLoadingGetPredictionsTimeout = window.setTimeout(() => this.showLoadingGetPredictions = true, 500)
-
+            this.startLoading('Loading predictions...')
             PredictionService.getPredictions(nodeId, this.offset, limit).then((predictionResponse: PredictionResponse) => {
-                window.clearTimeout(this.showLoadingGetPredictionsTimeout)
-                this.showLoadingGetPredictionsTimeout = -1
-                this.showLoadingGetPredictions = false
-
                 this.candidateWithPredictionsList = predictionResponse.predictions
                 this.numberOfPages = Math.ceil(predictionResponse.totalPredictions / 3)
+
+                this.stopLoading('Loading predictions...')
             })
         },
 
@@ -127,14 +134,11 @@ export default defineComponent({
 
             const predictionPatch: PredictionPatch = {dismissed: true}
 
-            this.showLoadingPatchPredictionTimeout = window.setTimeout(() => this.showLoadingPatchPrediction = true, 500)
-
+            this.startLoading('Updating prediction...')
             PredictionService.patchPrediction(candidate, predictionPatch).then(() => {
-                window.clearTimeout(this.showLoadingPatchPredictionTimeout)
-                this.showLoadingPatchPredictionTimeout = -1
-                this.showLoadingPatchPrediction = false
-
                 this.loadPredictions(nodeId, this.offset, 3)
+
+                this.stopLoading('Updating prediction...')
             })
         },
 
@@ -151,22 +155,17 @@ export default defineComponent({
             const candidate = candidateWithPredictionsList[index].candidate
             const predictionPatch: PredictionPatch = {dismissed: true}
 
-            this.showLoadingPatchPredictionTimeout = window.setTimeout(() => this.showLoadingPatchPrediction = true, 500)
-
+            this.startLoading('Updating prediction...')
             PredictionService.patchPrediction(candidate, predictionPatch).then(() => {
-                window.clearTimeout(this.showLoadingPatchPredictionTimeout)
-                this.showLoadingPatchPredictionTimeout = -1
-                this.showLoadingPatchPrediction = false
 
-                this.showLoadingPostEntityTimeout = window.setTimeout(() => this.showLoadingPostEntity = true, 500)
-
+                this.startLoading('Creating entity...')
                 EntityService.postEntity(postEntity).then(() => {
-                    window.clearTimeout(this.showLoadingPostEntityTimeout)
-                    this.showLoadingPostEntityTimeout = -1
-                    this.showLoadingPostEntity = false
-
                     this.loadRootNode(nodeId)
+
+                    this.stopLoading('Creating entity...')
                 })
+
+                this.stopLoading('Updating prediction...')
             })
         },
 
@@ -183,22 +182,17 @@ export default defineComponent({
             const candidate = candidateWithPredictionsList[index].candidate
             const predictionPatch: PredictionPatch = {dismissed: true}
 
-            this.showLoadingPatchPredictionTimeout = window.setTimeout(() => this.showLoadingPatchPrediction = true, 500)
-
+            this.startLoading('Updating prediction...')
             PredictionService.patchPrediction(candidate, predictionPatch).then(() => {
-                window.clearTimeout(this.showLoadingPatchPredictionTimeout)
-                this.showLoadingPatchPredictionTimeout = -1
-                this.showLoadingPatchPrediction = false
 
-                this.showLoadingPostNodeTimeout = window.setTimeout(() => this.showLoadingPostNode = true, 500)
-
+                this.startLoading('Creating node...')
                 NodeService.postNode(postNode).then(() => {
-                    window.clearTimeout(this.showLoadingPostNodeTimeout)
-                    this.showLoadingPostNodeTimeout = -1
-                    this.showLoadingPostNode = false
-
                     this.loadRootNode(nodeId)
+
+                    this.stopLoading('Creating node...')
                 })
+
+                this.stopLoading('Updating prediction...')
             })
         }
     }
