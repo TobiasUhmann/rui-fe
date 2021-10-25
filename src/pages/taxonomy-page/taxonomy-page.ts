@@ -1,5 +1,6 @@
 import {defineComponent} from 'vue'
 
+import Loading from '@/components/loading/loading.vue'
 import Matches from '@/components/matches/matches.vue'
 import NewNode from '@/components/new-node/new-node.vue'
 import NodeDetails from '@/components/node-details/node-details.vue'
@@ -13,7 +14,7 @@ import {PostNode} from '@/models/node/post-node'
 export default defineComponent({
     name: 'TaxonomyPage',
 
-    components: {NewNode, NodeDetails, Matches, Taxonomy},
+    components: {Loading, NewNode, NodeDetails, Matches, Taxonomy},
 
     data() {
         return {
@@ -21,7 +22,11 @@ export default defineComponent({
 
             selectedNode: null as DeepNode | null,
 
-            creatingNewNode: false
+            creatingNewNode: false,
+
+            loadingMessages: [] as string[],
+            showLoading: false,
+            showLoadingTimeout: -1
         }
     },
 
@@ -30,8 +35,38 @@ export default defineComponent({
     },
 
     methods: {
+
+        startLoading(loadingMessage: string): void {
+            this.loadingMessages.push(loadingMessage)
+
+            if (this.showLoadingTimeout === -1) {
+                this.showLoadingTimeout = window.setTimeout(() => this.showLoading = true, 500)
+            }
+        },
+
+        stopLoading(loadingMessage: string): void {
+
+            // Remove loading message
+            const index = this.loadingMessages.indexOf(loadingMessage)
+            if (index !== -1) {
+                this.loadingMessages.splice(index, 1)
+            }
+
+            // Stop timeout if there are no further loading messages
+            if (this.loadingMessages.length === 0) {
+                window.clearTimeout(this.showLoadingTimeout)
+                this.showLoadingTimeout = -1
+                this.showLoading = false
+            }
+        },
+
         loadTaxonomy(): void {
-            NodeService.getNodes().then((rootNodes: DeepNode[]) => this.rootNodes = rootNodes)
+            this.startLoading('Loading nodes...')
+            NodeService.getNodes().then((rootNodes: DeepNode[]) => {
+                this.rootNodes = rootNodes
+
+                this.stopLoading('Loading nodes...')
+            })
         },
 
         reloadTaxonomy(): void {
@@ -61,10 +96,13 @@ export default defineComponent({
                 return null
             }
 
+            this.startLoading('Loading nodes...')
             NodeService.getNodes().then((nodes: DeepNode[]) => {
                 this.rootNodes = nodes
 
                 this.selectedNode = findNodeInNodes(nodes, selectedNodeId)
+
+                this.stopLoading('Loading nodes...')
             })
         },
 
@@ -92,28 +130,45 @@ export default defineComponent({
                 entities: postNodeEntities
             }
 
-            NodeService.postNode(postNode).then(() =>
-                this.reloadTaxonomy())
+            this.startLoading('Creating node...')
+            NodeService.postNode(postNode).then(() => {
+                this.reloadTaxonomy()
+
+                this.stopLoading('Creating node...')
+            })
 
             this.creatingNewNode = false
         },
 
         deleteNode(node: DeepNode): void {
+            this.startLoading('Deleting node...')
             NodeService.deleteNode(node.id).then(() => {
                 if (this.selectedNode && node.id === this.selectedNode.id) {
                     this.selectedNode = null
                 }
 
-                this.reloadTaxonomy();
+                this.reloadTaxonomy()
+
+                this.stopLoading('Deleting node...')
             })
         },
 
         createEntity(postEntity: PostEntity): void {
-            EntityService.postEntity(postEntity).then(() => this.reloadTaxonomy())
+            this.startLoading('Creating entity...')
+            EntityService.postEntity(postEntity).then(() => {
+                this.reloadTaxonomy()
+
+                this.stopLoading('Creating entity...')
+            })
         },
 
         deleteEntity(entityId: number): void {
-            EntityService.deleteEntity(entityId).then(() => this.reloadTaxonomy())
+            this.startLoading('Deleting entity...')
+            EntityService.deleteEntity(entityId).then(() => {
+                this.reloadTaxonomy()
+
+                this.stopLoading('Deleting entity...')
+            })
         }
     }
 })

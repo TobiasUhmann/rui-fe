@@ -1,4 +1,7 @@
-<UploadWarning :class="[showUploadWarning ? 'd-block' : 'd-none']"
+<Loading :class="[showLoading ? 'd-initial' : 'd-none']"
+         :message="loadingMessages.join('\n')"/>
+
+<UploadWarning :class="[showUploadWarning ? 'd-initial' : 'd-none']"
                @cancel="showUploadWarning = false"
                @overwrite="uploadAndRedirect"/>
 
@@ -8,9 +11,11 @@
 
     <label for="symptaxUploadZip">Symptax Upload ZIP</label>
     <input id="symptaxUploadZip" class="upload-form-input"
+           @change="isFileSelected = true"
            type="file" name="symptaxUploadZip">
 
     <input class="upload-form-input"
            type="submit"
-           value="Upload"/>
+           value="Upload"
+           :disabled="!isFileSelected"/>
 </form>
