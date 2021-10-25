@@ -1,17 +1,5 @@
-<Loading :class="[showLoadingGetNodes ? 'd-initial' : 'd-none']"
-         message="Loading nodes..."/>
-
-<Loading :class="[showLoadingPostNode ? 'd-initial' : 'd-none']"
-         message="Creating node..."/>
-
-<Loading :class="[showLoadingDeleteNode ? 'd-initial' : 'd-none']"
-         message="Deleting node..."/>
-
-<Loading :class="[showLoadingPostEntity ? 'd-initial' : 'd-none']"
-         message="Creating entity..."/>
-
-<Loading :class="[showLoadingDeleteEntity ? 'd-initial' : 'd-none']"
-         message="Deleting entity..."/>
+<Loading :class="[showLoading ? 'd-initial' : 'd-none']"
+         :message="loadingMessages.join('\n')"/>
 
 <main class="grid">
 

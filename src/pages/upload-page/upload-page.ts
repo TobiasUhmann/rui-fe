@@ -16,6 +16,7 @@ export default defineComponent({
             isFileSelected: false,
             showUploadWarning: false,
 
+            loadingMessages: [] as string[],
             showLoading: false,
             showLoadingTimeout: -1
         }
@@ -23,21 +24,43 @@ export default defineComponent({
 
     methods: {
 
+        startLoading(loadingMessage: string): void {
+            this.loadingMessages.push(loadingMessage)
+
+            if (this.showLoadingTimeout === -1) {
+                this.showLoadingTimeout = window.setTimeout(() => this.showLoading = true, 500)
+            }
+        },
+
+        stopLoading(loadingMessage: string): void {
+
+            // Remove loading message
+            const index = this.loadingMessages.indexOf(loadingMessage)
+            if (index !== -1) {
+                this.loadingMessages.splice(index, 1)
+            }
+
+            // Stop timeout if there are no further loading messages
+            if (this.loadingMessages.length === 0) {
+                window.clearTimeout(this.showLoadingTimeout)
+                this.showLoadingTimeout = -1
+                this.showLoading = false
+            }
+        },
+
         uploadAndRedirect(): void {
             const form = this.$refs.form as HTMLFormElement
 
             const formData = new FormData(form)
-            UploadService.putUpload(formData).then(() => {
-                window.clearTimeout(this.showLoadingTimeout)
-                this.showLoadingTimeout = -1
-                this.showLoading = false
 
+            this.startLoading('Uploading data...')
+            UploadService.putUpload(formData).then(() => {
                 this.$router.push('/taxonomy')
+
+                this.stopLoading('Uploading data...')
             })
 
             this.showUploadWarning = false
-
-            this.showLoadingTimeout = window.setTimeout(() => this.showLoading = true, 500)
 
             form.reset()
         }

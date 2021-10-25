@@ -49,11 +49,12 @@ export default defineComponent({
     },
 
     methods: {
+
         startLoading(loadingMessage: string): void {
             this.loadingMessages.push(loadingMessage)
 
             if (this.showLoadingTimeout === -1) {
-                this.showLoadingTimeout = window.setTimeout(() => this.showLoading = true, 500);
+                this.showLoadingTimeout = window.setTimeout(() => this.showLoading = true, 500)
             }
         },
 
@@ -67,7 +68,7 @@ export default defineComponent({
 
             // Stop timeout if there are no further loading messages
             if (this.loadingMessages.length === 0) {
-                window.clearTimeout(this.showLoadingTimeout);
+                window.clearTimeout(this.showLoadingTimeout)
                 this.showLoadingTimeout = -1
                 this.showLoading = false
             }

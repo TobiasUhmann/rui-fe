@@ -24,20 +24,9 @@ export default defineComponent({
 
             creatingNewNode: false,
 
-            showLoadingGetNodes: false,
-            showLoadingGetNodesTimeout: -1,
-
-            showLoadingPostNode: false,
-            showLoadingPostNodeTimeout: -1,
-
-            showLoadingDeleteNode: false,
-            showLoadingDeleteNodeTimeout: -1,
-
-            showLoadingPostEntity: false,
-            showLoadingPostEntityTimeout: -1,
-
-            showLoadingDeleteEntity: false,
-            showLoadingDeleteEntityTimeout: -1
+            loadingMessages: [] as string[],
+            showLoading: false,
+            showLoadingTimeout: -1
         }
     },
 
@@ -46,15 +35,37 @@ export default defineComponent({
     },
 
     methods: {
+
+        startLoading(loadingMessage: string): void {
+            this.loadingMessages.push(loadingMessage)
+
+            if (this.showLoadingTimeout === -1) {
+                this.showLoadingTimeout = window.setTimeout(() => this.showLoading = true, 500)
+            }
+        },
+
+        stopLoading(loadingMessage: string): void {
+
+            // Remove loading message
+            const index = this.loadingMessages.indexOf(loadingMessage)
+            if (index !== -1) {
+                this.loadingMessages.splice(index, 1)
+            }
+
+            // Stop timeout if there are no further loading messages
+            if (this.loadingMessages.length === 0) {
+                window.clearTimeout(this.showLoadingTimeout)
+                this.showLoadingTimeout = -1
+                this.showLoading = false
+            }
+        },
+
         loadTaxonomy(): void {
-            this.showLoadingGetNodesTimeout = window.setTimeout(() => this.showLoadingGetNodes = true, 500)
-
+            this.startLoading('Loading nodes...')
             NodeService.getNodes().then((rootNodes: DeepNode[]) => {
-                window.clearTimeout(this.showLoadingGetNodesTimeout)
-                this.showLoadingGetNodesTimeout = -1
-                this.showLoadingGetNodes = false
-
                 this.rootNodes = rootNodes
+
+                this.stopLoading('Loading nodes...')
             })
         },
 
@@ -85,16 +96,13 @@ export default defineComponent({
                 return null
             }
 
-            this.showLoadingGetNodesTimeout = window.setTimeout(() => this.showLoadingGetNodes = true, 500)
-
+            this.startLoading('Loading nodes...')
             NodeService.getNodes().then((nodes: DeepNode[]) => {
-                window.clearTimeout(this.showLoadingGetNodesTimeout)
-                this.showLoadingGetNodesTimeout = -1
-                this.showLoadingGetNodes = false
-
                 this.rootNodes = nodes
 
                 this.selectedNode = findNodeInNodes(nodes, selectedNodeId)
+
+                this.stopLoading('Loading nodes...')
             })
         },
 
@@ -122,56 +130,44 @@ export default defineComponent({
                 entities: postNodeEntities
             }
 
-            this.showLoadingPostNodeTimeout = window.setTimeout(() => this.showLoadingPostNode = true, 500)
-
+            this.startLoading('Creating node...')
             NodeService.postNode(postNode).then(() => {
-                window.clearTimeout(this.showLoadingPostNodeTimeout)
-                this.showLoadingPostNodeTimeout = -1
-                this.showLoadingPostNode = false
-
                 this.reloadTaxonomy()
+
+                this.stopLoading('Creating node...')
             })
 
             this.creatingNewNode = false
         },
 
         deleteNode(node: DeepNode): void {
-            this.showLoadingDeleteNodeTimeout = window.setTimeout(() => this.showLoadingDeleteNode = true, 500)
-
+            this.startLoading('Deleting node...')
             NodeService.deleteNode(node.id).then(() => {
-                window.clearTimeout(this.showLoadingDeleteNodeTimeout)
-                this.showLoadingDeleteNodeTimeout = -1
-                this.showLoadingDeleteNode = false
-
                 if (this.selectedNode && node.id === this.selectedNode.id) {
                     this.selectedNode = null
                 }
 
                 this.reloadTaxonomy()
+
+                this.stopLoading('Deleting node...')
             })
         },
 
         createEntity(postEntity: PostEntity): void {
-            this.showLoadingPostEntityTimeout = window.setTimeout(() => this.showLoadingPostEntity = true, 500)
-
+            this.startLoading('Creating entity...')
             EntityService.postEntity(postEntity).then(() => {
-                window.clearTimeout(this.showLoadingPostEntityTimeout)
-                this.showLoadingPostEntityTimeout = -1
-                this.showLoadingPostEntity = false
-
                 this.reloadTaxonomy()
+
+                this.stopLoading('Creating entity...')
             })
         },
 
         deleteEntity(entityId: number): void {
-            this.showLoadingDeleteEntityTimeout = window.setTimeout(() => this.showLoadingDeleteEntity = true, 500)
-
+            this.startLoading('Deleting entity...')
             EntityService.deleteEntity(entityId).then(() => {
-                window.clearTimeout(this.showLoadingDeleteEntityTimeout)
-                this.showLoadingDeleteEntityTimeout = -1
-                this.showLoadingDeleteEntity = false
-
                 this.reloadTaxonomy()
+
+                this.stopLoading('Deleting entity...')
             })
         }
     }
