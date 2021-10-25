@@ -1,5 +1,5 @@
-<Loading :class="[showUploadWarning ? 'd-initial' : 'd-none']"
-         message="Loading..."/>
+<Loading :class="[showLoading ? 'd-initial' : 'd-none']"
+         message="Uploading data..."/>
 
 <UploadWarning :class="[showUploadWarning ? 'd-initial' : 'd-none']"
                @cancel="showUploadWarning = false"
