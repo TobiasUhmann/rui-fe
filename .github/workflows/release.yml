@@ -1,0 +1,60 @@
+on:
+  release:
+    types: [ published ]
+
+jobs:
+
+  deliver_docker:
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+
+      - name: Login to DockerHub
+        uses: docker/login-action@v1
+        with:
+          username: xvlcw
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Build and push
+        uses: docker/build-push-action@v2
+        with:
+          push: true
+          tags: |
+            xvlcw/rui-fe:latest
+            xvlcw/rui-fe:0
+            xvlcw/rui-fe:0.15
+            xvlcw/rui-fe:0.15.0
+
+  test_docker:
+    needs: deliver_docker
+    runs-on: ubuntu-20.04
+    steps:
+
+      - name: Start backend and frontend
+        run: |
+          docker network create rui-net
+          docker run --name rui-be --network rui-net --detach xvlcw/rui-be:0.9.0
+          docker run --name rui-fe --network rui-net --publish "8080:8080" --detach xvlcw/rui-fe:0.15.0
+
+      - name: Wait for server
+        uses: cygnetdigital/wait_for_response@v2.0.0
+        with:
+          url: 'http://localhost:8080/'
+
+  test_docker_compose:
+    needs: deliver_docker
+    runs-on: ubuntu-20.04
+    steps:
+
+      - name: Checkout from GitHub
+        uses: actions/checkout@v2
+
+      - name: Start backend and frontend
+        run: docker-compose up --detach
+
+      - name: Wait for server
+        uses: cygnetdigital/wait_for_response@v2.0.0
+        with:
+          url: 'http://localhost:8080/'
