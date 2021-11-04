@@ -72,7 +72,7 @@ jobs:
         run: |
           docker network create rui-net
           docker run --name rui-be --network rui-net --detach xvlcw/rui-be:0.9.0
-          docker run --name rui-fe --network rui-net --publish "5000:5000" --detach xvlcw/rui-fe:0.15.0-${{ env.GITHUB_REF_SLUG }}
+          docker run --name rui-fe --network rui-net --publish "8080:8080" --detach xvlcw/rui-fe:0.15.0-${{ env.GITHUB_REF_SLUG }}
 
       - name: Wait for server
         uses: cygnetdigital/wait_for_response@v2.0.0
