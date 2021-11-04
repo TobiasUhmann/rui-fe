@@ -6,9 +6,11 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
 
-      - uses: actions/checkout@v2
+      - name: Checkout from GitHub
+        uses: actions/checkout@v2
 
-      - run: |
+      - name: Run unit tests
+        run: |
           npm ci
           npm run test:unit
 
@@ -72,9 +74,9 @@ jobs:
         run: |
           docker network create rui-net
           docker run --name rui-be --network rui-net --detach xvlcw/rui-be:0.9.0
-          docker run --name rui-fe --network rui-net --publish "8080:8080" --detach xvlcw/rui-fe:0.15.0-${{ env.GITHUB_REF_SLUG }}
+          docker run --name rui-fe --network rui-net --publish "80:80" --detach xvlcw/rui-fe:0.15.0-${{ env.GITHUB_REF_SLUG }}
 
       - name: Wait for server
         uses: cygnetdigital/wait_for_response@v2.0.0
         with:
-          url: 'http://localhost:8080/'
+          url: 'http://localhost/'
