@@ -285,7 +285,7 @@ describe('PredictionCard', () => {
 
         const wrapper = shallowMount(PredictionCard, {
             props: {
-                candidateWithSynonymPredictions,
+                candidateWithPredictions: candidateWithSynonymPredictions,
                 currentNodeId: nodeA.id
             }
         })
@@ -303,7 +303,7 @@ describe('PredictionCard', () => {
 
         const wrapper = shallowMount(PredictionCard, {
             props: {
-                candidateWithChildPredictions,
+                candidateWithPredictions: candidateWithChildPredictions,
                 currentNodeId: nodeB.id
             }
         })
