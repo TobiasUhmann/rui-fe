@@ -1,104 +1,140 @@
 @import "src/assets/styles/_variables.scss";
 
-.prediction-card {
-    border: 1px solid grey;
+/* Border */
+
+.grid {
+  border: 1px solid $grey;
 }
 
-/* Flex Layout */
+/* Grid Layout */
 
-.flex {
-    display: flex;
-    justify-content: space-between;
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 200px;
+  grid-template-rows: auto;
+  grid-template-areas:
+    "grid-candidate-header  grid-predictions-header"
+    "grid-candidate         grid-predictions       "
+    "grid-footer            grid-footer            ";
 }
 
-.flex > div {
-    padding: 8px;
+.grid-candidate-header {
+  grid-area: grid-candidate-header;
 }
 
-.candidate {
-    flex-grow: 1;
-    overflow-y: auto;
+.grid-predictions-header {
+  grid-area: grid-predictions-header;
 }
 
-.predictions {
-    flex: 0 0 200px;
-    overflow-y: auto;
-
-    border-left: 1px solid grey;
+.grid-candidate {
+  grid-area: grid-candidate;
 }
 
-/* Candidate Text */
+.grid-predictions {
+  grid-area: grid-predictions;
+}
+
+.grid-footer {
+  grid-area: grid-footer;
+}
+
+.grid > * {
+  padding: 8px;
+}
+
+/* Header */
+
+.grid-candidate-header,
+.grid-predictions-header {
+  background-color: $light-grey;
+  border-bottom: 1px solid $grey;
+}
+
+.grid-predictions-header {
+  border-left: 1px solid $grey;
+}
+
+/* Main */
+
+.grid-candidate,
+.grid-predictions{
+  overflow-y: auto;
+}
+
+.grid-predictions {
+  border-left: 1px solid $grey;
+}
+
+/* Main - Candidate Text */
 
 .token {
-    cursor: pointer;
+  cursor: pointer;
 }
 
 .marked {
-    color: $orange;
-    font-weight: bold;
+  color: $orange;
+  font-weight: bold;
 }
 
-/* Headers */
+/* Main - Predictions */
 
 h1 {
-    font-size: 1em;
+  font-size: 1em;
 }
 
-/* Table */
-
 table * {
-    vertical-align: top;
+  vertical-align: top;
 }
 
 table td:not(:first-child) {
-    padding-left: 8px;
+  padding-left: 8px;
 }
 
 table td:not(.selected) {
-    cursor: pointer;
+  cursor: pointer;
 }
 
 .selected {
-    font-weight: bold;
-    color: $orange;
+  color: $orange;
+  font-weight: bold;
 }
 
 /* Footer */
 
 footer {
-    display: flex;
+  background-color: $light-grey;
+  border-top: 1px solid $grey;
+}
 
-    padding: 6px;
-
-    background-color: $light-grey;
-    border-top: 1px solid grey;
+.flex {
+  display: flex;
 }
 
 .space {
-    flex-grow: 1;
+  flex-grow: 1;
 }
 
 button {
-    background-color: $white;
+  background-color: $white;
 
-    cursor: pointer;
+  cursor: pointer;
 }
 
 #dismiss-button {
-    color: $red;
-    border: 1px solid $red;
+  color: $red;
+  border: 1px solid $red;
 }
 
 #annotate-button {
-    margin-left: 8px;
+  margin-left: 8px;
 
-    color: $green;
-    border: 1px solid green;
+  color: $green;
+  border: 1px solid green;
 }
 
 #annotate-button:disabled {
-    color: $grey;
-    border: 1px solid grey;
+  color: $grey;
+  border: 1px solid grey;
 
-    cursor: default;
+  cursor: default;
 }
