@@ -19,14 +19,26 @@ const nodeC: Node = {id: 2, parentId: null, entities: [entityC]}
 const candidateWithPredictions: CandidateWithPredictions = {
     candidate: 'Foo Bar Baz',
     dismissed: false,
+
     synonymPredictions: [
         {score: 1.0, node: nodeA},
         {score: 0.9, node: nodeC}
     ],
+
     parentPredictions: [
         {score: 0.8, node: nodeB},
         {score: 0.7, node: nodeC}
     ]
+}
+
+const candidateWithSynonymPredictions: CandidateWithPredictions = {
+    ...candidateWithPredictions,
+    parentPredictions: []
+}
+
+const candidateWithChildPredictions: CandidateWithPredictions = {
+    ...candidateWithPredictions,
+    synonymPredictions: []
 }
 
 it('Render', async () => {
@@ -243,4 +255,63 @@ it('Annotate child prediction', async () => {
 
     expect(wrapper.emitted().createNode.length).toBe(1)
     expect(wrapper.emitted().createNode[0]).toEqual([expectedPostNode])
+})
+
+describe('PredictionCard', () => {
+
+    it('should show the correct total score', async () => {
+
+        // GIVEN    a prediction card with multiple synonym and child predictions
+
+        const wrapper = shallowMount(PredictionCard, {
+            props: {
+                candidateWithPredictions,
+                currentNodeId: nodeB.id
+            }
+        })
+
+        // THEN     the header should show the average of the top synonym and child scores
+
+        const predictionsHeader = wrapper.find('.grid-predictions-header')
+        const synonymScore = candidateWithPredictions.synonymPredictions[0].score
+        const childScore = candidateWithPredictions.parentPredictions[0].score
+        const expectedScore = (synonymScore + childScore) / 2
+        expect(predictionsHeader.text()).toContain(expectedScore.toString())
+    })
+
+    it('should show the correct total score when there are only synonym predictions', async () => {
+
+        // GIVEN    a prediction card with synonym predictions only
+
+        const wrapper = shallowMount(PredictionCard, {
+            props: {
+                candidateWithSynonymPredictions,
+                currentNodeId: nodeA.id
+            }
+        })
+
+        // THEN     the header should show the top synonym prediction score
+
+        const predictionsHeader = wrapper.find('.grid-predictions-header')
+        const synonymScore = candidateWithPredictions.synonymPredictions[0].score
+        expect(predictionsHeader.text()).toContain(synonymScore.toString())
+    })
+
+    it('should show the correct total score when there are only child predictions', async () => {
+
+        // GIVEN    a prediction card with child predictions only
+
+        const wrapper = shallowMount(PredictionCard, {
+            props: {
+                candidateWithChildPredictions,
+                currentNodeId: nodeB.id
+            }
+        })
+
+        // THEN     the header should show the top child prediction score
+
+        const predictionsHeader = wrapper.find('.grid-predictions-header')
+        const childScore = candidateWithPredictions.parentPredictions[0].score
+        expect(predictionsHeader.text()).toContain(childScore.toString())
+    })
 })
