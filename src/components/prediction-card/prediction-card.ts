@@ -27,6 +27,24 @@ export default defineComponent({
             } else {
                 throw new AssertionError({message: 'Should never be called'})
             }
+        },
+
+        totalScoreNorm(): number {
+            const synonymPredictions = this.candidateWithPredictions.synonymPredictions
+            const childPredictions = this.candidateWithPredictions.parentPredictions
+
+            if (synonymPredictions.length > 0 && childPredictions.length > 0) {
+                return (synonymPredictions[0].scoreNorm + childPredictions[0].scoreNorm) / 2
+
+            } else if (synonymPredictions.length === 0) {
+                return childPredictions[0].scoreNorm
+
+            } else if (childPredictions.length === 0) {
+                return synonymPredictions[0].scoreNorm
+
+            } else {
+                throw new AssertionError({message: 'Should never be called'})
+            }
         }
     },
 

@@ -5,7 +5,7 @@
     <header class="grid-candidate-header" />
 
     <header class="grid-predictions-header">
-        {{ totalScore.toFixed(2) }}
+        <b>{{ totalScoreNorm.toFixed(2) }}</b> ({{ totalScore.toFixed(2) }})
     </header>
 
     <!-- Candidate Text -->
@@ -30,7 +30,7 @@
             <tr v-for="(synonymPrediction, index) of candidateWithPredictions.synonymPredictions" :key="index">
                 <td :class="{selected: isPredictionSelected(PredictionType.SYNONYM, index)}"
                     @click="selectedPrediction = {type:PredictionType.SYNONYM, index}">
-                    {{ synonymPrediction.score.toFixed(2) }}
+                    {{ synonymPrediction.scoreNorm.toFixed(2) }}
                 </td>
                 <td :class="{selected: isPredictionSelected(PredictionType.SYNONYM, index)}"
                     @click="selectedPrediction = {type:PredictionType.SYNONYM, index}">
@@ -46,7 +46,7 @@
             <tr v-for="(parentPrediction, index) of candidateWithPredictions.parentPredictions" :key="index">
                 <td :class="{selected: isPredictionSelected(PredictionType.CHILD, index)}"
                     @click="selectedPrediction = {type:PredictionType.CHILD, index}">
-                    {{ parentPrediction.score.toFixed(2) }}
+                    {{ parentPrediction.scoreNorm.toFixed(2) }}
                 </td>
                 <td :class="{selected: isPredictionSelected(PredictionType.CHILD, index)}"
                     @click="selectedPrediction = {type:PredictionType.CHILD, index}">
