@@ -50,22 +50,28 @@ const getNodesResponse = [nodeA, nodeB, nodeC]
 const prediction1: CandidateWithPredictions = {
     candidate: 'Erat imperdiet sed euismod nisi porta lorem mollis .',
     dismissed: false,
-    parentPredictions: [{score: 1.0, node: nodeA}],
+    totalScore: 12.34,
+    totalScoreNorm: 1.0,
+    parentPredictions: [{score: 12.34, scoreNorm: 1.0, node: nodeA}],
     synonymPredictions: []
 }
 
 const prediction2: CandidateWithPredictions = {
     candidate: 'Tempor orci dapibus ultrices in iaculis nunc sed .',
     dismissed: false,
+    totalScore: 12.34,
+    totalScoreNorm: 1.0,
     parentPredictions: [],
-    synonymPredictions: [{score: 1.0, node: nodeA}]
+    synonymPredictions: [{score: 12.34, scoreNorm: 1.0, node: nodeA}]
 }
 
 const prediction3: CandidateWithPredictions = {
     candidate: 'Porta lorem mollis aliquam ut porttitor leo a diam .',
     dismissed: false,
+    totalScore: 12.34,
+    totalScoreNorm: 1.0,
     parentPredictions: [],
-    synonymPredictions: [{score: 1.0, node: nodeA}]
+    synonymPredictions: [{score: 12.34, scoreNorm: 1.0, node: nodeA}]
 }
 
 const getPredictionsResponse: PredictionResponse = {
@@ -78,194 +84,175 @@ const getPredictionsResponseWithoutAnnotatedPrediction: PredictionResponse = {
     predictions: [prediction1, prediction2]
 }
 
-it('Render', async () => {
+describe('PredictionsPage', () => {
 
-    //
-    // GIVEN the backend with the following endpoints:
-    // - GET    /nodes
-    // - GET    /nodes/:nodeId/predictions
-    //
+    it('should render taxonomy and predictions', async () => {
 
-    NodeService.getNodes = jest.fn()
-        .mockImplementationOnce(() => Promise.resolve(getNodesResponse))
+        /// GIVEN   the backend with the following endpoints:
+        ///         - GET    /nodes
+        ///         - GET    /nodes/:nodeId/predictions
 
-    PredictionService.getPredictions = jest.fn()
-        .mockImplementationOnce(() => Promise.resolve(getPredictionsResponse))
+        NodeService.getNodes = jest.fn()
+            .mockImplementationOnce(() => Promise.resolve(getNodesResponse))
 
-    //
-    // GIVEN the predictions page with some predictions
-    //
+        PredictionService.getPredictions = jest.fn()
+            .mockImplementationOnce(() => Promise.resolve(getPredictionsResponse))
 
-    const wrapper = await shallowMount(PredictionsPage, {
-        global: {mocks: {$route: {params: {node: nodeA.id}}}}
-    })
+        /// GIVEN   the predictions page with some predictions
 
-    await flushPromises()
-
-    //
-    // THEN  the node should be shown in the taxonomy
-    // AND   the predictions should be shown
-    //
-
-    const treeItem = wrapper.findComponent(TreeItem)
-    expect(treeItem.vm.node.entities[0].name).toBe(entityA1.name)
-
-    expect(wrapper.findAllComponents(PredictionCard))
-        .toHaveLength(getPredictionsResponse.totalPredictions)
-})
-
-it('Annotate synonym prediction', async () => {
-
-    //
-    // GIVEN the backend with the following endpoints:
-    // - POST   /entities
-    // - GET    /nodes
-    // - GET    /nodes/:nodeId/predictions
-    // - PATCH  /predictions
-    //
-
-    const entityA2: Entity = {id: 0, nodeId: 0, name: 'A-2', matchesCount: 2}
-    const nodeAWithEntityA2: DeepNode = {
-        id: 0,
-        parentId: null,
-        entities: [entityA1, entityA2],
-        children: [nodeAa, nodeAb]
-    }
-
-    const getNodesResponseWithEntityA2 = [nodeAWithEntityA2, nodeB, nodeC]
-
-    const postEntity: PostEntity = {nodeId: nodeA.id, name: 'A-2'}
-
-    EntityService.postEntity = jest.fn()
-        .mockImplementationOnce((postEntity2: PostEntity) => {
-                expect(postEntity2).toBe(postEntity)
-                return Promise.resolve({json: () => Promise.resolve({})} as Response)
-            }
-        )
-
-    NodeService.getNodes = jest.fn()
-        .mockImplementationOnce(() => Promise.resolve(getNodesResponse))
-        .mockImplementationOnce(() => Promise.resolve(getNodesResponseWithEntityA2))
-
-    PredictionService.getPredictions = jest.fn()
-        .mockImplementationOnce(() => Promise.resolve(getPredictionsResponse))
-        .mockImplementationOnce(() => Promise.resolve(getPredictionsResponseWithoutAnnotatedPrediction))
-
-    PredictionService.patchPrediction = jest.fn()
-        .mockImplementationOnce((candidate: string, predictionPatch: PredictionPatch) => {
-            expect(predictionPatch.dismissed).toBe(true)
-            return Promise.resolve({json: () => Promise.resolve({})} as Response)
+        const wrapper = await shallowMount(PredictionsPage, {
+            global: {mocks: {$route: {params: {node: nodeA.id}}}}
         })
 
-    //
-    // GIVEN the predictions page with some predictions
-    //
+        await flushPromises()
 
-    const wrapper = await shallowMount(PredictionsPage, {
-        global: {mocks: {$route: {params: {node: nodeA.id}}}}
+        /// THEN    the node should be shown in the taxonomy
+        /// AND     the predictions should be shown
+
+        const treeItem = wrapper.findComponent(TreeItem)
+        expect(treeItem.vm.node.entities[0].name).toBe(entityA1.name)
+
+        expect(wrapper.findAllComponents(PredictionCard))
+            .toHaveLength(getPredictionsResponse.totalPredictions)
     })
 
-    await flushPromises()
+    it('should allow annotating synonym prediction', async () => {
 
-    //
-    // WHEN  a prediction card emits a "createEntity" event
-    //
+        /// GIVEN   the backend with the following endpoints:
+        ///         - POST   /entities
+        ///         - GET    /nodes
+        ///         - GET    /nodes/:nodeId/predictions
+        ///         - PATCH  /predictions
 
-    await wrapper.findAllComponents(PredictionCard)[0].vm.$emit('createEntity', postEntity)
+        const entityA2: Entity = {id: 0, nodeId: 0, name: 'A-2', matchesCount: 2}
+        const nodeAWithEntityA2: DeepNode = {
+            id: 0,
+            parentId: null,
+            entities: [entityA1, entityA2],
+            children: [nodeAa, nodeAb]
+        }
 
-    await flushPromises()
+        const getNodesResponseWithEntityA2 = [nodeAWithEntityA2, nodeB, nodeC]
 
-    //
-    // THEN  POST /nodes should have been called with new node
-    // AND   PATCH /predictions should have been called to dismiss prediction
-    // AND   the node should be added to the taxonomy
-    // AND   the prediction should vanish
-    //
+        const postEntity: PostEntity = {nodeId: nodeA.id, name: 'A-2'}
 
-    expect(EntityService.postEntity).toHaveBeenCalled()
-    expect(PredictionService.patchPrediction).toHaveBeenCalled()
+        EntityService.postEntity = jest.fn()
+            .mockImplementationOnce((postEntity2: PostEntity) => {
+                    expect(postEntity2).toBe(postEntity)
+                    return Promise.resolve({json: () => Promise.resolve({})} as Response)
+                }
+            )
 
-    const treeItem = wrapper.findComponent(TreeItem)
-    expect(treeItem.vm.node.entities[1].name).toBe('A-2')
+        NodeService.getNodes = jest.fn()
+            .mockImplementationOnce(() => Promise.resolve(getNodesResponse))
+            .mockImplementationOnce(() => Promise.resolve(getNodesResponseWithEntityA2))
 
-    expect(wrapper.findAllComponents(PredictionCard))
-        .toHaveLength(getPredictionsResponseWithoutAnnotatedPrediction.totalPredictions)
-})
+        PredictionService.getPredictions = jest.fn()
+            .mockImplementationOnce(() => Promise.resolve(getPredictionsResponse))
+            .mockImplementationOnce(() => Promise.resolve(getPredictionsResponseWithoutAnnotatedPrediction))
 
-it('Annotate child prediction', async () => {
-
-    //
-    // GIVEN the backend with the following endpoints:
-    // - GET    /nodes
-    // - POST   /nodes
-    // - GET    /nodes/:nodeId/predictions
-    // - PATCH  /predictions
-    //
-
-    const entityAc1: Entity = {id: 12, nodeId: 7, name: 'Ac-1', matchesCount: 0}
-    const nodeAc: DeepNode = {id: 7, parentId: 0, entities: [entityAc1], children: []}
-    const nodeAWithChildNodeAc: DeepNode = {
-        id: 0,
-        parentId: null,
-        entities: [entityA1],
-        children: [nodeAa, nodeAb, nodeAc]
-    }
-    const getNodesResponseWithChildNodeAc = [nodeAWithChildNodeAc, nodeB, nodeC]
-
-    const postNode: PostNode = {parentId: nodeA.id, entities: [{name: 'foo'}]}
-
-    NodeService.getNodes = jest.fn()
-        .mockImplementationOnce(() => Promise.resolve(getNodesResponse))
-        .mockImplementationOnce(() => Promise.resolve(getNodesResponseWithChildNodeAc))
-
-    NodeService.postNode = jest.fn()
-        .mockImplementationOnce((postNode2: PostNode) => {
-                expect(postNode2).toBe(postNode)
+        PredictionService.patchPrediction = jest.fn()
+            .mockImplementationOnce((candidate: string, predictionPatch: PredictionPatch) => {
+                expect(predictionPatch.dismissed).toBe(true)
                 return Promise.resolve({json: () => Promise.resolve({})} as Response)
-            }
-        )
+            })
 
-    PredictionService.getPredictions = jest.fn()
-        .mockImplementationOnce(() => Promise.resolve(getPredictionsResponse))
-        .mockImplementationOnce(() => Promise.resolve(getPredictionsResponseWithoutAnnotatedPrediction))
+        /// GIVEN   the predictions page with some predictions
 
-    PredictionService.patchPrediction = jest.fn()
-        .mockImplementationOnce((candidate: string, predictionPatch: PredictionPatch) => {
-            expect(predictionPatch.dismissed).toBe(true)
-            return Promise.resolve({json: () => Promise.resolve({})} as Response)
+        const wrapper = await shallowMount(PredictionsPage, {
+            global: {mocks: {$route: {params: {node: nodeA.id}}}}
         })
 
-    //
-    // GIVEN the predictions page with some predictions
-    //
+        await flushPromises()
 
-    const wrapper = shallowMount(PredictionsPage, {
-        global: {mocks: {$route: {params: {node: '0'}}}}
+        /// WHEN    a prediction card emits a "createEntity" event
+
+        await wrapper.findAllComponents(PredictionCard)[0].vm.$emit('createEntity', postEntity)
+
+        await flushPromises()
+
+        /// THEN    POST /nodes should have been called with new node
+        /// AND     PATCH /predictions should have been called to dismiss prediction
+        /// AND     the node should be added to the taxonomy
+        /// AND     the prediction should vanish
+
+        expect(EntityService.postEntity).toHaveBeenCalled()
+        expect(PredictionService.patchPrediction).toHaveBeenCalled()
+
+        const treeItem = wrapper.findComponent(TreeItem)
+        expect(treeItem.vm.node.entities[1].name).toBe('A-2')
+
+        expect(wrapper.findAllComponents(PredictionCard))
+            .toHaveLength(getPredictionsResponseWithoutAnnotatedPrediction.totalPredictions)
     })
 
-    await flushPromises()
+    it('should allow annotating child prediction', async () => {
 
-    //
-    // WHEN  a prediction emits a "createNode" event
-    //
+        /// GIVEN   the backend with the following endpoints:
+        ///         - GET    /nodes
+        ///         - POST   /nodes
+        ///         - GET    /nodes/:nodeId/predictions
+        ///         - PATCH  /predictions
 
-    await wrapper.findAllComponents(PredictionCard)[0].vm.$emit('createNode', postNode)
+        const entityAc1: Entity = {id: 12, nodeId: 7, name: 'Ac-1', matchesCount: 0}
+        const nodeAc: DeepNode = {id: 7, parentId: 0, entities: [entityAc1], children: []}
+        const nodeAWithChildNodeAc: DeepNode = {
+            id: 0,
+            parentId: null,
+            entities: [entityA1],
+            children: [nodeAa, nodeAb, nodeAc]
+        }
+        const getNodesResponseWithChildNodeAc = [nodeAWithChildNodeAc, nodeB, nodeC]
 
-    await flushPromises()
+        const postNode: PostNode = {parentId: nodeA.id, entities: [{name: 'foo'}]}
 
-    //
-    // THEN  POST /nodes should have been called with new node
-    // AND   PATCH /predictions should have been called to dismiss prediction
-    // AND   the node should be added to the taxonomy
-    // AND   the prediction should vanish
-    //
+        NodeService.getNodes = jest.fn()
+            .mockImplementationOnce(() => Promise.resolve(getNodesResponse))
+            .mockImplementationOnce(() => Promise.resolve(getNodesResponseWithChildNodeAc))
 
-    expect(NodeService.postNode).toHaveBeenCalled()
-    expect(PredictionService.patchPrediction).toHaveBeenCalled()
+        NodeService.postNode = jest.fn()
+            .mockImplementationOnce((postNode2: PostNode) => {
+                    expect(postNode2).toBe(postNode)
+                    return Promise.resolve({json: () => Promise.resolve({})} as Response)
+                }
+            )
 
-    const treeItem = wrapper.findComponent(TreeItem)
-    expect(treeItem.vm.node.children[2].entities[0].name).toBe(entityAc1.name)
+        PredictionService.getPredictions = jest.fn()
+            .mockImplementationOnce(() => Promise.resolve(getPredictionsResponse))
+            .mockImplementationOnce(() => Promise.resolve(getPredictionsResponseWithoutAnnotatedPrediction))
 
-    expect(wrapper.findAllComponents(PredictionCard))
-        .toHaveLength(getPredictionsResponseWithoutAnnotatedPrediction.totalPredictions)
+        PredictionService.patchPrediction = jest.fn()
+            .mockImplementationOnce((candidate: string, predictionPatch: PredictionPatch) => {
+                expect(predictionPatch.dismissed).toBe(true)
+                return Promise.resolve({json: () => Promise.resolve({})} as Response)
+            })
+
+        /// GIVEN   the predictions page with some predictions
+
+        const wrapper = shallowMount(PredictionsPage, {
+            global: {mocks: {$route: {params: {node: '0'}}}}
+        })
+
+        await flushPromises()
+
+        /// WHEN    a prediction emits a "createNode" event
+
+        await wrapper.findAllComponents(PredictionCard)[0].vm.$emit('createNode', postNode)
+
+        await flushPromises()
+
+        /// THEN    POST /nodes should have been called with new node
+        /// AND     PATCH /predictions should have been called to dismiss prediction
+        /// AND     the node should be added to the taxonomy
+        /// AND     the prediction should vanish
+
+        expect(NodeService.postNode).toHaveBeenCalled()
+        expect(PredictionService.patchPrediction).toHaveBeenCalled()
+
+        const treeItem = wrapper.findComponent(TreeItem)
+        expect(treeItem.vm.node.children[2].entities[0].name).toBe(entityAc1.name)
+
+        expect(wrapper.findAllComponents(PredictionCard))
+            .toHaveLength(getPredictionsResponseWithoutAnnotatedPrediction.totalPredictions)
+    })
 })
