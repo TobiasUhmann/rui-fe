@@ -1,59 +1,65 @@
-<div class="prediction-card">
-    <div class="flex">
+<div class="grid">
 
-        <!-- Candidate Text -->
+    <!-- Header -->
 
-        <div class="candidate">
-            <template v-for="(token, i) of tokens">
-                <span class="token"
-                      :class="{marked: tokenSelections[i]}"
-                      @click="tokenSelections[i] = !tokenSelections[i]">
-                    {{ token }}
-                </span>
-                {{ ' ' }}
-            </template>
-        </div>
+    <header class="grid-candidate-header" />
 
-        <!-- Prediction Items -->
+    <header class="grid-predictions-header">
+        <b>{{ totalScoreNorm.toFixed(2) }}</b> ({{ totalScore.toFixed(2) }})
+    </header>
 
-        <div class="predictions">
-            <h1>Is Synonym of</h1>
-            <table v-if="candidateWithPredictions.synonymPredictions.length > 0"
-                   class="mt-4">
-                <tr v-for="(synonymPrediction, index) of candidateWithPredictions.synonymPredictions" :key="index">
-                    <td :class="{selected: isPredictionSelected(PredictionType.SYNONYM, index)}"
-                        @click="selectedPrediction = {type:PredictionType.SYNONYM, index}">
-                        {{ synonymPrediction.score.toFixed(2) }}
-                    </td>
-                    <td :class="{selected: isPredictionSelected(PredictionType.SYNONYM, index)}"
-                        @click="selectedPrediction = {type:PredictionType.SYNONYM, index}">
-                        {{ getNodeName(synonymPrediction.node) }}
-                    </td>
-                </tr>
-            </table>
-            <span v-else>None</span>
+    <!-- Candidate Text -->
 
-            <h1 class="mt-8">Is Child of</h1>
-            <table v-if="candidateWithPredictions.parentPredictions.length > 0"
-                   class="mt-4">
-                <tr v-for="(parentPrediction, index) of candidateWithPredictions.parentPredictions" :key="index">
-                    <td :class="{selected: isPredictionSelected(PredictionType.CHILD, index)}"
-                        @click="selectedPrediction = {type:PredictionType.CHILD, index}">
-                        {{ parentPrediction.score.toFixed(2) }}
-                    </td>
-                    <td :class="{selected: isPredictionSelected(PredictionType.CHILD, index)}"
-                        @click="selectedPrediction = {type:PredictionType.CHILD, index}">
-                        {{ getNodeName(parentPrediction.node) }}
-                    </td>
-                </tr>
-            </table>
-            <span v-else>None</span>
-        </div>
+    <div class="grid-candidate">
+        <template v-for="(token, i) of tokens">
+            <span class="token"
+                  :class="{marked: tokenSelections[i]}"
+                  @click="tokenSelections[i] = !tokenSelections[i]">
+                {{ token }}
+            </span>
+            {{ ' ' }}
+        </template>
+    </div>
+
+    <!-- Prediction Items -->
+
+    <div class="grid-predictions">
+        <h1>Is Synonym of</h1>
+        <table v-if="candidateWithPredictions.synonymPredictions.length > 0"
+               class="mt-4">
+            <tr v-for="(synonymPrediction, index) of candidateWithPredictions.synonymPredictions" :key="index">
+                <td :class="{selected: isPredictionSelected(PredictionType.SYNONYM, index)}"
+                    @click="selectedPrediction = {type:PredictionType.SYNONYM, index}">
+                    {{ synonymPrediction.scoreNorm.toFixed(2) }}
+                </td>
+                <td :class="{selected: isPredictionSelected(PredictionType.SYNONYM, index)}"
+                    @click="selectedPrediction = {type:PredictionType.SYNONYM, index}">
+                    {{ getNodeName(synonymPrediction.node) }}
+                </td>
+            </tr>
+        </table>
+        <span v-else>None</span>
+
+        <h1 class="mt-8">Is Child of</h1>
+        <table v-if="candidateWithPredictions.parentPredictions.length > 0"
+               class="mt-4">
+            <tr v-for="(parentPrediction, index) of candidateWithPredictions.parentPredictions" :key="index">
+                <td :class="{selected: isPredictionSelected(PredictionType.CHILD, index)}"
+                    @click="selectedPrediction = {type:PredictionType.CHILD, index}">
+                    {{ parentPrediction.scoreNorm.toFixed(2) }}
+                </td>
+                <td :class="{selected: isPredictionSelected(PredictionType.CHILD, index)}"
+                    @click="selectedPrediction = {type:PredictionType.CHILD, index}">
+                    {{ getNodeName(parentPrediction.node) }}
+                </td>
+            </tr>
+        </table>
+        <span v-else>None</span>
     </div>
 
     <!-- Footer -->
 
-    <footer>
+    <footer class="grid-footer flex">
         <button id="dismiss-button"
                 @click="$emit('dismiss')">
             Dismiss
