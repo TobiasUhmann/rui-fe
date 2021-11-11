@@ -12,6 +12,6 @@ services:
 
   rui-be:
     container_name: rui-be
-    image: xvlcw/rui-be:0.9.0
+    image: xvlcw/rui-be:0.10.0
     ports:
       - "5000:5000"
