@@ -2,22 +2,21 @@ import {shallowMount} from '@vue/test-utils'
 
 import Loading from '@/components/loading/loading.vue'
 
-it('Render', async () => {
+describe('Loading', () => {
 
-    //
-    // GIVEN a loading component with a message
-    //
+    it('should render', async () => {
 
-    const message = 'Loading...'
+        /// GIVEN   a loading component with a message
 
-    const wrapper = shallowMount(Loading, {
-        props: {message}
+        const message = 'Loading...'
+
+        const wrapper = shallowMount(Loading, {
+            props: {message}
+        })
+
+        /// THEN    the message should be rendered
+
+        const candidateText = wrapper.find('#text').text()
+        expect(candidateText).toContain(message)
     })
-
-    //
-    // THEN  the message should be rendered
-    //
-
-    const candidateText = wrapper.find('#text').text()
-    expect(candidateText).toContain(message)
 })
