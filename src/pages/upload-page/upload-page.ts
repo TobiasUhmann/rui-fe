@@ -1,13 +1,13 @@
 import {defineComponent} from 'vue'
 
-import Loading from '@/components/loading/loading.vue'
+import LoadingOverlay from '@/components/loading-overlay/loading-overlay.vue'
 import UploadWarning from '@/components/upload-warning/upload-warning.vue'
 import {UploadService} from '@/services/upload-service'
 
 export default defineComponent({
     name: 'UploadPage',
 
-    components: {Loading, UploadWarning},
+    components: {LoadingOverlay, UploadWarning},
 
     emits: ['uploaded'],
 

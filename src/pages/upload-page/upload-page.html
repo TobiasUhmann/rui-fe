@@ -1,5 +1,5 @@
-<Loading :class="[showLoading ? 'd-initial' : 'd-none']"
-         :message="loadingMessages.join('\n')"/>
+<LoadingOverlay :class="[showLoading ? 'd-initial' : 'd-none']"
+                :message="loadingMessages.join('\n')"/>
 
 <UploadWarning :class="[showUploadWarning ? 'd-initial' : 'd-none']"
                @cancel="showUploadWarning = false"

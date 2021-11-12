@@ -1,72 +1,56 @@
 import {shallowMount} from '@vue/test-utils'
 
-import Loading from '@/components/loading/loading.vue'
+import LoadingOverlay from '@/components/loading-overlay/loading-overlay.vue'
 import UploadPage from '@/pages/upload-page/upload-page.vue'
 import UploadWarning from '@/components/upload-warning/upload-warning.vue'
 
-it('Render', async () => {
+describe('LoadingPage', () => {
 
-    //
-    // GIVEN the upload page
-    //
+    it('should render', async () => {
 
-    const wrapper = await shallowMount(UploadPage)
+        /// GIVEN   the upload page
 
-    //
-    // THEN  upload form should be rendered
-    // AND   the submit button should be disabled
-    //
+        const wrapper = await shallowMount(UploadPage)
 
-    const form = wrapper.find('form')
-    expect(form.text()).toContain('Upload ZIP')
-    expect(form.find('input[type="submit"]').attributes().disabled).toBe('')
+        /// THEN    upload form should be rendered
+        /// AND     the submit button should be disabled
 
-    //
-    // THEN  the loading indicator should not be shown
-    //
+        const form = wrapper.find('form')
+        expect(form.text()).toContain('Upload ZIP')
+        expect(form.find('input[type="submit"]').attributes().disabled).toBe('')
 
-    const loading = wrapper.findComponent(Loading)
-    expect(loading.classes()).toContain('d-none')
+        /// THEN    the loading overlay should not be shown
 
-    //
-    // THEN  the upload warning should not be shown
-    //
+        const loadingOverlay = wrapper.findComponent(LoadingOverlay)
+        expect(loadingOverlay.classes()).toContain('d-none')
 
-    const uploadWarning = wrapper.findComponent(UploadWarning)
-    expect(uploadWarning.classes()).toContain('d-none')
-})
+        /// THEN    the upload warning should not be shown
 
+        const uploadWarning = wrapper.findComponent(UploadWarning)
+        expect(uploadWarning.classes()).toContain('d-none')
+    })
 
-it('Click upload button', async () => {
+    it('should show a warning when clicking upload', async () => {
 
-    //
-    // GIVEN the upload page with a selected file
-    //
+        /// GIVEN   the upload page with a selected file
 
-    const wrapper = await shallowMount(UploadPage)
+        const wrapper = await shallowMount(UploadPage)
 
+        /// THEN    upload form should be rendered
+        /// AND     the submit button should be disabled
 
+        const form = wrapper.find('form')
+        expect(form.text()).toContain('Upload ZIP')
+        expect(form.find('input[type="submit"]').attributes().disabled).toBe('')
 
-    //
-    // THEN  upload form should be rendered
-    // AND   the submit button should be disabled
-    //
+        /// THEN    the loading overlay should not be shown
 
-    const form = wrapper.find('form')
-    expect(form.text()).toContain('Upload ZIP')
-    expect(form.find('input[type="submit"]').attributes().disabled).toBe('')
+        const loadingOverlay = wrapper.findComponent(LoadingOverlay)
+        expect(loadingOverlay.classes()).toContain('d-none')
 
-    //
-    // THEN  the loading indicator should not be shown
-    //
+        /// THEN    the upload warning should not be shown
 
-    const loading = wrapper.findComponent(Loading)
-    expect(loading.classes()).toContain('d-none')
-
-    //
-    // THEN  the upload warning should not be shown
-    //
-
-    const uploadWarning = wrapper.findComponent(UploadWarning)
-    expect(uploadWarning.classes()).toContain('d-none')
+        const uploadWarning = wrapper.findComponent(UploadWarning)
+        expect(uploadWarning.classes()).toContain('d-none')
+    })
 })
