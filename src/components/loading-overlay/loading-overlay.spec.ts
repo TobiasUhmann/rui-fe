@@ -1,16 +1,16 @@
 import {shallowMount} from '@vue/test-utils'
 
-import Loading from '@/components/loading/loading.vue'
+import LoadingOverlay from '@/components/loading-overlay/loading-overlay.vue'
 
-describe('Loading', () => {
+describe('LoadingOverlay', () => {
 
     it('should render', async () => {
 
-        /// GIVEN   a loading component with a message
+        /// GIVEN   a loading overlay with a message
 
         const message = 'Loading...'
 
-        const wrapper = shallowMount(Loading, {
+        const wrapper = shallowMount(LoadingOverlay, {
             props: {message}
         })
 

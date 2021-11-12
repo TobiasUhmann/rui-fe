@@ -1,6 +1,6 @@
 import {defineComponent} from 'vue'
 
-import Loading from '@/components/loading/loading.vue'
+import LoadingOverlay from '@/components/loading-overlay/loading-overlay.vue'
 import Matches from '@/components/matches/matches.vue'
 import NewNode from '@/components/new-node/new-node.vue'
 import NodeDetails from '@/components/node-details/node-details.vue'
@@ -14,7 +14,7 @@ import {PostNode} from '@/models/node/post-node'
 export default defineComponent({
     name: 'TaxonomyPage',
 
-    components: {Loading, NewNode, NodeDetails, Matches, Taxonomy},
+    components: {LoadingOverlay, NewNode, NodeDetails, Matches, Taxonomy},
 
     data() {
         return {

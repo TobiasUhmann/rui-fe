@@ -1,6 +1,6 @@
 import {defineComponent} from 'vue'
 
-import Loading from '@/components/loading/loading.vue'
+import LoadingOverlay from '@/components/loading-overlay/loading-overlay.vue'
 import PaginationBar from '@/components/pagination-bar/pagination-bar.vue'
 import PredictionCard from '@/components/prediction-card/prediction-card.vue'
 import TreeItem from '@/components/tree-item/tree-item.vue'
@@ -17,7 +17,7 @@ import {PredictionService} from '@/services/prediction-service'
 export default defineComponent({
     name: 'PredictionsPage',
 
-    components: {Loading, PaginationBar, PredictionCard, TreeItem},
+    components: {LoadingOverlay, PaginationBar, PredictionCard, TreeItem},
 
     data() {
         return {

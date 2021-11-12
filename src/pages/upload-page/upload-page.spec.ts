@@ -1,6 +1,6 @@
 import {shallowMount} from '@vue/test-utils'
 
-import Loading from '@/components/loading/loading.vue'
+import LoadingOverlay from '@/components/loading-overlay/loading-overlay.vue'
 import UploadPage from '@/pages/upload-page/upload-page.vue'
 import UploadWarning from '@/components/upload-warning/upload-warning.vue'
 
@@ -19,10 +19,10 @@ describe('LoadingPage', () => {
         expect(form.text()).toContain('Upload ZIP')
         expect(form.find('input[type="submit"]').attributes().disabled).toBe('')
 
-        /// THEN    the loading indicator should not be shown
+        /// THEN    the loading overlay should not be shown
 
-        const loading = wrapper.findComponent(Loading)
-        expect(loading.classes()).toContain('d-none')
+        const loadingOverlay = wrapper.findComponent(LoadingOverlay)
+        expect(loadingOverlay.classes()).toContain('d-none')
 
         /// THEN    the upload warning should not be shown
 
@@ -43,10 +43,10 @@ describe('LoadingPage', () => {
         expect(form.text()).toContain('Upload ZIP')
         expect(form.find('input[type="submit"]').attributes().disabled).toBe('')
 
-        /// THEN    the loading indicator should not be shown
+        /// THEN    the loading overlay should not be shown
 
-        const loading = wrapper.findComponent(Loading)
-        expect(loading.classes()).toContain('d-none')
+        const loadingOverlay = wrapper.findComponent(LoadingOverlay)
+        expect(loadingOverlay.classes()).toContain('d-none')
 
         /// THEN    the upload warning should not be shown
 
