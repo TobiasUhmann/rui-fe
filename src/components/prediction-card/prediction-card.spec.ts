@@ -219,6 +219,10 @@ describe('PredictionCard', () => {
             }
         })
 
+        /// WHEN    changing the mention text manually
+
+        await wrapper.find('#mention').setValue('foo bar baz')
+
         /// WHEN    selecting tokens in the candidate text by clicking them
 
         const spans = wrapper.findAll('.grid-candidate span')

@@ -54,7 +54,6 @@ export default defineComponent({
             tokenSelections: undefined as undefined | boolean[],
 
             mentionInput: '',
-            userEditsMentionInput: false,
 
             selectedPrediction: undefined as undefined | {
                 type: PredictionType,
@@ -89,10 +88,10 @@ export default defineComponent({
          * Must only be called when a prediction is selected.
          */
         annotate() {
+            const selectedPrediction = this.selectedPrediction!
+
             const mentionInput = this.$refs.mention as HTMLInputElement
             const mention = mentionInput.value
-
-            const selectedPrediction = this.selectedPrediction!
 
             if (selectedPrediction.type === PredictionType.SYNONYM) {
                 const synonymPredictions = this.candidateWithPredictions.synonymPredictions
@@ -153,12 +152,12 @@ export default defineComponent({
         tokenSelections: {
             deep: true,
             handler(tokenSelections: boolean[]) {
-                if (!this.userEditsMentionInput) {
-                    this.mentionInput = tokenSelections!
-                        .map((tokenSelection, index) => tokenSelection ? this.tokens![index] : null)
-                        .filter(token => token !== null)
-                        .join(' ')
-                }
+                const tokens = this.tokens!
+
+                this.mentionInput = tokenSelections
+                    .map((tokenSelection, index) => tokenSelection ? tokens[index] : null)
+                    .filter(token => token !== null)
+                    .join(' ')
             }
         },
 
