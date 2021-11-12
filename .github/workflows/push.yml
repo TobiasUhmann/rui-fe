@@ -14,69 +14,69 @@ jobs:
           npm ci
           npm run test:unit
 
-  e2e:
-    runs-on: ubuntu-20.04
-    steps:
-
-      - name: Checkout from GitHub
-        uses: actions/checkout@v2
-
-      - name: Start backend
-        run: docker run --publish "5000:5000" --detach xvlcw/rui-be:0.10.0
-
-      - name: Wait for backend
-        uses: cygnetdigital/wait_for_response@v2.0.0
-        with:
-          url: 'http://localhost:5000/'
-
-      - name: Run e2e tests
-        run: |
-          npm ci
-          npm run test:e2e:headless
-
-      - name: Upload test results
-        if: failure()
-        uses: actions/upload-artifact@v2
-        with:
-          path: tests/e2e/screenshots/
-
-  deliver_docker:
-    runs-on: ubuntu-latest
-    steps:
-
-      - name: Inject slug/short variables
-        uses: rlespinasse/github-slug-action@v3.x
-
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v1
-
-      - name: Login to DockerHub
-        uses: docker/login-action@v1
-        with:
-          username: xvlcw
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
-
-      - name: Build and push
-        uses: docker/build-push-action@v2
-        with:
-          push: true
-          tags: xvlcw/rui-fe:0.17.1-${{ env.GITHUB_REF_SLUG }}
-
-  test_docker:
-    needs: deliver_docker
-    runs-on: ubuntu-20.04
-    steps:
-
-      - name: Inject slug/short variables
-        uses: rlespinasse/github-slug-action@v3.x
-
-      - name: Start backend and frontend
-        run: |
-          docker network create rui-net
-          docker run --name rui-be --network rui-net --detach xvlcw/rui-be:0.10.0
-          docker run --name rui-fe --network rui-net --publish "80:80" --detach xvlcw/rui-fe:0.17.1-${{ env.GITHUB_REF_SLUG }}
-
-      - name: Wait for server
-        uses: cygnetdigital/wait_for_response@v2.0.0
-        with:
-          url: 'http://localhost/'
+#  e2e:
+#    runs-on: ubuntu-20.04
+#    steps:
+#
+#      - name: Checkout from GitHub
+#        uses: actions/checkout@v2
+#
+#      - name: Start backend
+#        run: docker run --publish "5000:5000" --detach xvlcw/rui-be:0.10.0
+#
+#      - name: Wait for backend
+#        uses: cygnetdigital/wait_for_response@v2.0.0
+#        with:
+#          url: 'http://localhost:5000/'
+#
+#      - name: Run e2e tests
+#        run: |
+#          npm ci
+#          npm run test:e2e:headless
+#
+#      - name: Upload test results
+#        if: failure()
+#        uses: actions/upload-artifact@v2
+#        with:
+#          path: tests/e2e/screenshots/
+#
+#  deliver_docker:
+#    runs-on: ubuntu-latest
+#    steps:
+#
+#      - name: Inject slug/short variables
+#        uses: rlespinasse/github-slug-action@v3.x
+#
+#      - name: Set up Docker Buildx
+#        uses: docker/setup-buildx-action@v1
+#
+#      - name: Login to DockerHub
+#        uses: docker/login-action@v1
+#        with:
+#          username: xvlcw
+#          password: ${{ secrets.DOCKERHUB_TOKEN }}
+#
+#      - name: Build and push
+#        uses: docker/build-push-action@v2
+#        with:
+#          push: true
+#          tags: xvlcw/rui-fe:0.17.1-${{ env.GITHUB_REF_SLUG }}
+#
+#  test_docker:
+#    needs: deliver_docker
+#    runs-on: ubuntu-20.04
+#    steps:
+#
+#      - name: Inject slug/short variables
+#        uses: rlespinasse/github-slug-action@v3.x
+#
+#      - name: Start backend and frontend
+#        run: |
+#          docker network create rui-net
+#          docker run --name rui-be --network rui-net --detach xvlcw/rui-be:0.10.0
+#          docker run --name rui-fe --network rui-net --publish "80:80" --detach xvlcw/rui-fe:0.17.1-${{ env.GITHUB_REF_SLUG }}
+#
+#      - name: Wait for server
+#        uses: cygnetdigital/wait_for_response@v2.0.0
+#        with:
+#          url: 'http://localhost/'
