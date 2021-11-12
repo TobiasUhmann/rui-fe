@@ -67,7 +67,6 @@ export default defineComponent({
         },
 
         createEntity(event: Event) {
-            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
             const node = this.node!
 
             const input = event.target as HTMLInputElement
