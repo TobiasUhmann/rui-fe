@@ -36,12 +36,12 @@ jobs:
         run: |
           docker network create rui-net
           docker run --name rui-be --network rui-net --detach xvlcw/rui-be:0.10.0
-          docker run --name rui-fe --network rui-net --publish "8080:8080" --detach xvlcw/rui-fe:0.16.0
+          docker run --name rui-fe --network rui-net --publish "80:80" --detach xvlcw/rui-fe:0.16.0
 
       - name: Wait for server
         uses: cygnetdigital/wait_for_response@v2.0.0
         with:
-          url: 'http://localhost:8080/'
+          url: 'http://localhost/'
 
   test_docker_compose:
     needs: deliver_docker
@@ -57,4 +57,4 @@ jobs:
       - name: Wait for server
         uses: cygnetdigital/wait_for_response@v2.0.0
         with:
-          url: 'http://localhost:8080/'
+          url: 'http://localhost/'
