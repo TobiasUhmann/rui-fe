@@ -1,7 +1,7 @@
 import {shallowMount} from '@vue/test-utils'
 
 import PredictionCard from '@/components/prediction-card/prediction-card.vue'
-import {Prediction} from '@/models/prediction/prediction'
+import {CandidateWithPredictions} from '@/models/prediction/candidate-with-predictions'
 import {Entity} from '@/models/entity/entity'
 import {Node} from '@/models/node/node'
 import {PostEntity} from '@/models/entity/post-entity'
@@ -16,7 +16,7 @@ const nodeB: Node = {id: 1, parentId: null, entities: [entityB]}
 const entityC: Entity = {id: 2, nodeId: 2, name: 'C-1', matchesCount: 1}
 const nodeC: Node = {id: 2, parentId: null, entities: [entityC]}
 
-const prediction: Prediction = {
+const candidateWithPredictions: CandidateWithPredictions = {
     candidate: 'Foo Bar Baz',
     dismissed: false,
 
@@ -34,13 +34,13 @@ const prediction: Prediction = {
     ]
 }
 
-const predictionWithSynonymItems: Prediction = {
-    ...prediction,
+const candidateWithSynonymPredictions: CandidateWithPredictions = {
+    ...candidateWithPredictions,
     parentPredictions: []
 }
 
-const predictionWithChildItems: Prediction = {
-    ...prediction,
+const candidateWithChildPredictions: CandidateWithPredictions = {
+    ...candidateWithPredictions,
     synonymPredictions: []
 }
 
@@ -52,7 +52,7 @@ describe('PredictionCard', () => {
 
         const wrapper = shallowMount(PredictionCard, {
             props: {
-                prediction,
+                candidateWithPredictions: candidateWithPredictions,
                 currentNodeId: nodeA.id
             }
         })
@@ -83,7 +83,7 @@ describe('PredictionCard', () => {
 
         const wrapper = shallowMount(PredictionCard, {
             props: {
-                prediction,
+                candidateWithPredictions,
                 currentNodeId: nodeB.id
             }
         })
@@ -91,8 +91,8 @@ describe('PredictionCard', () => {
         /// THEN    the header should show the average of the top synonym and child scores
 
         const predictionsHeader = wrapper.find('.grid-predictions-header')
-        const synonymScore = prediction.synonymPredictions[0].score
-        const childScore = prediction.parentPredictions[0].score
+        const synonymScore = candidateWithPredictions.synonymPredictions[0].score
+        const childScore = candidateWithPredictions.parentPredictions[0].score
         const expectedScore = (synonymScore + childScore) / 2
         expect(predictionsHeader.text()).toContain(expectedScore.toString())
     })
@@ -103,7 +103,7 @@ describe('PredictionCard', () => {
 
         const wrapper = shallowMount(PredictionCard, {
             props: {
-                prediction,
+                candidateWithPredictions: candidateWithSynonymPredictions,
                 currentNodeId: nodeA.id
             }
         })
@@ -111,7 +111,7 @@ describe('PredictionCard', () => {
         /// THEN    the header should show the top synonym prediction score
 
         const predictionsHeader = wrapper.find('.grid-predictions-header')
-        const synonymScore = prediction.synonymPredictions[0].score
+        const synonymScore = candidateWithPredictions.synonymPredictions[0].score
         expect(predictionsHeader.text()).toContain(synonymScore.toString())
     })
 
@@ -121,7 +121,7 @@ describe('PredictionCard', () => {
 
         const wrapper = shallowMount(PredictionCard, {
             props: {
-                prediction,
+                candidateWithPredictions: candidateWithChildPredictions,
                 currentNodeId: nodeB.id
             }
         })
@@ -129,7 +129,7 @@ describe('PredictionCard', () => {
         /// THEN    the header should show the top child prediction score
 
         const predictionsHeader = wrapper.find('.grid-predictions-header')
-        const childScore = prediction.parentPredictions[0].score
+        const childScore = candidateWithPredictions.parentPredictions[0].score
         expect(predictionsHeader.text()).toContain(childScore.toString())
     })
 
@@ -140,7 +140,7 @@ describe('PredictionCard', () => {
 
         const wrapper = shallowMount(PredictionCard, {
             props: {
-                prediction: prediction,
+                candidateWithPredictions: candidateWithPredictions,
                 currentNodeId: nodeC.id
             }
         })
@@ -164,7 +164,7 @@ describe('PredictionCard', () => {
 
         const wrapper = shallowMount(PredictionCard, {
             props: {
-                prediction,
+                candidateWithPredictions,
                 currentNodeId: nodeC.id
             }
         })
@@ -187,7 +187,7 @@ describe('PredictionCard', () => {
 
         const wrapper = shallowMount(PredictionCard, {
             props: {
-                prediction,
+                candidateWithPredictions: candidateWithPredictions,
                 currentNodeId: nodeC.id
             }
         })
@@ -214,7 +214,7 @@ describe('PredictionCard', () => {
 
         const wrapper = shallowMount(PredictionCard, {
             props: {
-                prediction,
+                candidateWithPredictions,
                 currentNodeId: nodeA.id
             }
         })
@@ -247,7 +247,7 @@ describe('PredictionCard', () => {
 
         const wrapper = shallowMount(PredictionCard, {
             props: {
-                prediction,
+                candidateWithPredictions: candidateWithPredictions,
                 currentNodeId: nodeA.id
             }
         })
@@ -281,7 +281,7 @@ describe('PredictionCard', () => {
 
         const wrapper = shallowMount(PredictionCard, {
             props: {
-                prediction,
+                candidateWithPredictions,
                 currentNodeId: nodeB.id
             }
         })

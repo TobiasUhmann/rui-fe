@@ -4,7 +4,7 @@ import LoadingOverlay from '@/components/loading-overlay/loading-overlay.vue'
 import PaginationBar from '@/components/pagination-bar/pagination-bar.vue'
 import PredictionCard from '@/components/prediction-card/prediction-card.vue'
 import TreeItem from '@/components/tree-item/tree-item.vue'
-import {Prediction} from '@/models/prediction/prediction'
+import {CandidateWithPredictions} from '@/models/prediction/candidate-with-predictions'
 import {DeepNode} from '@/models/node/deep-node'
 import {EntityService} from '@/services/entity-service'
 import {NodeService} from '@/services/node-service'
@@ -25,7 +25,7 @@ export default defineComponent({
             rootNode: null as DeepNode | null,
             predictedNode: null as DeepNode | null,
 
-            predictions: null as Prediction[] | null,
+            candidateWithPredictionsList: null as CandidateWithPredictions[] | null,
             numberOfPages: null as number | null,
             offset: 0,
 
@@ -90,7 +90,7 @@ export default defineComponent({
 
             this.startLoading('Loading predictions...')
             PredictionService.getPredictions(nodeId, this.offset, limit).then((predictionsPage: PredictionsPage) => {
-                this.predictions = predictionsPage.predictions
+                this.candidateWithPredictionsList = predictionsPage.predictions
                 this.numberOfPages = Math.ceil(predictionsPage.totalPredictions / 3)
 
                 this.stopLoading('Loading predictions...')
@@ -130,7 +130,7 @@ export default defineComponent({
          *
          * Expects nodeId to be set.
          */
-        dismissPrediction(candidate: string): void {
+        dismissCandidateWithPredictions(candidate: string): void {
             const nodeId = this.nodeId!
 
             const predictionPatch: PredictionPatch = {dismissed: true}
@@ -147,13 +147,13 @@ export default defineComponent({
          * Post entity via EntityService and reload the taxonomy. Also, dismiss the
          * annotated prediction and reload the predictions.
          *
-         * Expects nodeId and prediction to be set.
+         * Expects nodeId and candidateWithPredictionsList to be set.
          */
         createEntityAndDismissPrediction(index: number, postEntity: PostEntity) {
             const nodeId = this.nodeId!
-            const predictions = this.predictions!
+            const candidateWithPredictionsList = this.candidateWithPredictionsList!
 
-            const candidate = predictions[index].candidate
+            const candidate = candidateWithPredictionsList[index].candidate
             const predictionPatch: PredictionPatch = {dismissed: true}
 
             this.startLoading('Updating prediction...')
@@ -174,13 +174,13 @@ export default defineComponent({
          * Post node via NodeService and reload the taxonomy. Also, dismiss the
          * annotated prediction and reload the predictions.
          *
-         * Expects nodeId and predictions to be set.
+         * Expects nodeId and candidateWithPredictionsList to be set.
          */
         createNodeAndDismissPrediction(index: number, postNode: PostNode) {
             const nodeId = this.nodeId!
-            const predictions = this.predictions!
+            const candidateWithPredictionsList = this.candidateWithPredictionsList!
 
-            const candidate = predictions[index].candidate
+            const candidate = candidateWithPredictionsList[index].candidate
             const predictionPatch: PredictionPatch = {dismissed: true}
 
             this.startLoading('Updating prediction...')

@@ -25,9 +25,9 @@
 
     <div class="grid-predictions">
         <h1>Is Synonym of</h1>
-        <table v-if="prediction.synonymPredictions.length > 0"
+        <table v-if="candidateWithPredictions.synonymPredictions.length > 0"
                class="mt-4">
-            <tr v-for="(synonymPrediction, index) of prediction.synonymPredictions" :key="index">
+            <tr v-for="(synonymPrediction, index) of candidateWithPredictions.synonymPredictions" :key="index">
                 <td :class="{selected: isPredictionSelected(PredictionType.SYNONYM, index)}"
                     @click="selectedPrediction = {type:PredictionType.SYNONYM, index}">
                     {{ synonymPrediction.scoreNorm.toFixed(2) }}
@@ -41,9 +41,9 @@
         <span v-else>None</span>
 
         <h1 class="mt-8">Is Child of</h1>
-        <table v-if="prediction.parentPredictions.length > 0"
+        <table v-if="candidateWithPredictions.parentPredictions.length > 0"
                class="mt-4">
-            <tr v-for="(parentPrediction, index) of prediction.parentPredictions" :key="index">
+            <tr v-for="(parentPrediction, index) of candidateWithPredictions.parentPredictions" :key="index">
                 <td :class="{selected: isPredictionSelected(PredictionType.CHILD, index)}"
                     @click="selectedPrediction = {type:PredictionType.CHILD, index}">
                     {{ parentPrediction.scoreNorm.toFixed(2) }}
