@@ -11,7 +11,7 @@ import {NodeService} from '@/services/node-service'
 import {PostEntity} from '@/models/entity/post-entity'
 import {PostNode} from '@/models/node/post-node'
 import {PredictionPatch} from '@/models/prediction/prediction-patch'
-import {PredictionResponse} from '@/models/prediction/prediction-response'
+import {PredictionsPage} from '@/models/prediction/predictions-page'
 import {PredictionService} from '@/services/prediction-service'
 
 const entityAa1: Entity = {id: 1, nodeId: 1, name: 'Aa-1', matchesCount: 2}
@@ -74,14 +74,14 @@ const prediction3: CandidateWithPredictions = {
     synonymPredictions: [{score: 12.34, scoreNorm: 1.0, node: nodeA}]
 }
 
-const getPredictionsResponse: PredictionResponse = {
+const getPredictionsResponse: PredictionsPage = {
     totalPredictions: 3,
     totalSynonymPredictions: 1,
     totalChildPredictions: 2,
     predictions: [prediction1, prediction2, prediction3]
 }
 
-const getPredictionsResponseWithoutAnnotatedPrediction: PredictionResponse = {
+const getPredictionsResponseWithoutAnnotatedPrediction: PredictionsPage = {
     totalPredictions: 2,
     totalSynonymPredictions: 1,
     totalChildPredictions: 1,
