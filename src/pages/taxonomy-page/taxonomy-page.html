@@ -14,34 +14,36 @@
                   @createNode="showCreateRootNode"/>
     </section>
 
-    <!-- New Node -->
+    <section class="grid-section grid-top-right">
 
-    <section v-if="creatingNewNode"
-             class="grid-section grid-top-right">
-        <h1 class="grid-header">New Node</h1>
-        <NewNode class="grid-content"
-                 @createNode="createNode($event)"/>
-    </section>
+        <!-- New Node -->
 
-    <!-- Node Details -->
+        <template v-if="creatingNewNode">
+            <h1 class="grid-header">New Node</h1>
+            <NewNode class="grid-content"
+                     @createNode="createNode($event)"/>
+        </template>
 
-    <section v-if="!creatingNewNode && selectedNode"
-             class="grid-section grid-top-right">
-        <h1 class="grid-header">Node Details</h1>
-        <NodeDetails class="grid-content"
-                     :node="selectedNode"
-                     @createEntity="createEntity($event)"
-                     @deleteEntity="deleteEntity($event)"
-                     @createNode="showCreateNode"
-                     @deleteNode="deleteNode($event)"/>
+        <!-- Node Details -->
+
+        <template v-if="!creatingNewNode && selectedNode">
+            <h1 class="grid-header">Node Details</h1>
+            <NodeDetails class="grid-content"
+                         :node="selectedNode"
+                         @createEntity="createEntity($event)"
+                         @deleteEntity="deleteEntity($event)"
+                         @createNode="showCreateNode"
+                         @deleteNode="deleteNode($event)"/>
+        </template>
     </section>
 
     <!-- Matches -->
 
-    <section v-if="selectedNode"
-             class="grid-section grid-bottom-right">
-        <h1 class="grid-header">Matches</h1>
-        <Matches class="grid-content"
-                 :node="selectedNode"/>
+    <section class="grid-section grid-bottom-right">
+        <template v-if="selectedNode">
+            <h1 class="grid-header">Matches</h1>
+            <Matches class="grid-content"
+                     :node="selectedNode"/>
+        </template>
     </section>
 </main>

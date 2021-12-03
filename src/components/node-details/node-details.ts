@@ -113,26 +113,9 @@ export default defineComponent({
         },
 
         countPredictions(node: DeepNode) {
-            PredictionService.getPredictions(node.id, 0, null).then((predictionResponse: PredictionResponse) => {
-                let synonymPredictions = 0
-                let parentPredictions = 0
-
-                for (const prediction of predictionResponse.predictions) {
-                    for (const synonymPrediction of prediction.synonymPredictions) {
-                        if (synonymPrediction.node.id === this.node!.id) {
-                            synonymPredictions++
-                        }
-                    }
-
-                    for (const parentPrediction of prediction.parentPredictions) {
-                        if (parentPrediction.node.id === this.node!.id) {
-                            parentPredictions++
-                        }
-                    }
-                }
-
-                this.synonymPredictions = synonymPredictions
-                this.childPredictions = parentPredictions
+            PredictionService.getPredictions(node.id).then((predictionResponse: PredictionResponse) => {
+                this.synonymPredictions = predictionResponse.totalSynonymPredictions
+                this.childPredictions = predictionResponse.totalChildPredictions
             })
         }
     }

@@ -12,4 +12,4 @@ services:
 
   rui-be:
     container_name: rui-be
-    image: xvlcw/rui-be:0.10.0
+    image: xvlcw/rui-be:0.11.0

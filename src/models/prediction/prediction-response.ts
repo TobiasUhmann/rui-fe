@@ -2,5 +2,7 @@ import {CandidateWithPredictions} from '@/models/prediction/candidate-with-predi
 
 export interface PredictionResponse {
     totalPredictions: number
+    totalSynonymPredictions: number
+    totalChildPredictions: number
     predictions: CandidateWithPredictions[]
 }
