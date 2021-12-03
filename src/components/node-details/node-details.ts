@@ -3,7 +3,7 @@ import {defineComponent, PropType} from 'vue'
 import {DeepNode} from '@/models/node/deep-node'
 import {Entity} from '@/models/entity/entity'
 import {PostEntity} from '@/models/entity/post-entity'
-import {PredictionsPage} from "@/models/prediction/predictions-page";
+import {PredictionResponse} from "@/models/prediction/prediction-response";
 import {PredictionService} from "@/services/prediction-service";
 
 export default defineComponent({
@@ -113,9 +113,9 @@ export default defineComponent({
         },
 
         countPredictions(node: DeepNode) {
-            PredictionService.getPredictions(node.id).then((predictionsPage: PredictionsPage) => {
-                this.synonymPredictions = predictionsPage.totalSynonymPredictions
-                this.childPredictions = predictionsPage.totalChildPredictions
+            PredictionService.getPredictions(node.id).then((predictionResponse: PredictionResponse) => {
+                this.synonymPredictions = predictionResponse.totalSynonymPredictions
+                this.childPredictions = predictionResponse.totalChildPredictions
             })
         }
     }

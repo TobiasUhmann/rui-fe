@@ -11,7 +11,7 @@ import {NodeService} from '@/services/node-service'
 import {PostEntity} from '@/models/entity/post-entity'
 import {PostNode} from '@/models/node/post-node'
 import {PredictionPatch} from '@/models/prediction/prediction-patch'
-import {PredictionsPage} from '@/models/prediction/predictions-page'
+import {PredictionResponse} from '@/models/prediction/prediction-response'
 import {PredictionService} from '@/services/prediction-service'
 
 export default defineComponent({
@@ -89,9 +89,9 @@ export default defineComponent({
             this.offset = offset
 
             this.startLoading('Loading predictions...')
-            PredictionService.getPredictions(nodeId, this.offset, limit).then((predictionsPage: PredictionsPage) => {
-                this.candidateWithPredictionsList = predictionsPage.predictions
-                this.numberOfPages = Math.ceil(predictionsPage.totalPredictions / 3)
+            PredictionService.getPredictions(nodeId, this.offset, limit).then((predictionResponse: PredictionResponse) => {
+                this.candidateWithPredictionsList = predictionResponse.predictions
+                this.numberOfPages = Math.ceil(predictionResponse.totalPredictions / 3)
 
                 this.stopLoading('Loading predictions...')
             })

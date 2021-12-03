@@ -1,9 +1,9 @@
-import {PredictionsPage} from '@/models/prediction/predictions-page'
+import {PredictionResponse} from '@/models/prediction/prediction-response'
 import {PredictionPatch} from '@/models/prediction/prediction-patch'
 
 export const PredictionService = {
 
-    getPredictions(nodeId: number, offset = 0, limit: number | null = 3): Promise<PredictionsPage> {
+    getPredictions(nodeId: number, offset = 0, limit: number | null = 3): Promise<PredictionResponse> {
         const url = limit === null
             ? `${process.env.VUE_APP_API_URL}/nodes/${nodeId}/predictions?offset=${offset}`
             : `${process.env.VUE_APP_API_URL}/nodes/${nodeId}/predictions?offset=${offset}&limit=${limit}`
