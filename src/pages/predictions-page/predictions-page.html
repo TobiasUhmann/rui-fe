@@ -24,12 +24,12 @@
         <!-- Predictions -->
 
         <section class="grid-content">
-            <PredictionCard v-for="(candidateWithPredictions, index) of candidateWithPredictionsList"
-                            :key="candidateWithPredictions.candidate"
+            <PredictionCard v-for="(prediction, index) of predictions"
+                            :key="prediction.candidate"
                             class="prediction-card"
-                            :candidateWithPredictions="candidateWithPredictions"
+                            :prediction="prediction"
                             :currentNodeId="predictedNode.id"
-                            @dismiss="dismissCandidateWithPredictions(candidateWithPredictions.candidate)"
+                            @dismiss="dismissPrediction(prediction.candidate)"
                             @createEntity="createEntityAndDismissPrediction(index, $event)"
                             @createNode="createNodeAndDismissPrediction(index, $event)">
             </PredictionCard>

@@ -3,7 +3,7 @@ import {flushPromises, shallowMount} from '@vue/test-utils'
 import PredictionCard from '@/components/prediction-card/prediction-card.vue'
 import PredictionsPage from '@/pages/predictions-page/predictions-page.vue'
 import TreeItem from '@/components/tree-item/tree-item.vue'
-import {CandidateWithPredictions} from '@/models/prediction/candidate-with-predictions'
+import {Prediction} from '@/models/prediction/prediction'
 import {DeepNode} from '@/models/node/deep-node'
 import {EntityService} from "@/services/entity-service"
 import {Entity} from '@/models/entity/entity'
@@ -47,7 +47,7 @@ const nodeC = {id: 6, parentId: null, entities: [entityC1], children: []}
 
 const getNodesResponse = [nodeA, nodeB, nodeC]
 
-const prediction1: CandidateWithPredictions = {
+const prediction1: Prediction = {
     candidate: 'Erat imperdiet sed euismod nisi porta lorem mollis .',
     dismissed: false,
     totalScore: 12.34,
@@ -56,7 +56,7 @@ const prediction1: CandidateWithPredictions = {
     synonymPredictions: []
 }
 
-const prediction2: CandidateWithPredictions = {
+const prediction2: Prediction = {
     candidate: 'Tempor orci dapibus ultrices in iaculis nunc sed .',
     dismissed: false,
     totalScore: 12.34,
@@ -65,7 +65,7 @@ const prediction2: CandidateWithPredictions = {
     synonymPredictions: [{score: 12.34, scoreNorm: 1.0, node: nodeA}]
 }
 
-const prediction3: CandidateWithPredictions = {
+const prediction3: Prediction = {
     candidate: 'Porta lorem mollis aliquam ut porttitor leo a diam .',
     dismissed: false,
     totalScore: 12.34,

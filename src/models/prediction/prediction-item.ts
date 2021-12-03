@@ -1,6 +1,6 @@
 import {Node} from '@/models/node/node'
 
-export interface CandidatePrediction {
+export interface PredictionItem {
     score: number
     scoreNorm: number
     node: Node

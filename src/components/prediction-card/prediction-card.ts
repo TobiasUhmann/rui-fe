@@ -1,8 +1,8 @@
 import {defineComponent, PropType} from 'vue'
 
 import {AssertionError} from 'assert'
-import {CandidatePrediction} from '@/models/prediction/candidate-prediction'
-import {CandidateWithPredictions} from '@/models/prediction/candidate-with-predictions'
+import {PredictionItem} from '@/models/prediction/prediction-item'
+import {Prediction} from '@/models/prediction/prediction'
 import {PostEntity} from '@/models/entity/post-entity'
 import {PostNode} from '@/models/node/post-node'
 import {PredictionType} from '@/components/prediction-card/prediction-type'
@@ -12,8 +12,8 @@ export default defineComponent({
 
     computed: {
         totalScore(): number {
-            const synonymPredictions = this.candidateWithPredictions.synonymPredictions
-            const childPredictions = this.candidateWithPredictions.parentPredictions
+            const synonymPredictions = this.prediction.synonymPredictions
+            const childPredictions = this.prediction.parentPredictions
 
             if (synonymPredictions.length > 0 && childPredictions.length > 0) {
                 return (synonymPredictions[0].score + childPredictions[0].score) / 2
@@ -30,8 +30,8 @@ export default defineComponent({
         },
 
         totalScoreNorm(): number {
-            const synonymPredictions = this.candidateWithPredictions.synonymPredictions
-            const childPredictions = this.candidateWithPredictions.parentPredictions
+            const synonymPredictions = this.prediction.synonymPredictions
+            const childPredictions = this.prediction.parentPredictions
 
             if (synonymPredictions.length > 0 && childPredictions.length > 0) {
                 return (synonymPredictions[0].scoreNorm + childPredictions[0].scoreNorm) / 2
@@ -94,8 +94,8 @@ export default defineComponent({
             const mention = mentionInput.value
 
             if (selectedPrediction.type === PredictionType.SYNONYM) {
-                const synonymPredictions = this.candidateWithPredictions.synonymPredictions
-                const selectedSynonymPrediction: CandidatePrediction = synonymPredictions[selectedPrediction.index]
+                const synonymPredictions = this.prediction.synonymPredictions
+                const selectedSynonymPrediction: PredictionItem = synonymPredictions[selectedPrediction.index]
                 const selectedNode = selectedSynonymPrediction.node
 
                 const postEntity: PostEntity = {
@@ -106,8 +106,8 @@ export default defineComponent({
                 this.$emit('createEntity', postEntity)
 
             } else if (selectedPrediction.type === PredictionType.CHILD) {
-                const parentPredictions = this.candidateWithPredictions.parentPredictions
-                const selectedParentPrediction: CandidatePrediction = parentPredictions[selectedPrediction.index]
+                const parentPredictions = this.prediction.parentPredictions
+                const selectedParentPrediction: PredictionItem = parentPredictions[selectedPrediction.index]
                 const selectedNode = selectedParentPrediction.node
 
                 const postNode: PostNode = {
@@ -129,8 +129,8 @@ export default defineComponent({
     name: 'PredictionCard',
 
     props: {
-        candidateWithPredictions: {
-            type: Object as PropType<CandidateWithPredictions>,
+        prediction: {
+            type: Object as PropType<Prediction>,
             required: true
         },
 
@@ -141,10 +141,10 @@ export default defineComponent({
     },
 
     watch: {
-        candidateWithPredictions: {
+        prediction: {
             immediate: true,
-            handler(candidateWithPredictions: CandidateWithPredictions) {
-                this.tokens = candidateWithPredictions.candidate.split(' ')
+            handler(prediction: Prediction) {
+                this.tokens = prediction.candidate.split(' ')
                 this.tokenSelections = new Array<boolean>(this.tokens.length).fill(false)
             }
         },
@@ -168,7 +168,7 @@ export default defineComponent({
         currentNodeId: {
             immediate: true,
             handler(currentNodeId: number) {
-                const synonymPredictions = this.candidateWithPredictions.synonymPredictions
+                const synonymPredictions = this.prediction.synonymPredictions
                 for (let i = 0; i < synonymPredictions.length; i++) {
                     const synonymPrediction = synonymPredictions[i]
                     if (synonymPrediction.node.id === currentNodeId) {
@@ -177,7 +177,7 @@ export default defineComponent({
                     }
                 }
 
-                const parentPredictions = this.candidateWithPredictions.parentPredictions
+                const parentPredictions = this.prediction.parentPredictions
                 for (let i = 0; i < parentPredictions.length; i++) {
                     const parentPrediction = parentPredictions[i]
                     if (parentPrediction.node.id === currentNodeId) {

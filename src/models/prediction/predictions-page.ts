@@ -1,8 +1,8 @@
-import {CandidateWithPredictions} from '@/models/prediction/candidate-with-predictions'
+import {Prediction} from '@/models/prediction/prediction'
 
 export interface PredictionsPage {
     totalPredictions: number
     totalSynonymPredictions: number
     totalChildPredictions: number
-    predictions: CandidateWithPredictions[]
+    predictions: Prediction[]
 }
