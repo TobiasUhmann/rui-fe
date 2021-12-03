@@ -35,7 +35,7 @@ jobs:
       - name: Start backend and frontend
         run: |
           docker network create rui-net
-          docker run --name rui-be --network rui-net --detach xvlcw/rui-be:0.10.0
+          docker run --name rui-be --network rui-net --detach xvlcw/rui-be:0.11.0
           docker run --name rui-fe --network rui-net --publish "80:80" --detach xvlcw/rui-fe:0.17.1
 
       - name: Wait for server
