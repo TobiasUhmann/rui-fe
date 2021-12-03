@@ -76,11 +76,15 @@ const prediction3: CandidateWithPredictions = {
 
 const getPredictionsResponse: PredictionResponse = {
     totalPredictions: 3,
+    totalSynonymPredictions: 1,
+    totalChildPredictions: 2,
     predictions: [prediction1, prediction2, prediction3]
 }
 
 const getPredictionsResponseWithoutAnnotatedPrediction: PredictionResponse = {
     totalPredictions: 2,
+    totalSynonymPredictions: 1,
+    totalChildPredictions: 1,
     predictions: [prediction1, prediction2]
 }
 
