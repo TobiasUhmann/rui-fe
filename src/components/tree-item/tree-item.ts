@@ -16,8 +16,8 @@ export default defineComponent({
     },
 
     computed: {
-        extendable(): boolean {
-            return !this.extended && this.node.children.length > 0
+        expandable(): boolean {
+            return this.node.children.length > 0
         }
     },
 
@@ -28,7 +28,7 @@ export default defineComponent({
                 if (selectedNode) {
                     const contains = this.containsNode(this.node, selectedNode)
                     if (contains) {
-                        this.extended = true
+                        this.expanded = true
                     }
                 }
             }
@@ -43,22 +43,12 @@ export default defineComponent({
 
     data() {
         return {
-            extended: false,
+            expanded: false,
             getNodeName: getNodeName
         }
     },
 
     methods: {
-        toggleAndEmitSelect(): void {
-            if (this.extendable) {
-                this.extended = true
-            } else if (this.extended) {
-                this.extended = false
-            }
-
-            this.$emit('select', this.node)
-        },
-
         containsNode(checkNode: DeepNode, searchNode: DeepNode): boolean {
             for (const child of checkNode.children) {
                 if (child === searchNode) {

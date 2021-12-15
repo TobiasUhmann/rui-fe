@@ -4,7 +4,7 @@ services:
 
   rui-fe:
     container_name: rui-fe
-    image: xvlcw/rui-fe:0.17.3
+    image: xvlcw/rui-fe:0.18.0
     ports:
       - "80:80"
     depends_on:
