@@ -17,7 +17,7 @@ export default defineComponent({
 
     computed: {
         extendable(): boolean {
-            return !this.extended && this.node.children.length > 0
+            return this.node.children.length > 0
         }
     },
 
@@ -49,16 +49,6 @@ export default defineComponent({
     },
 
     methods: {
-        toggleAndEmitSelect(): void {
-            if (this.extendable) {
-                this.extended = true
-            } else if (this.extended) {
-                this.extended = false
-            }
-
-            this.$emit('select', this.node)
-        },
-
         containsNode(checkNode: DeepNode, searchNode: DeepNode): boolean {
             for (const child of checkNode.children) {
                 if (child === searchNode) {

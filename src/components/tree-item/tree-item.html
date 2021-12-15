@@ -1,10 +1,33 @@
-<li :class="{extendable, extended}">
+<li>
+
+    <!-- Clickable expand/collapse icon -->
+
+    <span v-if="!extendable"
+          class="marker cursor-default">
+
+        •
+    </span>
+
+    <span v-if="extendable && !extended"
+          class="marker cursor-pointer"
+          @click="extended = true">
+
+        +
+    </span>
+
+    <span v-if="extendable && extended"
+          class="marker cursor-pointer"
+          @click="extended = false">
+
+        -
+    </span>
 
     <!-- Node name -->
 
     <span class="node-name"
           :class="{selected: node === selectedNode}"
-          @click="toggleAndEmitSelect">
+          @click="$emit('select', node)">
+
       {{ getNodeName(node) }}
     </span>
 

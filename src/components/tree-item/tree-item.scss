@@ -7,19 +7,22 @@
 /* List bullets */
 
 ul {
-    list-style-type: initial;
+    list-style-type: none;
 }
 
-li::marker {
-    content: '•  ';
+.marker {
+    display: inline-block;
+    width: 1em;
+    text-align: center;
+    margin-right: 0.5em;
 }
 
-li.extendable::marker {
-    content: '+  ';
+.cursor-pointer {
+    cursor: pointer;
 }
 
-li.extended::marker {
-    content: '-  ';
+.cursor-default {
+    cursor: default;
 }
 
 /* Selected */
