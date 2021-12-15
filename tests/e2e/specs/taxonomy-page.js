@@ -1,5 +1,20 @@
 describe('TaxonomyPage', () => {
 
+    it('should navigate to home page when clicking the RUI logo', () => {
+
+        /// GIVEN   the taxonomy page
+
+        cy.visit('/taxonomy')
+
+        /// WHEN    clicking the RUI logo
+
+        cy.get('.title').click()
+
+        /// THEN    the app should navigate to the home page
+
+        cy.url().should('contain', '/upload')
+    })
+
     it('should show the loaded data', () => {
 
         /// WHEN    uploading a ZIP
