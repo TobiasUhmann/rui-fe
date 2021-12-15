@@ -53,6 +53,7 @@ describe('TaxonomyPage', () => {
 
         /// WHEN    selecting a sub node
 
+        cy.get('.grid-left').contains('A-1').parent().find('.marker').click()
         cy.get('.grid-left').contains('Aa-1').click()
 
         /// THEN    its details should be shown
@@ -62,6 +63,21 @@ describe('TaxonomyPage', () => {
         cy.get('.grid-bottom-right').should('contain', 'Aa-1')
 
         /// TODO
+    })
+
+    it("should not show a node's sub nodes when selecting it", () => {
+
+        /// GIVEN   the taxonomy page
+
+        cy.visit('/taxonomy')
+
+        /// WHEN    selecting a node
+
+        cy.get('.grid-left').contains('A-1').click()
+
+        /// THEN    the selected node should not be expanded and the sub nodes should not be visible
+
+        cy.get('.grid-left').should('not.contain', 'Aa-1')
     })
 
     it('should allow adding a root node', () => {
