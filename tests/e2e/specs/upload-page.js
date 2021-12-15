@@ -1,5 +1,16 @@
 describe('Upload Page', () => {
 
+    it('Visit /upload', () => {
+
+        /// WHEN    visiting /upload
+
+        cy.visit('/upload')
+
+        /// THEN    the page should be shown
+
+        cy.get('input').contains('Upload')
+    })
+
     it('Visit /', () => {
 
         /// WHEN    visiting /
@@ -11,18 +22,7 @@ describe('Upload Page', () => {
         cy.url().should('contain', '/upload')
     })
 
-    it('Visit /upload', () => {
-
-        /// WHEN    visiting /upload
-
-        cy.visit('/upload')
-
-        /// THEN    the page should be shown
-
-        cy.url().should('contain', '/upload')
-    })
-
-    it('Click the RUI logo', () => {
+    it('Click RUI logo', () => {
 
         /// GIVEN   the upload page
 
@@ -83,6 +83,8 @@ describe('Upload Page', () => {
 
             cy.wait(1000)
             cy.url().should('contain', '/upload')
+
+            // TODO
         })
     })
 })
