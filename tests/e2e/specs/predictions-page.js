@@ -1,6 +1,6 @@
-describe('PredictionsPage', () => {
+describe('Predictions Page', () => {
 
-    it('should navigate to home page when clicking the RUI logo', () => {
+    it('Click RUI logo', () => {
 
         /// GIVEN   the predictions page
 
@@ -22,24 +22,5 @@ describe('PredictionsPage', () => {
         /// THEN    the app should navigate to the home page
 
         cy.url().should('contain', '/upload')
-    })
-
-    it('should allow uploading a ZIP', () => {
-
-        /// WHEN    uploading a ZIP
-
-        cy.visit('/upload')
-
-        cy.get('input[type="file"]').attachFile('symptax_upload_v7_random.zip')
-        cy.get('[type="submit"]').click()
-        cy.get('.continue').click()
-
-        /// THEN    the user should be referred to the taxonomy page
-        /// AND     the ZIP's taxonomy should be shown
-
-        cy.url().should('contain', '/taxonomy')
-        cy.get('html').should('contain', 'C-1')
-
-        /// TODO
     })
 })
