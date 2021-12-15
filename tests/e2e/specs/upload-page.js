@@ -37,54 +37,51 @@ describe('Upload Page', () => {
         cy.url().should('contain', '/upload')
     })
 
-    describe('Upload ZIP', () => {
+    it('Upload ZIP', () => {
 
-        it('Upload ZIP', () => {
+        /// GIVEN   the upload page
 
-            /// GIVEN   the upload page
+        cy.visit('/upload')
 
-            cy.visit('/upload')
+        /// WHEN    clicking the "Choose File" button
+        /// AND     selecting a valid Symptax upload ZIP
+        /// AND     clicking the "Upload" button
+        /// AND     clicking the "Overwrite" button
 
-            /// WHEN    clicking the "Choose File" button
-            /// AND     selecting a valid Symptax upload ZIP
-            /// AND     clicking the "Upload" button
-            /// AND     clicking the "Overwrite" button
+        cy.get('input[type="file"]').attachFile('symptax_upload_v7_random.zip')
 
-            cy.get('input[type="file"]').attachFile('symptax_upload_v7_random.zip')
+        cy.get('[type="submit"]').click()
+        cy.get('.continue').click()
 
-            cy.get('[type="submit"]').click()
-            cy.get('.continue').click()
+        /// THEN    the taxonomy page should be shown
+        /// AND     the uploaded ZIP's contents should be shown
 
-            /// THEN    the taxonomy page should be shown
-            /// AND     the uploaded ZIP's contents should be shown
+        cy.url().should('contain', '/taxonomy')
+        cy.get('.node-name').should('contain', 'C-1')
+    })
 
-            cy.url().should('contain', '/taxonomy')
-            cy.get('.node-name').should('contain', 'C-1')
-        })
+    it('Cancel upload', () => {
 
-        it('Cancel upload', () => {
+        /// GIVEN   the upload page
 
-            /// GIVEN   the upload page
+        cy.visit('/upload')
 
-            cy.visit('/upload')
+        /// WHEN    clicking the "Choose File" button
+        /// AND     selecting a valid Symptax upload ZIP
+        /// AND     clicking the "Upload" button
+        /// AND     clicking the "Cancel" button in the opening confirmation dialog
 
-            /// WHEN    clicking the "Choose File" button
-            /// AND     selecting a valid Symptax upload ZIP
-            /// AND     clicking the "Upload" button
-            /// AND     clicking the "Cancel" button in the opening confirmation dialog
+        cy.get('input[type="file"]').attachFile('symptax_upload_v7_random.zip')
 
-            cy.get('input[type="file"]').attachFile('symptax_upload_v7_random.zip')
+        cy.get('[type="submit"]').click()
+        cy.get('.cancel').click()
 
-            cy.get('[type="submit"]').click()
-            cy.get('.cancel').click()
+        /// THEN    the user should stay on the page
+        /// AND     the file selection should still contain the file
 
-            /// THEN    the user should stay on the page
-            /// AND     the file selection should still contain the file
+        cy.wait(1000)
+        cy.url().should('contain', '/upload')
 
-            cy.wait(1000)
-            cy.url().should('contain', '/upload')
-
-            // TODO
-        })
+        // TODO
     })
 })
