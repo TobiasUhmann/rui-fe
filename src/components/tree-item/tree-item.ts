@@ -16,7 +16,7 @@ export default defineComponent({
     },
 
     computed: {
-        extendable(): boolean {
+        expandable(): boolean {
             return this.node.children.length > 0
         }
     },
@@ -28,7 +28,7 @@ export default defineComponent({
                 if (selectedNode) {
                     const contains = this.containsNode(this.node, selectedNode)
                     if (contains) {
-                        this.extended = true
+                        this.expanded = true
                     }
                 }
             }
@@ -43,7 +43,7 @@ export default defineComponent({
 
     data() {
         return {
-            extended: false,
+            expanded: false,
             getNodeName: getNodeName
         }
     },

@@ -2,22 +2,22 @@
 
     <!-- Clickable expand/collapse icon -->
 
-    <span v-if="!extendable"
+    <span v-if="!expandable"
           class="marker cursor-default">
 
         •
     </span>
 
-    <span v-if="extendable && !extended"
+    <span v-if="expandable && !expanded"
           class="marker cursor-pointer"
-          @click="extended = true">
+          @click="expanded = true">
 
         +
     </span>
 
-    <span v-if="extendable && extended"
+    <span v-if="expandable && expanded"
           class="marker cursor-pointer"
-          @click="extended = false">
+          @click="expanded = false">
 
         -
     </span>
@@ -33,7 +33,7 @@
 
     <!-- Child nodes & Input new child node-->
 
-    <ul v-if="extended">
+    <ul v-if="expanded">
         <TreeItem v-for="(child, index) in node.children" :key="index"
                   :node="child"
                   :selectedNode="selectedNode"
