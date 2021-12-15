@@ -1,5 +1,20 @@
 describe('UploadPage', () => {
 
+    it('should refresh when clicking the RUI logo', () => {
+
+        /// GIVEN   the upload page
+
+        cy.visit('/upload')
+
+        /// WHEN    clicking the RUI logo
+
+        cy.get('.title').click()
+
+        /// THEN    the app should refresh the page
+
+        cy.url().should('contain', '/upload')
+    })
+
     it('should be shown when visiting it via /upload', () => {
 
         /// WHEN    visiting the "Upload" page
