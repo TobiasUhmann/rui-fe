@@ -1,6 +1,28 @@
-describe('UploadPage', () => {
+describe('Upload Page', () => {
 
-    it('should refresh when clicking the RUI logo', () => {
+    it('Visit /', () => {
+
+        /// WHEN    visiting /
+
+        cy.visit('/')
+
+        /// THEN    the upload page should be shown
+
+        cy.url().should('contain', '/upload')
+    })
+
+    it('Visit /upload', () => {
+
+        /// WHEN    visiting /upload
+
+        cy.visit('/upload')
+
+        /// THEN    the page should be shown
+
+        cy.url().should('contain', '/upload')
+    })
+
+    it('Click the RUI logo', () => {
 
         /// GIVEN   the upload page
 
@@ -10,67 +32,57 @@ describe('UploadPage', () => {
 
         cy.get('.title').click()
 
-        /// THEN    the app should refresh the page
+        /// THEN    the page should refresh
 
         cy.url().should('contain', '/upload')
     })
 
-    it('should be shown when visiting it via /upload', () => {
+    describe('Upload ZIP', () => {
 
-        /// WHEN    visiting the "Upload" page
+        it('Upload ZIP', () => {
 
-        cy.visit('/upload')
+            /// GIVEN   the upload page
 
-        /// THEN    the page should be shown
+            cy.visit('/upload')
 
-        /// TODO
-    })
+            /// WHEN    clicking the "Choose File" button
+            /// AND     selecting a valid Symptax upload ZIP
+            /// AND     clicking the "Upload" button
+            /// AND     clicking the "Overwrite" button
 
-    it('should be shown when visiting it via /', () => {
+            cy.get('input[type="file"]').attachFile('symptax_upload_v7_random.zip')
 
-        /// WHEN    visiting the "Upload" page via the root URL
+            cy.get('[type="submit"]').click()
+            cy.get('.continue').click()
 
-        cy.visit('/')
+            /// THEN    the taxonomy page should be shown
+            /// AND     the uploaded ZIP's contents should be shown
 
-        /// THEN    the page should be shown
+            cy.url().should('contain', '/taxonomy')
+            cy.get('.node-name').should('contain', 'C-1')
+        })
 
-        cy.url().should('contain', '/upload')
+        it('Cancel upload', () => {
 
-        /// TODO
-    })
+            /// GIVEN   the upload page
 
-    it('should allow canceling an upload', () => {
+            cy.visit('/upload')
 
-        /// WHEN    clicking the "Choose File" button
-        /// AND     selecting a valid "Symptax Upload ZIP"
-        /// AND     clicking the "Upload" button
-        /// AND     clicking the "Cancel" button in the opening confirmation dialog
+            /// WHEN    clicking the "Choose File" button
+            /// AND     selecting a valid Symptax upload ZIP
+            /// AND     clicking the "Upload" button
+            /// AND     clicking the "Cancel" button in the opening confirmation dialog
 
-        cy.get('input[type="file"]').attachFile('symptax_upload_v7_random.zip')
+            cy.get('input[type="file"]').attachFile('symptax_upload_v7_random.zip')
 
-        cy.get('[type="submit"]').click()
-        cy.get('.cancel').click()
+            cy.get('[type="submit"]').click()
+            cy.get('.cancel').click()
 
-        /// THEN    the user should stay on the page
-        /// AND     the file selection should still contain the file
+            /// THEN    the user should stay on the page
+            /// AND     the file selection should still contain the file
 
-        /// TODO
-    })
-
-    it('Upload ZIP', () => {
-
-        /// WHEN    clicking the "Upload" button again
-        /// AND     clicking the "Overwrite" button
-
-        cy.get('[type="submit"]').click()
-        cy.get('.continue').click()
-
-        /// THEN    the "Taxonomy" page should be shown
-        /// AND     the uploaded ZIP's contents should be shown
-
-        cy.url().should('contain', '/taxonomy')
-        cy.get('.node-name').should('contain', 'C-1')
-
-        /// TODO
+            cy.wait(1000)
+            cy.url().should('contain', '/upload')
+        })
     })
 })
