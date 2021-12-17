@@ -11,7 +11,7 @@ describe('Predictions Page', () => {
         cy.get('.continue').click()
 
         cy.get(':nth-child(1) > .node-name').click()
-        cy.get('.predictions a').click()
+        cy.get('.predictions button').click()
 
         cy.url().should('contain', '/predictions')
 

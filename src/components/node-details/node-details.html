@@ -68,10 +68,10 @@
                 </tr>
             </table>
 
-            <router-link class="d-inline-block mt-8"
-                         :to="`/predictions/${node.id}`">
+            <button class="mt-8 navigate-button"
+                    @click="$router.push(`/predictions/${node.id}`)">
                 Show Predictions
-            </router-link>
+            </button>
         </section>
 
         <!-- Node Buttons -->

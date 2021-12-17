@@ -21,6 +21,12 @@
     flex-grow: 1;
 }
 
+/* Position parent for absolute children */
+
+.app main {
+    position: relative;
+}
+
 /* Grid */
 
 .page-grid {
@@ -120,7 +126,13 @@ a, a:visited {
     border: 1px solid $grey;
 }
 
-.delete-button, .create-button, .disabled-button {
+.navigate-button {
+    color: $blue;
+    background-color: $white;
+    border: 1px solid $blue;
+}
+
+.delete-button, .create-button, .disabled-button, .navigate-button {
     background-color: inherit;
     cursor: pointer;
 }
