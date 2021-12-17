@@ -27,15 +27,19 @@ ul {
 
 /* Node Name */
 
-.node-name {
+.node-name:not(.selectable) {
+    cursor: default;
+}
+
+.node-name.selectable {
     cursor: pointer;
 }
 
-.node-name:hover:not(.selected) {
+.node-name.selectable:hover:not(.selected) {
     color: $light-orange;
 }
 
-.selected {
+.node-name.selected {
     font-weight: bold;
     color: $orange;
     cursor: default;

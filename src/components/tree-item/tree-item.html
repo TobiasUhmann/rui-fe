@@ -25,8 +25,8 @@
     <!-- Node name -->
 
     <span class="node-name"
-          :class="{selected: node === selectedNode}"
-          @click="$emit('select', node)">
+          :class="{selected: node === selectedNode, selectable}"
+          @click="selectable && $emit('select', node)">
 
       {{ getNodeName(node) }}
     </span>
@@ -37,6 +37,7 @@
         <TreeItem v-for="(child, index) in node.children" :key="index"
                   :node="child"
                   :selectedNode="selectedNode"
+                  :selectable="selectable"
                   @select="$emit('select', $event)"></TreeItem>
     </ul>
 </li>
