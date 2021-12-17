@@ -76,6 +76,14 @@
   font-weight: bold;
 }
 
+.token:not(.marked):hover {
+  color: $light-orange;
+}
+
+.token.marked:hover {
+  color: $grey;
+}
+
 /* Main - Predictions */
 
 h1 {
@@ -86,17 +94,18 @@ table * {
   vertical-align: top;
 }
 
-table td:not(:first-child) {
+td:not(:first-child) {
   padding-left: 8px;
 }
 
-table td:not(.selected) {
-  cursor: pointer;
-}
-
-.selected {
+td.selected {
   color: $orange;
   font-weight: bold;
+}
+
+td:not(.selected):hover {
+  color: $light-orange;
+  cursor: pointer;
 }
 
 /* Footer */
