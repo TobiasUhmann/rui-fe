@@ -53,4 +53,14 @@ describe('Predictions Page', () => {
         /// THEN    the token should be highlighted
 
     })
+
+    it('Hover over prediction item', () => {
+
+        /// GIVEN   a backend with nodes
+
+        /// WHEN    hovering over a prediction item
+
+        /// THEN    the prediction item should be highlighted
+
+    })
 })

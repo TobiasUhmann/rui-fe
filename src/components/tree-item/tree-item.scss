@@ -1,9 +1,5 @@
 @import "src/assets/styles/_variables.scss";
 
-.node-name {
-    cursor: pointer;
-}
-
 /* List bullets */
 
 ul {
@@ -21,13 +17,26 @@ ul {
     cursor: pointer;
 }
 
+.cursor-pointer:hover {
+    font-weight: bold;
+}
+
 .cursor-default {
     cursor: default;
 }
 
-/* Selected */
+/* Node Name */
+
+.node-name {
+    cursor: pointer;
+}
+
+.node-name:hover:not(.selected) {
+    color: $light-orange;
+}
 
 .selected {
     font-weight: bold;
     color: $orange;
+    cursor: default;
 }
