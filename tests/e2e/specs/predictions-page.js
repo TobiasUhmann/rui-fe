@@ -23,4 +23,34 @@ describe('Predictions Page', () => {
 
         cy.url().should('contain', '/upload')
     })
+
+    it('Hover over taxonomy item', () => {
+
+        /// GIVEN   a backend with nodes
+
+        /// WHEN    hovering over an item in the taxonomy
+
+        /// THEN    the item should not be highlighted
+
+    })
+
+    it('Hover over expand/collapse button', () => {
+
+        /// GIVEN   a backend with nodes
+
+        /// WHEN    hovering over an item's expand/collapse button
+
+        /// THEN    the expand/collapse button should be highlighted
+
+    })
+
+    it('Hover over token', () => {
+
+        /// GIVEN   a backend with nodes
+
+        /// WHEN    hovering over a prediction context's token
+
+        /// THEN    the token should be highlighted
+
+    })
 })
