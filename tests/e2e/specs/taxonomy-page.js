@@ -167,4 +167,24 @@ describe('Taxonomy Page', () => {
         // existing entity + 2 new entities + "Add entity" row
         cy.get('.grid-top-right').find('li').should('have.length', 4)
     })
+
+    it('Hover over taxonomy item', () => {
+
+        /// GIVEN   a backend with nodes
+
+        /// WHEN    hovering over an item in the taxonomy
+
+        /// THEN    the item should be highlighted
+
+    })
+
+    it('Hover over expand/collapse button', () => {
+
+        /// GIVEN   a backend with nodes
+
+        /// WHEN    hovering over an item's expand/collapse button
+
+        /// THEN    the expand/collapse button should be highlighted
+
+    })
 })

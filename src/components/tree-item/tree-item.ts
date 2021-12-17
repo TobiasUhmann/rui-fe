@@ -12,7 +12,19 @@ export default defineComponent({
             required: true
         },
 
-        selectedNode: Object as PropType<DeepNode>
+        /**
+         * The selected item. If it is this item or one of its children, it
+         * will be highlighted.
+         */
+        selectedNode: Object as PropType<DeepNode>,
+
+        /**
+         * Whether the item or its child items can be selected by the user
+         */
+        selectable: {
+            type: Boolean,
+            default: true
+        }
     },
 
     computed: {

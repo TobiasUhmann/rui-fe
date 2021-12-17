@@ -24,8 +24,8 @@ jobs:
           tags: |
             xvlcw/rui-fe:latest
             xvlcw/rui-fe:0
-            xvlcw/rui-fe:0.18
-            xvlcw/rui-fe:0.18.0
+            xvlcw/rui-fe:0.19
+            xvlcw/rui-fe:0.19.0
 
   test_docker:
     needs: deliver_docker
@@ -36,7 +36,7 @@ jobs:
         run: |
           docker network create rui-net
           docker run --name rui-be --network rui-net --detach xvlcw/rui-be:0.11.0
-          docker run --name rui-fe --network rui-net --publish "80:80" --detach xvlcw/rui-fe:0.18.0
+          docker run --name rui-fe --network rui-net --publish "80:80" --detach xvlcw/rui-fe:0.19.0
 
       - name: Wait for server
         uses: cygnetdigital/wait_for_response@v2.0.0
