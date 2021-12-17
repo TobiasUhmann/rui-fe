@@ -1,7 +1,7 @@
 @import "src/assets/styles/_variables.scss";
 
 #overlay {
-    position: fixed;
+    position: absolute;
     z-index: 2;
 
     width: 100%;

@@ -21,6 +21,12 @@
     flex-grow: 1;
 }
 
+/* Position parent for absolute children */
+
+.app main {
+    position: relative;
+}
+
 /* Grid */
 
 .page-grid {
